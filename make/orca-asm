@@ -1,0 +1,18 @@
+#!/bin/bash
+
+FILENAME="$1"
+shift
+
+if echo $FILENAME | grep -v '\.s$' > /dev/null
+then
+    echo Expected first argument to be a *.s file but got $FILENAME
+    exit 1
+fi
+
+DIRNAME=`dirname $FILENAME`
+BASENAME=`basename $FILENAME .s`
+
+cd "$DIRNAME"
+$ORCA assemble $* keep="${BASENAME}" "${BASENAME}.s"
+RESULT=$?
+exit $RESULT

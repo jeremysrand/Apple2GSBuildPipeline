@@ -1,0 +1,45 @@
+#!/bin/bash
+
+TMPFILE=/tmp/orca-rez.$$
+
+FILENAME="$1"
+shift
+
+if echo $FILENAME | grep -v '\.rez$' > /dev/null
+then
+    echo Expected first argument to be a *.rez file but got $FILENAME
+    exit 1
+fi
+
+BASENAME=`echo $FILENAME | sed 's/\.rez$//'`
+DEPSNAME="${BASENAME}.rez.d"
+OBJSNAME="${BASENAME}.r"
+
+$ORCA --trace-gsos compile $* keep="${OBJSNAME}" "$FILENAME" 2> $TMPFILE
+RESULT=$?
+
+sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $TMPFILE >&2
+
+if [ "$RESULT" -ne 0 ]
+then
+    rm -f $TMPFILE
+    rm -f $OBJSNAME
+    exit $RESULT
+fi
+
+DEPS=`awk '
+    /^FastFileLoad/ {
+        sub(/^FastFileLoad\(/, "");
+        sub(/\)$/, "");
+        print}' $TMPFILE | sort -u | while read FILE
+    do
+        if [ -f "$FILE" ]
+        then
+            echo $FILE
+        fi
+    done`
+
+echo $OBJSNAME: $DEPS > $DEPSNAME
+rm -f $TMPFILE
+
+exit 0

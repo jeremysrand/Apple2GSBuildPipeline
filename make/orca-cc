@@ -1,0 +1,66 @@
+#!/bin/bash
+
+TMPFILE=/tmp/orca-cc.$$
+
+FILENAME="$1"
+shift
+
+if echo $FILENAME | grep -v '\.c$' > /dev/null
+then
+    echo Expected first argument to be a *.c file but got $FILENAME
+    exit 1
+fi
+
+CCARGS=""
+COMPILEARGS=""
+for ARG in $*
+do
+    if echo $ARG | grep '^-[id]' > /dev/null
+    then
+        CCARGS="$CCARGS cc=$ARG"
+    else
+        COMPILEARGS="$COMPILEARGS $ARG"
+    fi
+done
+
+BASENAME=`echo $FILENAME | sed 's/\.c$//'`
+DEPSNAME="${BASENAME}.d"
+OBJSNAME="${BASENAME}.a"
+ROOTNAME="${BASENAME}.root"
+
+$ORCA --trace-gsos compile $COMPILEARGS "$FILENAME" keep="${BASENAME}" $CCARGS 2> $TMPFILE
+RESULT=$?
+
+sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $TMPFILE >&2
+
+if [ "$RESULT" -ne 0 ]
+then
+    rm -f $TMPFILE
+    rm -f $OBJSNAME
+    rm -f $ROOTNAME
+    exit $RESULT
+fi
+
+DEPS=`awk '
+    /^FastFileLoad/ {
+        sub(/^FastFileLoad\(/, "");
+        sub(/\)$/, "");
+        print}' $TMPFILE | sort -u | while read FILE
+    do
+        if [ -f "$FILE" ]
+        then
+            echo $FILE
+        fi
+    done | tr '\012' ' '`
+
+rm -f $TMPFILE
+
+# We add a dependency for both the .o and the .root file.  If this is the
+# main.c file being compiled, we need the dependency on the .root file.
+cat > $DEPSNAME << EOF
+$OBJSNAME: $DEPS
+
+$ROOTNAME: $DEPS
+EOF
+
+exit 0

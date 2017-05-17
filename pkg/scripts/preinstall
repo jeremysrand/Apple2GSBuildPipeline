@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for item in ~/"Library/Developer/Xcode/Templates/Apple ][gs" ~/"Library/Developer/Xcode/Templates/File Templates/Apple ][gs"
+do
+    if [ -d "$item" ]
+    then
+        rm -rf "$item"
+    fi
+done

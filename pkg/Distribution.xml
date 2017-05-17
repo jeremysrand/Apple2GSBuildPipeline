@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<installer-gui-script minSpecVersion="1">
+    <title>Apple IIgs XCode Template</title>
+    <pkg-ref id="com.halcyontouch.Apple2gsTemplate.pkg"/>
+    <options customize="never" require-scripts="false"/>
+    <domains enable_currentUserHome="true"/>
+    <choices-outline>
+        <line choice="default">
+            <line choice="com.halcyontouch.Apple2gsTemplate.pkg"/>
+        </line>
+    </choices-outline>
+    <choice id="default"/>
+    <choice id="com.halcyontouch.Apple2gsTemplate.pkg" visible="false">
+        <pkg-ref id="com.halcyontouch.Apple2gsTemplate.pkg"/>
+    </choice>
+    <pkg-ref id="com.halcyontouch.Apple2gsTemplate.pkg" version="1.1" onConclusion="none">Apple2gsXcodeTemplate.pkg</pkg-ref>
+</installer-gui-script>
