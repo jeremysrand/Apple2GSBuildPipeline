@@ -20,7 +20,7 @@ PGM=___PACKAGENAME___
 # 	nda - A new desk accessory
 # 	xcmd - A HyperCard XCMD or XCFN
 #
-TARGETTYPE=shell
+# TARGETTYPE=shell
 # TARGETTYPE=desktop
 # TARGETTYPE=cda
 # TARGETTYPE=cdev

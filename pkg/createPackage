@@ -4,11 +4,24 @@ TMPDIR=/tmp/pkg.$$
 
 cp -R pkg/Templates $TMPDIR
 
-for PROJECT in "Apple IIgs C Shell Command" "Apple IIgs Asm Shell Command"
+PROJECTS=/tmp/projects.$$
+cat > $PROJECTS << EOF
+shell:Shell Command in C
+shell:Shell Command in Assembly
+cda:Classic Desk Accessory in C
+nda:New Desk Accessory in C
+desktop:Desktop Application in C
+EOF
+
+while read PROJECT
 do
-    echo cp -R Makefile make "${TMPDIR}/Apple IIgs/${PROJECT}.xctemplate/"
-    cp -R Makefile make "${TMPDIR}/Apple IIgs/${PROJECT}.xctemplate/"
-done
+    PROJECTTYPE=`echo $PROJECT | awk -F: '{print $1}'`
+    PROJECTNAME=`echo $PROJECT | awk -F: '{print $2}'`
+    sed "/^# TARGETTYPE=${PROJECTTYPE}/s/^# //" Makefile > "${TMPDIR}/Apple IIgs/${PROJECTNAME}.xctemplate/Makefile"
+    cp -R make "${TMPDIR}/Apple IIgs/${PROJECTNAME}.xctemplate/"
+done < $PROJECTS
+
+rm -f $PROJECTS
 
 pkgbuild --root $TMPDIR --version 0.1 --identifier com.halcyontouch.Apple2gsTemplate.pkg --install-location /Library/Developer/Xcode/Templates/ --scripts pkg/scripts/ Apple2GSXcodeTemplate.pkg
 productbuild --distribution pkg/Distribution.xml --resource ./pkg temp.pkg
