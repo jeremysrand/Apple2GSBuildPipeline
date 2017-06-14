@@ -23,15 +23,17 @@ INCLUDE_PATHS=
 REZ=make/orca-rez
 REZFLAGS=
 
-MACGEN=$(ORCA) macgen
+MACGEN=make/orca-macgen
 MACGENFLAGS=-P
-MACGENMACROS=$(wildcard $(ORCA_HOME)/libraries/ORCAInclude/m*)
+MACGENMACROS=13/ORCAInclude/m=
 
 ASSEMBLE=make/orca-asm
 ASMFLAGS=-P
 
 LINK=$(ORCA) link
 LDFLAGS=-P
+
+CHTYP=$(ORCA) chtyp
 
 RM=rm -f
 CP=cp

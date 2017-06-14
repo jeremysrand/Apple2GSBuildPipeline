@@ -11,6 +11,7 @@ shell:Shell Command in Assembly
 cda:Classic Desk Accessory in C
 nda:New Desk Accessory in C
 desktop:Desktop Application in C
+cdev:Control Panel in C
 EOF
 
 while read PROJECT
