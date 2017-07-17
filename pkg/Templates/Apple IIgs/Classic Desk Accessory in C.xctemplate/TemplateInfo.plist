@@ -6,11 +6,15 @@
 	<array>
 		<string>main.c</string>
 		<string>Makefile</string>
+		<string>make/config.txt</string>
+		<string>make/createDiskImage</string>
 		<string>make/head.mk</string>
+		<string>make/launchEmulator</string>
                 <string>make/orca-asm</string>
 		<string>make/orca-cc</string>
 		<string>make/orca-macgen</string>
 		<string>make/orca-rez</string>
+		<string>make/system601.2mg</string>
 		<string>make/tail.mk</string>
 	</array>
 	<key>Definitions</key>
@@ -20,12 +24,33 @@
 			<key>Path</key>
 			<string>main.c</string>
 		</dict>
+		<key>make/config.txt</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/config.txt</string>
+		</dict>
+		<key>make/createDiskImage</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/createDiskImage</string>
+		</dict>
 		<key>make/head.mk</key>
 		<dict>
 			<key>Group</key>
 			<string>make</string>
 			<key>Path</key>
 			<string>make/head.mk</string>
+		</dict>
+		<key>make/launchEmulator</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/launchEmulator</string>
 		</dict>
 		<key>make/orca-asm</key>
 		<dict>
@@ -54,6 +79,13 @@
 			<string>make</string>
 			<key>Path</key>
 			<string>make/orca-rez</string>
+		</dict>
+		<key>make/system601.2mg</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/system601.2mg</string>
 		</dict>
 		<key>make/tail.mk</key>
 		<dict>

@@ -55,5 +55,15 @@ ASMFLAGS+=
 # Add any arguments you want passed to the linker to this variable:
 LDFLAGS+=
 
+# By default, the build expects that you have GSplus in the path:
+# 	/Applications/GSplus.app/Contents/MacOS/gsplus
+# If you have it in a different location, specify that here.
+# GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
+
+# By default, the build expects that you have GSport in the path:
+# 	/Applications/GSport/GSport.app/Contents/MacOS/GSport
+# If you have it in a different location, specify that here.
+# GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
+
 # Do not change anything else below here...
 include make/tail.mk

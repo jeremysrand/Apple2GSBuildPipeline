@@ -6,21 +6,31 @@ export PATH := $(PATH):$(ORCA_BIN)
 
 CWD=$(shell pwd)
 
+DISKIMAGE=$(PGM).2mg
+ALLTARGET=execute
+DISKIMAGEDEST=.
+
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
+    ALLTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
 else ifeq ($(TARGETTYPE),cda)
     FILETYPE=cda
+    DISKIMAGEDEST=System/Desk.Accs
 else ifeq ($(TARGETTYPE),cdev)
     BINTARGET=$(PGM).bin
     FILETYPE=199
+    DISKIMAGEDEST=System/CDevs
 else ifeq ($(TARGETTYPE),nba)
     FILETYPE=exe
+    ALLTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),nda)
     FILETYPE=nda
+    DISKIMAGEDEST=System/Desk.Accs
 else ifeq ($(TARGETTYPE),xcmd)
     FILETYPE=exe
+    ALLTARGET=$(PGM)
 endif
 
 ifeq ($(wildcard $(ROOTCFILE)),)
@@ -58,14 +68,6 @@ ALL_DEPS=$(C_DEPS) $(ASM_DEPS) $(REZ_DEPS)
 
 EXECCMD=
 
-#ALLTARGET=$(DISKIMAGE)
-#ifeq ($(TARGETTYPE),shell)
-#    ALLTARGET=execute
-#else
-#    ALLTARGET=$(PGM)
-#endif
-ALLTARGET=$(PGM)
-
 .PHONY: all execute clean
 
 .PRECIOUS: $(ASM_MACROS)
@@ -78,7 +80,7 @@ clean:
 	$(RM) $(ALL_ROOTS)
 	$(RM) $(ALL_DEPS)
 	$(RM) $(ASM_MACROS)
-#	 $(RM) "$(DISKIMAGE)"
+	$(RM) "$(DISKIMAGE)"
 
 createPackage:
 	pkg/createPackage
@@ -118,13 +120,13 @@ $(PGM): $(REZ_OBJS)
 
 endif
 
-#$(DISKIMAGE): $(PGM)
-#	make/createDiskImage $(AC) $(MACHINE) "$(DISKIMAGE)" "$(PGM)" "$(START_ADDR)"
+$(DISKIMAGE): $(PGM)
+	make/createDiskImage "$(DISKIMAGE)" "$(PGM)" "$(DISKIMAGEDEST)"
 
-#execute: $(DISKIMAGE)
-#	osascript make/V2Make.scpt "$(CWD)" "$(PGM)" "$(CWD)/make/DevApple.vii" "$(EXECCMD)"
+execute: $(DISKIMAGE)
+	make/launchEmulator
 
-execute: $(PGM)
+executeShell: $(PGM)
 	$(ORCA) $(PGM)
 
 %.a:	%.c

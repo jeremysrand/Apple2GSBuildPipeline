@@ -37,3 +37,9 @@ CHTYP=$(ORCA) chtyp
 
 RM=rm -f
 CP=cp
+
+GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
+GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
+
+export GSPLUS
+export GSPORT
