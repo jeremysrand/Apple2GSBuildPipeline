@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ ! -z "$GSPLUS" ] && [ -x "$GSPLUS" ]
+then
+    EMULATORPATH="$GSPLUS"
+elif [ ! -z "$GSPORT" ] && [ -x "$GSPORT" ]
+then
+    EMULATORPATH="$GSPORT"
+fi
+
+if [ -z "$EMULATORPATH" ]
+then
+    echo Unable to find GSplus or GSport at these locations.
+    echo "    GSPLUS=$GSPLUS"
+    echo "    GSPORT=$GSPORT"
+    exit 1
+fi
+
+cd make
+
+$EMULATORPATH
+
+exit 0

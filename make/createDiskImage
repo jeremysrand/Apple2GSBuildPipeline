@@ -1,0 +1,77 @@
+#!/bin/sh
+
+
+MOUNTDIR=/tmp/a2gs_mount.$$
+TMPDISKIMAGE=/tmp/a2gs_diskimage_$$.2mg
+TEMPLATEDISKIMAGE=make/system601.2mg
+
+if [ $# != 3 ]
+then
+    echo USAGE: $0 diskimage file directory
+    exit 1
+fi
+
+DISKIMAGE="$1"
+FILE="$2"
+DEST="${MOUNTDIR}/$3"
+
+cleanupAndExit()
+{
+    umount "$MOUNTDIR" 2> /dev/null
+    rm -f "$TMPDISKIMAGE" 2> /dev/null
+    rm -f "$DISKIMAGE" 2> /dev/null
+    rmdir "$MOUNTDIR" 2> /dev/null
+    exit 1
+}
+
+if [ ! -f "$TEMPLATEDISKIMAGE" ]
+then
+    echo Unable to find the template disk image, $TEMPLATEDISKIMAGE
+    cleanupAndExit
+fi
+
+cp "$TEMPLATEDISKIMAGE" "$TMPDISKIMAGE"
+if [ $? != 0 ]
+then
+    echo Unable to copy template disk image.
+    cleanupAndExit
+fi
+
+mkdir "$MOUNTDIR"
+if [ $? != 0 ]
+then
+    echo Unable to create the mount directory.
+    cleanupAndExit
+fi
+
+profuse -orw "$TMPDISKIMAGE" "$MOUNTDIR"
+if [ $? != 0 ]
+then
+    echo Unable to mount the disk image.
+    cleanupAndExit
+fi
+
+cp "$FILE" "$DEST"
+if [ $? != 0 ]
+then
+    echo Unable to copy the file to the disk image.
+    cleanupAndExit
+fi
+
+umount "$MOUNTDIR"
+if [ $? != 0 ]
+then
+    echo Unable to unmount the disk image.
+    cleanupAndExit
+fi
+
+cp "$TMPDISKIMAGE" "$DISKIMAGE"
+if [ $? != 0 ]
+then
+    echo Unable to copy the disk image to the destination.
+    cleanupAndExit
+fi
+
+rm -f "$TMPDISKIMAGE"
+rmdir "$MOUNTDIR"
+exit 0
