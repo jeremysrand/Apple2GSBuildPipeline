@@ -158,7 +158,49 @@
 				<key>Release</key>
 				<dict/>
 			</dict>
-		</dict>
+                </dict>
+                <dict>
+                        <key>ProductType</key>
+                        <string>com.apple.product-type.tool</string>
+                        <key>TargetIdentifier</key>
+                        <string>com.apple.dt.commandLineToolTarget</string>
+                        <key>Name</key>
+                        <string>doNotBuild</string>
+                        <key>SharedSettings</key>
+                        <dict>
+                                <key>PRODUCT_NAME</key>
+                                <string>doNotBuild</string>
+                                <key>GCC_PREPROCESSOR_DEFINITIONS</key>
+                                <string>inline(X,Y)=""
+                                        pascal=""</string>
+                                <key>HEADER_SEARCH_PATHS</key>
+                                <string>$GOLDEN_GATE/Libraries/ORCACDefs
+                                        ~/Library/GoldenGate/Libraries/ORCACDefs
+                                        /Library/GoldenGate/Libraries/ORCACDefs
+                                        ~/GoldenGate/Libraries/ORCACDefs</string>
+                        </dict>
+                        <key>BuildPhases</key>
+                        <array>
+                                <dict>
+                                        <key>Class</key>
+                                        <string>Sources</string>
+                                </dict>
+                                <dict>
+                                        <key>Class</key>
+                                        <string>Frameworks</string>
+                                </dict>
+                                <dict>
+                                        <key>Class</key>
+                                        <string>CopyFiles</string>
+                                        <key>DstPath</key>
+                                        <string>/usr/share/man/man1/</string>
+                                        <key>DstSubfolderSpec</key>
+                                        <string>0</string>
+                                        <key>RunOnlyForDeploymentPostprocessing</key>
+                                        <string>YES</string>
+                                </dict>
+                        </array>
+                </dict>
 	</array>
 </dict>
 </plist>
