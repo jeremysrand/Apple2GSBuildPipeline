@@ -18,7 +18,7 @@ Features of this build environment include:
    * If you change a macro file used by one or more assembly source files, the right files will be re-assembled automatically.  Assembly file dependencies are generated during the build.
    * Supports projects types like ORCA shell executable, GUI executable, new desk accessory, classic desk accessory and control panel.  In Xcode, when you create a project, you will see options for each of these project types.  Select one and you will have a skeleton project which includes enough code to give you a basic "hello world" style application of that type.
    * Creates a disk image with your executable as part of the build.
-   * Automatically launch your application in an Apple //gs emulator on build so you can go from coding to testing your latest build as quickly as possible.
+   * Automatically launch your application in an Apple //gs emulator on build and run so you can go from coding to testing your latest build as quickly as possible.
    * Add configuration to the Xcode project template so that the C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.
 
 Features which are not implemented yet but I want to deliver include:
