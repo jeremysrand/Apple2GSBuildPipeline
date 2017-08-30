@@ -18,6 +18,12 @@ fi
 
 cd make
 
-$EMULATORPATH
+# This magic ensure that clicking stop in Xcode results in the emulator terminating.
+
+$EMULATORPATH &
+PID=$!
+
+trap 'kill $PID' SIGTERM SIGINT SIGHUP EXIT
+wait
 
 exit 0

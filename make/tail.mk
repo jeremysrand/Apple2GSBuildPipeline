@@ -7,11 +7,13 @@ export PATH := $(PATH):$(ORCA_BIN)
 CWD=$(shell pwd)
 
 DISKIMAGE=$(PGM).2mg
-ALLTARGET=execute
+ALLTARGET=$(DISKIMAGE)
+EXECTARGET=executeGUI
 DISKIMAGEDEST=.
 
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
+    EXECTARGET=executeShell
     ALLTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
@@ -68,7 +70,7 @@ ALL_DEPS=$(C_DEPS) $(ASM_DEPS) $(REZ_DEPS)
 
 EXECCMD=
 
-.PHONY: all execute clean
+.PHONY: all execute executeShell executeGUI clean
 
 .PRECIOUS: $(ASM_MACROS)
 	
@@ -123,11 +125,13 @@ endif
 $(DISKIMAGE): $(PGM)
 	make/createDiskImage "$(DISKIMAGE)" "$(PGM)" "$(DISKIMAGEDEST)"
 
-execute: $(DISKIMAGE)
-	make/launchEmulator
+execute: $(EXECTARGET)
+
+executeGUI: $(DISKIMAGE)
+	make/launchEmulator -doit
 
 executeShell: $(PGM)
-	$(ORCA) $(PGM)
+	$(ORCA) ./$(PGM)
 
 %.a:	%.c
 	$(COMPILE) $< $(CFLAGS) --noroot

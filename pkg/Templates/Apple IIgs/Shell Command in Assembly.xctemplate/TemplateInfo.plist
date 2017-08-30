@@ -12,6 +12,7 @@
 		<string>make/orca-macgen</string>
 		<string>make/orca-rez</string>
 		<string>make/tail.mk</string>
+                <string>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
@@ -66,6 +67,15 @@
 		<dict>
 			<key>Path</key>
 			<string>Makefile</string>
+		</dict>
+		<key>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</key>
+		<dict>
+			<key>Group</key>
+				<array>
+					<string>Supporting Files</string>
+				</array>
+			<key>Path</key>
+			<string>___PACKAGENAME___.xcscheme</string>
 		</dict>
 	</dict>
 	<key>Kind</key>
