@@ -5,15 +5,23 @@ MOUNTDIR=/tmp/a2gs_mount.$$
 TMPDISKIMAGE=/tmp/a2gs_diskimage_$$.2mg
 TEMPLATEDISKIMAGE=make/system601.2mg
 
-if [ $# != 3 ]
+if [ $# -lt 3 ]
 then
     echo USAGE: $0 diskimage file directory
     exit 1
 fi
 
 DISKIMAGE="$1"
-FILE="$2"
-DEST="${MOUNTDIR}/$3"
+shift
+
+FILE="$1"
+shift
+
+DISKIMAGEDEST="$1"
+shift
+DEST="${MOUNTDIR}/${DISKIMAGEDEST}"
+
+COPYDIRS=$*
 
 cleanupAndExit()
 {
@@ -57,6 +65,29 @@ then
     echo Unable to copy the file to the disk image.
     cleanupAndExit
 fi
+
+OLDDIR=`pwd`
+for COPYDIR in $COPYDIRS
+do
+    cd "$COPYDIR"
+    if [ $? != 0 ]
+    then
+        echo Unable to find $COPYDIR
+        cleanupAndExit
+    fi
+
+    find . -print | while read FILEORDIR
+    do
+        if [ -d "$FILEORDIR" ]
+        then
+            mkdir -p "${MOUNTDIR}/$FILEORDIR"
+        elif [ -f "$FILEORDIR" ]
+        then
+            cp "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
+        fi
+    done
+    cd "$OLDDIR"
+done
 
 umount "$MOUNTDIR"
 if [ $? != 0 ]

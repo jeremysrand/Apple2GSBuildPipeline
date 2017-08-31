@@ -123,7 +123,7 @@ $(PGM): $(REZ_OBJS)
 endif
 
 $(DISKIMAGE): $(PGM)
-	make/createDiskImage "$(DISKIMAGE)" "$(PGM)" "$(DISKIMAGEDEST)"
+	make/createDiskImage "$(DISKIMAGE)" "$(PGM)" "$(DISKIMAGEDEST)" $(COPYDIRS)
 
 execute: $(EXECTARGET)
 

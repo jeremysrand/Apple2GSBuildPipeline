@@ -55,6 +55,21 @@ ASMFLAGS+=
 # Add any arguments you want passed to the linker to this variable:
 LDFLAGS+=
 
+# If you want to copy one or more files or directories to the target disk
+# image, add the root directory to this variable.  Any directories under
+# the source directory which don't exist in the target disk image will be
+# created.  All files will be copied from the source to the target using
+# the same path from the source.
+#
+# For example, if you set COPYDIRS to dir and in your project you have
+# the following files:
+#     dir/System/mySystemFile
+#     dir/newDir/anotherFile
+# Then, during the copy phase, mySystemFile will be copied into the System
+# folder and a folder newDir will be created and anotherFile will be copied
+# into there.
+COPYDIRS=
+
 # By default, the build expects that you have GSplus in the path:
 # 	/Applications/GSplus.app/Contents/MacOS/gsplus
 # If you have it in a different location, specify that here.
