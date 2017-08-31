@@ -21,10 +21,10 @@ Features of this build environment include:
    * Automatically launch your application in an Apple //gs emulator on build and run so you can go from coding to testing your latest build as quickly as possible.
    * C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.  In other words, you can code complete to a toolbox call for example!
    * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
+   * You can copy a directory of files onto the disk image other than just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
 
 Features which are not implemented yet but I want to deliver include:
 
-   * Add the ability to copy a directory of files into the disk image other than just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
    * Add syntax highlighting and better editor support for assembly files.
 
 Other features which I am considering but may never deliver include:
