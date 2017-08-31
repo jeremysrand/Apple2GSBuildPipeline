@@ -19,12 +19,12 @@ Features of this build environment include:
    * Supports projects types like ORCA shell executable, GUI executable, new desk accessory, classic desk accessory and control panel.  In Xcode, when you create a project, you will see options for each of these project types.  Select one and you will have a skeleton project which includes enough code to give you a basic "hello world" style application of that type.
    * Creates a disk image with your executable as part of the build.
    * Automatically launch your application in an Apple //gs emulator on build and run so you can go from coding to testing your latest build as quickly as possible.
-   * Add configuration to the Xcode project template so that the C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.
+   * C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.  In other words, you can code complete to a toolbox call for example!
+   * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
 
 Features which are not implemented yet but I want to deliver include:
 
    * Add the ability to copy a directory of files into the disk image other than just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
-   * Add a code generation phase to the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
    * Add syntax highlighting and better editor support for assembly files.
 
 Other features which I am considering but may never deliver include:
@@ -51,7 +51,7 @@ Everything you need is now installed.  To create a new Apple //gs project in Xco
    1. Start Xcode and create a new project by using File->New->Project...
    2. In the dialog, you will see a "Cross-platform" tab at the top.  Select that and you will see a section for Apple //gs projects.  Select the project type you want to create and click "Next".
    3. A dialog box with a few text fields will appear.  In product name, put in the name of the Apple //gs executable you want to build.  Organization Name and Organization Identifier can be anything you want it to be.  Leave Build Tool set to "/usr/bin/make".  Click "Next".
-   4. Xcode now prompts you where you want to save your project.  The name of the project will be the product name you already gave.  Pick a good directory for your project.  Your Documents foler is a reasonable option.  Click "Create".
+   4. Xcode now prompts you where you want to save your project.  The name of the project will be the product name you already gave.  Pick a good directory for your project.  Your Documents folder is a reasonable option.  Click "Create".
    5. Your project is now ready for you.  If you select Product->Build, it will build.  To see the resulting executable, right click on the Makefile file in the left pane and select "Show in Finder".  You should see the executable in the Finder window that just opened.
    6. At this point, you can start Sweet16 or some other Apple //gs emulator.  With Sweet16, you can drag the executable into the //gs Finder and the emulator should copy it for you.  Once copied, you should be able to launch it (depending on the target type, double click may or may not launch it).
    7. Review the Makefile and set any options you want.  The file has lots of comments to help you understand the configuration options.

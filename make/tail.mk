@@ -7,14 +7,14 @@ export PATH := $(PATH):$(ORCA_BIN)
 CWD=$(shell pwd)
 
 DISKIMAGE=$(PGM).2mg
-ALLTARGET=$(DISKIMAGE)
+BUILDTARGET=$(DISKIMAGE)
 EXECTARGET=executeGUI
 DISKIMAGEDEST=.
 
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
     EXECTARGET=executeShell
-    ALLTARGET=$(PGM)
+    BUILDTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
 else ifeq ($(TARGETTYPE),cda)
@@ -26,13 +26,13 @@ else ifeq ($(TARGETTYPE),cdev)
     DISKIMAGEDEST=System/CDevs
 else ifeq ($(TARGETTYPE),nba)
     FILETYPE=exe
-    ALLTARGET=$(PGM)
+    BUILDTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),nda)
     FILETYPE=nda
     DISKIMAGEDEST=System/Desk.Accs
 else ifeq ($(TARGETTYPE),xcmd)
     FILETYPE=exe
-    ALLTARGET=$(PGM)
+    BUILDTARGET=$(PGM)
 endif
 
 ifeq ($(wildcard $(ROOTCFILE)),)
@@ -70,13 +70,13 @@ ALL_DEPS=$(C_DEPS) $(ASM_DEPS) $(REZ_DEPS)
 
 EXECCMD=
 
-.PHONY: all execute executeShell executeGUI clean
+.PHONY: build execute executeShell executeGUI clean
 
 .PRECIOUS: $(ASM_MACROS)
-	
-all: $(ALLTARGET)
 
-clean:
+build: $(BUILDTARGET)
+
+clean: genclean
 	$(RM) "$(PGM)" $(BINTARGET)
 	$(RM) $(ALL_OBJS)
 	$(RM) $(ALL_ROOTS)
@@ -127,10 +127,10 @@ $(DISKIMAGE): $(PGM)
 
 execute: $(EXECTARGET)
 
-executeGUI: $(DISKIMAGE)
+executeGUI: all
 	make/launchEmulator -doit
 
-executeShell: $(PGM)
+executeShell: all
 	$(ORCA) ./$(PGM)
 
 %.a:	%.c

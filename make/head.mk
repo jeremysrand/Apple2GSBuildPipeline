@@ -43,3 +43,10 @@ GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
 
 export GSPLUS
 export GSPORT
+
+
+.PHONY: all gen genclean
+
+all:
+	@make gen
+	@make build

@@ -65,5 +65,16 @@ LDFLAGS+=
 # If you have it in a different location, specify that here.
 # GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
 
+# Add any rules you want to execute before any compiles or assembly
+# commands are called here, if any.  You can generate .c, .s or .h
+# files for example.  You can generate data files.  Whatever you
+# might need.
+gen:
+
+# For any files you generated in the gen target above, you should
+# add rules in genclean to remove those generated files when you
+# clean your build.
+genclean:
+
 # Do not change anything else below here...
 include make/tail.mk
