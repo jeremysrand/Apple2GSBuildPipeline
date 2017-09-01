@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>plug-in</key>
+	<dict>
+		<key>extensions</key>
+		<dict>
+			<key>Xcode.FileDataType.ORCAM.Assembly</key>
+			<dict>
+				<key>id</key>
+				<string>Xcode.FileDataType.ORCAM.Assembly</string>
+				<key>localizedDescription</key>
+				<string>ORCAM Assembly Source</string>
+				<key>name</key>
+				<string>File type for ORCAM assembly</string>
+				<key>point</key>
+				<string>Xcode.FileDataType</string>
+				<key>typeConformedTo</key>
+				<array>
+					<dict>
+						<key>typeIdentifier</key>
+						<string>public.assembly-source</string>
+					</dict>
+				</array>
+				<key>typeIdentifier</key>
+				<string>com.rand-family.xcode.orcam</string>
+				<key>version</key>
+				<string>1.0</string>
+			</dict>
+			<key>Xcode.SourceCodeLanguage.ORCAM-Assembly</key>
+			<dict>
+				<key>commentSyntax</key>
+				<array>
+					<dict>
+						<key>prefix</key>
+						<string>#</string>
+					</dict>
+				</array>
+				<key>conformsTo</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>Xcode.SourceCodeLanguage.Generic</string>
+					</dict>
+				</array>
+				<key>fileDataType</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>com.rand-family.xcode.orcam</string>
+					</dict>
+				</array>
+				<key>id</key>
+				<string>Xcode.SourceCodeLanguage.ORCAM-Assembly</string>
+				<key>languageName</key>
+				<string>ORCAM-Assembly</string>
+				<key>languageSpecification</key>
+				<string>xcode.lang.asm.orcam</string>
+				<key>name</key>
+				<string>ORCAM Assembly</string>
+				<key>point</key>
+				<string>Xcode.SourceCodeLanguage</string>
+				<key>version</key>
+				<string>1.0</string>
+			</dict>
+		</dict>
+	</dict>
+</dict>
+</plist>
