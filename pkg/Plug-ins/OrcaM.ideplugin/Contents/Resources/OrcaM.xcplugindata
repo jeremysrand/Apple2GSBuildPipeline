@@ -34,7 +34,19 @@
 				<array>
 					<dict>
 						<key>prefix</key>
-						<string>#</string>
+						<string>;</string>
+					</dict>
+					<dict>
+						<key>prefix</key>
+						<string>!</string>
+					</dict>
+					<dict>
+						<key>prefix</key>
+						<string>*</string>
+					</dict>
+					<dict>
+						<key>prefix</key>
+						<string>.</string>
 					</dict>
 				</array>
 				<key>conformsTo</key>
@@ -60,7 +72,9 @@
 				<key>name</key>
 				<string>ORCAM Assembly</string>
 				<key>point</key>
-				<string>Xcode.SourceCodeLanguage</string>
+                                <string>Xcode.SourceCodeLanguage</string>
+                                <key>supportsIndentation</key>
+                                <string>true</string>
 				<key>version</key>
 				<string>1.0</string>
 			</dict>

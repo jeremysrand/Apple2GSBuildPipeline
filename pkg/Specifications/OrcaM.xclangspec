@@ -8,19 +8,189 @@
     {
         Identifier = "xcode.lang.asm.orcam.identifier";
         Syntax = {
-            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$_.";
+            CaseSensitive = NO;
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_~";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_~";
             Type = "xcode.syntax.identifier";
         };
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.directive";
+        Identifier = "xcode.lang.asm.orcam.keyword";
         Syntax = {
-            StartAtBOL = YES;
-            StartChars = ".";
-            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            CaseSensitive = NO;
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_~";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_~";
+            Words = (
+                "adc",
+                "and",
+                "asl",
+                "bcc",
+                "bcs",
+                "beq",
+                "bge",
+                "bit",
+                "blt",
+                "bmi",
+                "bne",
+                "bpl",
+                "bra",
+                "brk",
+                "brl",
+                "bvc",
+                "bvs",
+                "clc",
+                "cld",
+                "cli",
+                "clv",
+                "cmp",
+                "cop",
+                "cpa",
+                "cpx",
+                "cpy",
+                "dec",
+                "dex",
+                "dey",
+                "eor",
+                "inc",
+                "inx",
+                "iny",
+                "jmp",
+                "jsl",
+                "jsr",
+                "lda",
+                "ldx",
+                "ldy",
+                "lsr",
+                "mvn",
+                "mvp",
+                "nop",
+                "ora",
+                "pea",
+                "pei",
+                "per",
+                "pha",
+                "phb",
+                "phd",
+                "phk",
+                "php",
+                "phx",
+                "phy",
+                "pla",
+                "plb",
+                "pld",
+                "plp",
+                "plx",
+                "ply",
+                "rep",
+                "rol",
+                "ror",
+                "rti",
+                "rtl",
+                "rts",
+                "sbc",
+                "sec",
+                "sed",
+                "sei",
+                "sep",
+                "sta",
+                "stp",
+                "stx",
+                "sty",
+                "stz",
+                "tax",
+                "tay",
+                "tcd",
+                "tcs",
+                "tdc",
+                "trb",
+                "tsb",
+                "tsc",
+                "tsx",
+                "txa",
+                "txs",
+                "txy",
+                "tya",
+                "tyx",
+                "wai",
+                "wdm",
+                "xba",
+                "xce",
+
+                "absaddr",
+                "align",
+                "anop",
+                "append",
+                "case",
+                "codechk",
+                "copy",
+                "data",
+                "datachk",
+                "dc",
+                "direct",
+                "ds",
+                "dynchk",
+                "eject",
+                "end",
+                "entry",
+                "equ",
+                "err",
+                "expand",
+                "gequ",
+                "ieee",
+                "instime",
+                "keep",
+                "kind",
+                "list",
+                "longa",
+                "longi",
+                "mem",
+                "merr",
+                "msb",
+                "numsex",
+                "obj",
+                "objcase",
+                "objend",
+                "org",
+                "printer",
+                "private",
+                "privdata",
+                "rename",
+                "setcom",
+                "start",
+                "symbol",
+                "title",
+                "using",
+                "65c02",
+                "65816",
+
+                "actr",
+                "ago",
+                "aif",
+                "ainput",
+                "amid",
+                "asearch",
+                "gbla",
+                "gblb",
+                "gblc",
+                "gen",
+                "lcla",
+                "lclb",
+                "lclc",
+                "macro",
+                "mcopy",
+                "mdrop",
+                "mend",
+                "mexit",
+                "mload",
+                "mnote",
+                "seta",
+                "setb",
+                "setc",
+                "trace",
+            );
             Type = "xcode.syntax.keyword";
+            AltType = "xcode.syntax.identifier";
         };
     },
 
@@ -33,6 +203,7 @@
         Description = "ORCAM Assembler Coloring";
         BasedOn = "xcode.lang.simpleColoring";
         IncludeInMenu = YES;
+        UsesCLikeIndentation = YES;
         Name = "Assembly (ORCAM)";
         Syntax = {
             Tokenizer = "xcode.lang.asm.orcam.lexer";
@@ -49,12 +220,13 @@
                 "xcode.lang.comment",
                 "xcode.lang.comment.singleline",
                 "xcode.lang.asm.orcam.comment.singleline.semi",
-                "xcode.lang.asm.orcam.comment.singleline.at",
-                "xcode.lang.asm.orcam.comment.singleline.pound",
+                "xcode.lang.asm.orcam.comment.singleline.exclam",
+                "xcode.lang.asm.orcam.comment.singleline.star",
+                "xcode.lang.asm.orcam.comment.singleline.dot",
                 "xcode.lang.string",
                 "xcode.lang.character",
                 "xcode.lang.number",
-                "xcode.lang.asm.orcam.directive",
+                "xcode.lang.asm.orcam.keyword",
                 "xcode.lang.asm.orcam.identifier",
             );
         };
@@ -63,8 +235,9 @@
     {
         Identifier = "xcode.lang.asm.orcam.comment.singleline.semi";
         Syntax = {
+            StartAtBOL = YES;
+            StartAtColumnZero = YES;
             Start = ";";
-            EscapeChar = "\\";
             End = "\n";
             IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
             Type = "xcode.syntax.comment";
@@ -72,22 +245,35 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.at";
-        Syntax = {
-            Start = "@";
-            EscapeChar = "\\";
-            End = "\n";
-            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
-            Type = "xcode.syntax.comment";
-        };
-    },
-
-    {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.pound";
+        Identifier = "xcode.lang.asm.orcam.comment.singleline.exclam";
         Syntax = {
             StartAtBOL = YES;
-            Start = "#";
-            EscapeChar = "\\";
+            StartAtColumnZero = YES;
+            Start = "!";
+            End = "\n";
+            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
+            Type = "xcode.syntax.comment";
+        };
+    },
+
+    {
+        Identifier = "xcode.lang.asm.orcam.comment.singleline.star";
+        Syntax = {
+            StartAtBOL = YES;
+            StartAtColumnZero = YES;
+            Start = "*";
+            End = "\n";
+            IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
+            Type = "xcode.syntax.comment";
+        };
+    },
+
+    {
+        Identifier = "xcode.lang.asm.orcam.comment.singleline.dot";
+        Syntax = {
+            StartAtBOL = YES;
+            StartAtColumnZero = YES;
+            Start = ".";
             End = "\n";
             IncludeRules = ( "xcode.lang.url", "xcode.lang.url.mail", "xcode.lang.comment.mark" );
             Type = "xcode.syntax.comment";
@@ -98,25 +284,13 @@
         Identifier = "xcode.lang.asm.orcam.label";
         Syntax = {
             StartAtBOL = YES;
+            StartAtColumnZero = YES;
             Tokenizer = "xcode.lang.asm.orcam.lexer";
             Rules = (
-                "xcode.lang.asm.orcam.label.name",
-                ":",
+                "xcode.lang.asm.orcam.identifier",
             );
             Type = "xcode.syntax.definition.function";
         };
     },
     
-    {
-        Identifier = "xcode.lang.asm.orcam.label.name";
-        Syntax = {
-            StartAtBOL = YES;
-            Tokenizer = "xcode.lang.asm.orcam.lexer";
-            Rules = (
-                "xcode.lang.asm.orcam.identifier",
-            );
-            Type = "xcode.syntax.name.partial";
-        };
-    },
-
 )
