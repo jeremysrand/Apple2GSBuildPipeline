@@ -16,29 +16,6 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.start";
-        Syntax = {
-            CaseSensitive = NO;
-            Words = (
-                "start",
-                "data",
-            );
-            Type = "xcode.syntax.keyword";
-        };
-    },
-
-    {
-        Identifier = "xcode.lang.asm.orcam.end";
-        Syntax = {
-            CaseSensitive = NO;
-            Words = (
-                "end",
-            );
-            Type = "xcode.syntax.keyword";
-        };
-    },
-
-    {
         Identifier = "xcode.lang.asm.orcam.keyword";
         Syntax = {
             CaseSensitive = NO;
@@ -147,12 +124,14 @@
                 "case",
                 "codechk",
                 "copy",
+                "data",
                 "datachk",
                 "dc",
                 "direct",
                 "ds",
                 "dynchk",
                 "eject",
+                "end",
                 "entry",
                 "equ",
                 "err",
@@ -178,6 +157,7 @@
                 "privdata",
                 "rename",
                 "setcom",
+                "start",
                 "symbol",
                 "title",
                 "using",
@@ -227,7 +207,8 @@
         Syntax = {
             Tokenizer = "xcode.lang.asm.orcam.lexer";
             IncludeRules = (
-                "xcode.lang.asm.orcam.block"
+                "xcode.lang.asm.orcam.codeblock",
+                "xcode.lang.asm.orcam.datablock",
             );
             Type = "xcode.syntax.plain";
         };
@@ -243,8 +224,6 @@
                 "xcode.lang.string",
                 "xcode.lang.character",
                 "xcode.lang.number",
-                "xcode.lang.asm.orcam.start",
-                "xcode.lang.asm.orcam.end",
                 "xcode.lang.asm.orcam.keyword",
                 "xcode.lang.asm.orcam.identifier",
             );
@@ -300,12 +279,12 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.block";
+        Identifier = "xcode.lang.asm.orcam.codeblock";
         Syntax = {
             Tokenizer = "xcode.lang.asm.orcam.lexer";
-            Start = "xcode.lang.asm.orcam.start";
-            End = "xcode.lang.asm.orcam.end";
-            Recursive = YES;
+            Start = "start";
+            End = "end";
+            Recursive = NO;
             Foldable = YES;
             Type = "xcode.syntax.definition.function";
             IncludeRules = (
@@ -313,4 +292,17 @@
         };
     },
     
+    {
+        Identifier = "xcode.lang.asm.orcam.datablock";
+        Syntax = {
+            Tokenizer = "xcode.lang.asm.orcam.lexer";
+            Start = "data";
+            End = "end";
+            Recursive = NO;
+            Foldable = YES;
+            Type = "xcode.syntax.definition.function";
+            IncludeRules = (
+            );
+        };
+    },
 )
