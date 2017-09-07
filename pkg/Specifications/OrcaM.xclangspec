@@ -16,6 +16,29 @@
     },
 
     {
+        Identifier = "xcode.lang.asm.orcam.start";
+        Syntax = {
+            CaseSensitive = NO;
+            Words = (
+                "start",
+                "data",
+            );
+            Type = "xcode.syntax.keyword";
+        };
+    },
+
+    {
+        Identifier = "xcode.lang.asm.orcam.end";
+        Syntax = {
+            CaseSensitive = NO;
+            Words = (
+                "end",
+            );
+            Type = "xcode.syntax.keyword";
+        };
+    },
+
+    {
         Identifier = "xcode.lang.asm.orcam.keyword";
         Syntax = {
             CaseSensitive = NO;
@@ -124,14 +147,12 @@
                 "case",
                 "codechk",
                 "copy",
-                "data",
                 "datachk",
                 "dc",
                 "direct",
                 "ds",
                 "dynchk",
                 "eject",
-                "end",
                 "entry",
                 "equ",
                 "err",
@@ -157,7 +178,6 @@
                 "privdata",
                 "rename",
                 "setcom",
-                "start",
                 "symbol",
                 "title",
                 "using",
@@ -203,12 +223,11 @@
         Description = "ORCAM Assembler Coloring";
         BasedOn = "xcode.lang.simpleColoring";
         IncludeInMenu = YES;
-        UsesCLikeIndentation = YES;
         Name = "Assembly (ORCAM)";
         Syntax = {
             Tokenizer = "xcode.lang.asm.orcam.lexer";
             IncludeRules = (
-                "xcode.lang.asm.orcam.label"
+                "xcode.lang.asm.orcam.block"
             );
             Type = "xcode.syntax.plain";
         };
@@ -217,15 +236,15 @@
         Identifier = "xcode.lang.asm.orcam.lexer";
         Syntax = {
             IncludeRules = (
-                "xcode.lang.comment",
-                "xcode.lang.comment.singleline",
-                "xcode.lang.asm.orcam.comment.singleline.semi",
-                "xcode.lang.asm.orcam.comment.singleline.exclam",
-                "xcode.lang.asm.orcam.comment.singleline.star",
-                "xcode.lang.asm.orcam.comment.singleline.dot",
+                "xcode.lang.asm.orcam.comment.semi",
+                "xcode.lang.asm.orcam.comment.exclam",
+                "xcode.lang.asm.orcam.comment.star",
+                "xcode.lang.asm.orcam.comment.dot",
                 "xcode.lang.string",
                 "xcode.lang.character",
                 "xcode.lang.number",
+                "xcode.lang.asm.orcam.start",
+                "xcode.lang.asm.orcam.end",
                 "xcode.lang.asm.orcam.keyword",
                 "xcode.lang.asm.orcam.identifier",
             );
@@ -233,7 +252,7 @@
     },
     
     {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.semi";
+        Identifier = "xcode.lang.asm.orcam.comment.semi";
         Syntax = {
             StartAtBOL = YES;
             StartAtColumnZero = YES;
@@ -245,7 +264,7 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.exclam";
+        Identifier = "xcode.lang.asm.orcam.comment.exclam";
         Syntax = {
             StartAtBOL = YES;
             StartAtColumnZero = YES;
@@ -257,7 +276,7 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.star";
+        Identifier = "xcode.lang.asm.orcam.comment.star";
         Syntax = {
             StartAtBOL = YES;
             StartAtColumnZero = YES;
@@ -269,7 +288,7 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.comment.singleline.dot";
+        Identifier = "xcode.lang.asm.orcam.comment.dot";
         Syntax = {
             StartAtBOL = YES;
             StartAtColumnZero = YES;
@@ -281,15 +300,16 @@
     },
 
     {
-        Identifier = "xcode.lang.asm.orcam.label";
+        Identifier = "xcode.lang.asm.orcam.block";
         Syntax = {
-            StartAtBOL = YES;
-            StartAtColumnZero = YES;
             Tokenizer = "xcode.lang.asm.orcam.lexer";
-            Rules = (
-                "xcode.lang.asm.orcam.identifier",
-            );
+            Start = "xcode.lang.asm.orcam.start";
+            End = "xcode.lang.asm.orcam.end";
+            Recursive = YES;
+            Foldable = YES;
             Type = "xcode.syntax.definition.function";
+            IncludeRules = (
+            );
         };
     },
     
