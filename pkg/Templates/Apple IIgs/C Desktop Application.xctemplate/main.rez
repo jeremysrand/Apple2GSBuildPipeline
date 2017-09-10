@@ -1,0 +1,207 @@
+/*
+ *  ___FILENAME___
+ *  ___PROJECTNAME___
+ *
+ * Created by ___FULLUSERNAME___ on ___DATE___.
+ * ___COPYRIGHT___
+ */
+
+
+#include "types.rez"
+#include "___FILEBASENAME___.h"
+
+
+resource rMenuBar (menuBar) {
+    {
+        appleMenu,
+        fileMenu,
+        editMenu
+    };
+};
+
+
+resource rMenu (appleMenu) {
+    appleMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    appleMenu,
+    {
+        appleAbout
+    };
+};
+
+
+resource rMenu (fileMenu) {
+    fileMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    fileMenu,
+    {
+        fileNew,
+        fileOpen,
+        fileClose,
+        fileQuit
+    };
+};
+
+
+resource rMenu (editMenu) {
+    editMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    editMenu,
+    {
+        editUndo,
+        editCut,
+        editCopy,
+        editPaste,
+        editClear
+    };
+};
+
+
+resource rMenuItem (editUndo) {
+    editUndo,
+    "Z", "z",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    editUndo
+};
+
+
+resource rMenuItem (editCut) {
+    editCut,
+    "X", "x",
+    0,
+    refIsResource * itemTitleRefShift,
+    editCut
+};
+
+
+resource rMenuItem (editCopy) {
+    editCopy,
+    "C", "c",
+    0,
+    refIsResource * itemTitleRefShift,
+    editCopy
+};
+
+
+resource rMenuItem (editPaste) {
+    editPaste,
+    "V", "v",
+    0,
+    refIsResource * itemTitleRefShift,
+    editPaste
+};
+
+
+resource rMenuItem (editClear) {
+    editClear,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift,
+    editClear
+};
+
+
+resource rMenuItem (fileNew) {
+    fileNew,
+    "N", "n",
+    0,
+    refIsResource * itemTitleRefShift,
+    fileNew
+};
+
+
+resource rMenuItem (fileOpen) {
+    fileOpen,
+    "O", "o",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    fileOpen
+};
+
+
+resource rMenuItem (fileClose) {
+    fileClose,
+    "W", "w",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    fileClose
+};
+
+
+resource rMenuItem (fileQuit) {
+    fileQuit,
+    "Q", "q",
+    0,
+    refIsResource * itemTitleRefShift,
+    fileQuit
+};
+
+
+resource rMenuItem (appleAbout) {
+    appleAbout,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    appleAbout
+};
+
+
+resource rPString (appleMenu, noCrossBank) {"@"};
+resource rPString (fileMenu, noCrossBank) {" File "};
+resource rPString (editMenu, noCrossBank) {" Edit "};
+
+resource rPString (editUndo, noCrossBank) {"Undo"};
+resource rPString (editCut, noCrossBank) {"Cut"};
+resource rPString (editCopy, noCrossBank) {"Copy"};
+resource rPString (editPaste, noCrossBank) {"Paste"};
+resource rPString (editClear, noCrossBank) {"Clear"};
+
+resource rPString (fileNew, noCrossBank) {"New"};
+resource rPString (fileOpen, noCrossBank) {"Open"};
+resource rPString (fileClose, noCrossBank) {"Close"};
+resource rPString (fileQuit, noCrossBank) {"Quit"};
+
+resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
+
+
+resource rAlertString (aboutAlertString) {
+    "43/"
+    "___PROJECTNAME___\n"
+    "  by ___FULLUSERNAME___\n"
+    "\n"
+    "Contains libraries from ORCA C,\n"
+    "Copyright 1991, Byte Works Inc."
+    "/^#0\$00";
+};
+
+
+resource rWindParam1 (windowRes) {
+    $DDA5,			/* wFrameBits */
+    nil,				/* wTitle */
+    0,				/* wRefCon */
+    {0, 0, 0, 0},			/* ZoomRect */
+    nil,				/* wColor ID */
+    {0, 0},			/* Origin */
+    {1, 1},			/* data size */
+    {0, 0},			/* max height-width */
+    {8, 8},			/* scroll ver hors */
+    {0, 0},			/* page ver horiz */
+    0,				/* winfoRefCon */
+    10,				/* wInfoHeight */
+    {30, 10, 183, 602},		/* wposition */
+    infront,			/* wPlane */
+    nil,				/* wStorage */
+    $0000				/* wInVerb */
+};
+

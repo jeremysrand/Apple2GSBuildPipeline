@@ -1,0 +1,126 @@
+// Orca/M Resource language specs
+(
+
+/****************************************************************************/
+// MARK: Keywords
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.orca.rez.identifier";
+        Syntax = {
+            CaseSensitive = NO;
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_~";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_~";
+            Type = "xcode.syntax.identifier";
+        };
+    },
+
+    {
+        Identifier = "xcode.lang.orca.rez.keyword";
+        Syntax = {
+            CaseSensitive = NO;
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_~";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_~";
+            Words = (
+                "include",
+                "read",
+                "data",
+                "type",
+                "delete",
+                "change",
+                "resource",
+
+                "unlocked",
+                "locked",
+                "moveable",
+                "fixed",
+                "nonconvert",
+                "convert",
+                "handleload",
+                "absoluteload",
+                "nonpurgeable",
+                "purgeable1",
+                "purgeable2",
+                "purgeable3",
+                "unprotected",
+                "protected",
+                "nonpreload",
+                "preload",
+                "crossbank",
+                "nocrossbank",
+                "specialmemory",
+                "nospecialmemory",
+                "notpagealigned",
+                "pagealigned",
+
+                "array",
+                "bitstring",
+                "boolean",
+                "byte",
+                "char",
+                "cstring",
+                "fill",
+                "integer",
+                "longint",
+                "point",
+                "pstring",
+                "rect",
+                "string",
+                "switch",
+                "wstring",
+            );
+            Type = "xcode.syntax.keyword";
+            AltType = "xcode.syntax.identifier";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Simple Syntax Coloring
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.orca.rez";
+        Description = "ORCA Resource Coloring";
+        BasedOn = "xcode.lang.simpleColoring";
+        UsesCLikeIndentation = YES;
+        IncludeInMenu = YES;
+        Name = "Resources (ORCA)";
+        Syntax = {
+            Tokenizer = "xcode.lang.orca.rez.lexer";
+            IncludeRules = (
+                "xcode.lang.orca.rez.codeblock",
+            );
+            Type = "xcode.syntax.plain";
+        };
+    },
+    {
+        Identifier = "xcode.lang.orca.rez.lexer";
+        Syntax = {
+            IncludeRules = (
+                "xcode.lang.comment",
+                "xcode.lang.comment.singleline",
+                "xcode.lang.c.preprocessor",
+                "xcode.lang.string",
+                "xcode.lang.character",
+                "xcode.lang.number",
+                "xcode.lang.orca.rez.keyword",
+                "xcode.lang.orca.rez.identifier",
+            );
+        };
+    },
+    
+    {
+        Identifier = "xcode.lang.orca.rez.codeblock";
+        Syntax = {
+            Tokenizer = "xcode.lang.orca.rez.lexer";
+            Start = "{";
+            End = "}";
+            Recursive = YES;
+            Foldable = YES;
+            Type = "xcode.syntax.definition.function";
+            IncludeRules = (
+            );
+        };
+    },
+
+)

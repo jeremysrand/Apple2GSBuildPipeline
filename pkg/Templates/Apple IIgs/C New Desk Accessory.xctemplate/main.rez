@@ -1,0 +1,41 @@
+/*
+ *  ___FILENAME___
+ *  ___PROJECTNAME___
+ *
+ * Created by ___FULLUSERNAME___ on ___DATE___.
+ * ___COPYRIGHT___
+ */
+
+
+#include "types.rez"
+
+#include "___FILEBASENAME___.h"
+
+
+resource rWindParam1 (windowRes) {
+    $C0A5,                      /* wFrameBits */
+    nil,                        /* wTitle */
+    0,                          /* wRefCon */
+    {0,0,0,0},                  /* ZoomRect */
+    linedColors,                /* wColor ID */
+    {0,0},                      /* Origin */
+    {0,0},                      /* data size */
+    {0,0},                      /* max height-width */
+    {0,0},                      /* scroll ver hors */
+    {0,0},                      /* page ver horiz */
+    0,                          /* winfoRefcon */
+    0,                          /* wInfoHeight */
+    {50,50,62,200},             /* wposition */
+    infront,                    /* wPlane */
+    nil,                        /* wStorage */
+    $0800                       /* wInVerb */
+};
+
+
+resource rWindColor (linedColors) {
+    0x0000,                     /* frameColor */
+    0x0F00,                     /* titleColor */
+    0x020F,                     /* tbarColor */
+    0xF0F0,                     /* growColor */
+    0x00F0,                     /* infoColor */
+};
