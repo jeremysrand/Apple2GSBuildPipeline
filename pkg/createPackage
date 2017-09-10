@@ -9,19 +9,23 @@ cp -R pkg/Plug-ins $TMPDIR
 
 PROJECTS=/tmp/projects.$$
 cat > $PROJECTS << EOF
-shell:Shell Command in C
-shell:Shell Command in Assembly
-cda:Classic Desk Accessory in C
-nda:New Desk Accessory in C
-desktop:Desktop Application in C
-cdev:Control Panel in C
+cda:orca:C Classic Desk Accessory
+cdev:orca:C Control Panel
+desktop:orca:C Desktop Application
+shell:gno:C GNO Shell Command
+nda:orca:C New Desk Accessory
+shell:orca:C ORCA Shell Command
+shell:orca:Asm ORCA Shell Command
 EOF
 
 while read PROJECT
 do
     PROJECTTYPE=`echo $PROJECT | awk -F: '{print $1}'`
-    PROJECTNAME=`echo $PROJECT | awk -F: '{print $2}'`
-    sed "/^# TARGETTYPE=${PROJECTTYPE}/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECTNAME}.xctemplate/Makefile"
+    SHELLTYPE=`echo $PROJECT | awk -F: '{print $2}'`
+    PROJECTNAME=`echo $PROJECT | awk -F: '{print $3}'`
+    sed "
+        /^# TARGETTYPE=${PROJECTTYPE}/s/^# //
+        /^# export ORCA=.*\/${SHELLTYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECTNAME}.xctemplate/Makefile"
     cp -R make "${TMPDIR}/Templates/Apple IIgs/${PROJECTNAME}.xctemplate/"
 done < $PROJECTS
 

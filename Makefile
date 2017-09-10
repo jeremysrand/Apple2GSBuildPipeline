@@ -55,6 +55,9 @@ ASMFLAGS+=
 # Add any arguments you want passed to the linker to this variable:
 LDFLAGS+=
 
+# Uncomment the following line if you want to build against the GNO libraries
+# export ORCA=$(ORCA_BINDIR)/gno
+
 # If you want to copy one or more files or directories to the target disk
 # image, add the root directory to this variable.  Any directories under
 # the source directory which don't exist in the target disk image will be

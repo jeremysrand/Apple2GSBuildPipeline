@@ -291,7 +291,7 @@
             );
         };
     },
-    
+
     {
         Identifier = "xcode.lang.asm.orcam.datablock";
         Syntax = {

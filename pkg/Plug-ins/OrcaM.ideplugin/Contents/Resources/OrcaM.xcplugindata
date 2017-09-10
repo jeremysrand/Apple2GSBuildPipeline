@@ -28,6 +28,17 @@
 				<key>version</key>
 				<string>1.0</string>
 			</dict>
+			<key>Xcode.FileDataTypeDetector.ORCAM.Assembly</key>
+			<dict>
+				<key>detectedTypeIdentifier</key>
+				<string>com.rand-family.xcode.orcam</string>
+				<key>id</key>
+				<string>Xcode.FileDataTypeDetector.ORCAM.Assembly</string>
+				<key>matchesExtension</key>
+				<string>s</string>
+				<key>point</key>
+				<string>Xcode.FileDataTypeDetector</string>
+			</dict>
 			<key>Xcode.SourceCodeLanguage.ORCAM-Assembly</key>
 			<dict>
 				<key>commentSyntax</key>
@@ -66,11 +77,88 @@
 				<key>id</key>
 				<string>Xcode.SourceCodeLanguage.ORCAM-Assembly</string>
 				<key>languageName</key>
-				<string>ORCAM-Assembly</string>
+				<string>ORCA Assembly</string>
 				<key>languageSpecification</key>
 				<string>xcode.lang.asm.orcam</string>
 				<key>name</key>
-				<string>ORCAM Assembly</string>
+				<string>ORCA Assembly</string>
+				<key>point</key>
+                                <string>Xcode.SourceCodeLanguage</string>
+                                <key>supportsIndentation</key>
+                                <string>true</string>
+				<key>version</key>
+				<string>1.0</string>
+			</dict>
+			<key>Xcode.FileDataType.ORCAM.Rez</key>
+			<dict>
+				<key>id</key>
+				<string>Xcode.FileDataType.ORCAM.Rez</string>
+				<key>localizedDescription</key>
+				<string>ORCA Resource</string>
+				<key>name</key>
+				<string>File type for ORCA resources</string>
+				<key>point</key>
+				<string>Xcode.FileDataType</string>
+				<key>typeConformedTo</key>
+				<array>
+					<dict>
+						<key>typeIdentifier</key>
+						<string>com.apple.rez-source</string>
+					</dict>
+				</array>
+				<key>typeIdentifier</key>
+				<string>com.rand-family.xcode.orcarez</string>
+				<key>version</key>
+				<string>1.0</string>
+			</dict>
+			<key>Xcode.FileDataTypeDetector.ORCAM.Rez</key>
+			<dict>
+				<key>detectedTypeIdentifier</key>
+				<string>com.rand-family.xcode.orcarez</string>
+				<key>id</key>
+				<string>Xcode.FileDataTypeDetector.ORCAM.Rez</string>
+				<key>matchesExtension</key>
+				<string>rez</string>
+				<key>point</key>
+				<string>Xcode.FileDataTypeDetector</string>
+			</dict>
+			<key>Xcode.SourceCodeLanguage.ORCA-Rez</key>
+			<dict>
+				<key>commentSyntax</key>
+				<array>
+					<dict>
+						<key>prefix</key>
+                                                <string>//</string>
+					</dict>
+					<dict>
+						<key>prefix</key>
+                                                <string>/*</string>
+						<key>suffix</key>
+                                                <string>*/</string>
+					</dict>
+				</array>
+				<key>conformsTo</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>Xcode.SourceCodeLanguage.Generic</string>
+					</dict>
+				</array>
+				<key>fileDataType</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>com.rand-family.xcode.orcarez</string>
+					</dict>
+				</array>
+				<key>id</key>
+				<string>Xcode.SourceCodeLanguage.ORCA-Rez</string>
+				<key>languageName</key>
+				<string>ORCA Resources</string>
+				<key>languageSpecification</key>
+				<string>xcode.lang.orca.rez</string>
+				<key>name</key>
+				<string>ORCA Resources</string>
 				<key>point</key>
                                 <string>Xcode.SourceCodeLanguage</string>
                                 <key>supportsIndentation</key>

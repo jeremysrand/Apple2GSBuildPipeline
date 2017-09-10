@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for item in ~/"Library/Developer/Xcode/Templates/Apple ][gs" ~/"Library/Developer/Xcode/Templates/File Templates/Apple ][gs"
+for item in ~/"Library/Developer/Xcode/Templates/Apple IIgs" ~/"Library/Developer/Xcode/Templates/File Templates/Apple IIgs"
 do
     if [ -d "$item" ]
     then
