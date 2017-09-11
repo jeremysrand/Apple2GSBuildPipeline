@@ -16,14 +16,14 @@ Features of this build environment include:
    * Supports putting your source files in multiple directories.  Just make sure to add those directories to the SRCDIRS variable in the root Makefile.  Once you add the source directory to the build, any source files in that directory will automatically be built and linked into your executable.
    * If you change a header file, the right source files will rebuild automatically.  Header file dependencies are generated during the build.
    * If you change a macro file used by one or more assembly source files, the right files will be re-assembled automatically.  Assembly file dependencies are generated during the build.
-   * Supports project types like ORCA shell executable, GUI executable, new desk accessory, classic desk accessory and control panel.  In Xcode, when you create a project, you will see options for each of these project types.  Select one and you will have a skeleton project which includes enough code to give you a basic "hello world" style application of that type.
+   * Supports project types like ORCA or GNO shell executable, GUI executable, new desk accessory, classic desk accessory and control panel.  In Xcode, when you create a project, you will see options for each of these project types.  Select one and you will have a skeleton project which includes enough code to give you a basic "hello world" style application of that type.
    * For shell targets, when you build and run, the shell command is executed right in Xcode itself using Golden Gate.  You can edit your run scheme configuration in Xcode to customize the arguments passed to your shell command.
    * Creates a bootable disk image with your executable as part of the build for non-shell targets.  If your target is a CDA, NDA or CDev, the executable is copied to the appropriate place in the System folder.  For a desktop application, the executable is in the root of the bootable disk image.
    * Automatically launches an Apple //gs emulator when you select build and run so you can go from coding to testing your latest build as quickly as possible.
-   * C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.  In other words, you can code complete to a toolbox call for example!
+   * C source and header files (including ORCA system includes) are indexed by Xcode.  By doing this, code completion and other features of Xcode should work.  That means, if you are coding in C and type "NewW", Xcode will suggest the toolbox calls NewWindow() and NewWindow2().  Select the one you want and Xcode fills it in, including the arguments that the toolbox call expects.
    * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
-   * You can copy a directory of files onto the disk image other than just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
-   * Syntax highlighting and better editor support for ORCA/M assembly and resource files.
+   * You can copy a directory of files onto the disk image beyond just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
+   * Syntax highlighting and better editor support for ORCA/M assembly and resource files.  Keywords are completed and highlighted.  Indentation between start/end and data/end tokens for assembly and inside braces for resource files should be automatic.
 
 
 Mac OS X Installation:
