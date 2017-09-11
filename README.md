@@ -1,7 +1,7 @@
 Apple2GSBuildPipeline
 =====================
 
-A build pipeline for making Apple IIgs software on OS X.
+A build pipeline for making Apple IIgs software on macOS.
 
 Features:
 ---------
@@ -26,17 +26,17 @@ Features of this build environment include:
    * Syntax highlighting and better editor support for ORCA/M assembly and resource files.  Keywords are completed and highlighted.  Indentation between start/end and data/end tokens for assembly and inside braces for resource files should be automatic.
 
 
-Mac OS X Installation:
-----------------------
+MacOS  Installation:
+--------------------
 
-In order to use this infrastructure from Mac OS X, follow these instructions:
+In order to use this infrastructure from macOS, follow these instructions:
    1. Install [Xcode from Apple](https://itunes.apple.com/us/app/xcode/id497799835?mt=12&uo=4).  Xcode is generally the most popular app in the Mac App Store in the "Developer Tools" category.  Xcode is free and you do not need to be a registered Apple developer to download and use it, especially if you are building Apple II programs.
    2. You need to have Orca/C or Orca/M.  If you have purchased these development tools for the Apple IIgs in the past, you should be able to use what you have.  If you don't have access to these tools, Juiced.GS sells all of the tools as [Opus II: The Software](https://juiced.gs/store/opus-ii-software/) from their store for a reasonable price.
    3. You also need [Golden Gate](https://juiced.gs/store/golden-gate/) which is also available for a reasonable price from the Juiced.GS store.  Golden Gate allows the Orca tools to execute from a modern Mac (or Windows and Linux system also).  Follow the installation instructions for Golden Gate.
    4. Install [FUSE for macOS](https://osxfuse.github.io).  FUSE is required for ProFuse which you will install next.  At the moment, v3.6.3 is the latest and works well in my testing.
    5. Install ProFUSE.  It is distributed with Golden Gate.  When you purchase Golden Gate, you should be given access to a GitLab repository.  Among the projects there is ProFUSE which allows your Mac to mount ProDOS volumes.  This is used by the build environment to create the bootable disk images.
    5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/1.0/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
-   6. Install and setup the [GSPlus](https://apple2.gs/plus/) emulator or the [GSPort](http://gsport.sourceforge.net) emulator.  Either should work.  No matter which you choose, make sure you put a copy of your Apple //gs' ROM into a file called ~/Library/GSPort/ROM (where ~ represents your user's home directory).  Unfortunately, the Finder by default hides the Library folder from you so the easiest way to do accomplish this is probably from the Terminal.
+   6. Install and setup the [GSPlus](https://apple2.gs/plus/) emulator or the [GSPort](http://gsport.sourceforge.net) emulator.  Either should work.  No matter which you choose, make sure you put a copy of your Apple //gs' ROM into a file called ~/Library/GSPort/ROM (where ~ represents your user's home directory).  Unfortunately, the Finder by default hides the Library folder from you so the easiest way to accomplish this is probably from the Terminal.
 
 
 Your First Project:
@@ -50,7 +50,7 @@ Everything you need is now installed.  To create a new Apple //gs project in Xco
    5. Your project is now ready for you.  If you select Product->Build, it will build.  To see the resulting executable, right click on the Makefile file in the left pane and select "Show in Finder".  You should see the executable in the Finder window that just opened.
    6. If you click the button on the upper left which looks like a play button or hit Command-R, your project will be built and run.  If you have a shell target, your build will execute in Xcode itself.  For desktop applications, CDAs, NDAs and CDEVs, your emulator will be launched with your executable on the boot disk.
    7. Review the Makefile and set any options you want.  The file has lots of comments to help you understand the configuration options.
-   8. Change main.c (or main.s if you created an assembly project) and write more code in new C or assembly files until you have the program you always wanted to build.  To add new files, select File->New->File.  In the dialog, you will see an Apple //gs option in the OS X section.  Select that and in there, you will see options to create a new C file or a new Assembly File.  Select the one you want to add the file to your project.  Put the new file in the same directory as Makefile.  You can add assembly files in a C project or add C files in an assembly project.  The only difference between them is the type of the default source file in the project template.
+   8. Change main.c (or main.s if you created an assembly project) and write more code in new C or assembly files until you have the program you always wanted to build.  To add new files, select File->New->File.  In the dialog, you will see an Apple //gs option in the macOS section.  Select that and in there, you will see options to create a new "C File", new "Assembly File" or new "Resource File".  Select the one you want to add the file to your project.  Put the new file in the same directory as Makefile.  You can add assembly files in a C project or add C files in an assembly project.  The only difference between them is the type of the default source file in the project template.
 
 UNIX Installation:
 ------------------
