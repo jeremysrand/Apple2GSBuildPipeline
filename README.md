@@ -4,7 +4,7 @@ Apple2GSBuildPipeline
 A build pipeline for making Apple IIgs software on OS X.
 
 Features:
-=========
+---------
 
 This project was built using a similar approach as the one I created for [8-bit Apple //'s](https://github.com/jeremysrand/Apple2BuildPipeline).  I used cc65 in the 8-bit tools but this build environment uses the [ORCA languages](https://juiced.gs/store/opus-ii-software/) and [Golden Gate](http://golden-gate.ksherlock.com) from Kelvin Sherlock.
 
@@ -22,24 +22,21 @@ Features of this build environment include:
    * C source and header files (including system includes) are indexed.  By doing this, code completion and other features of Xcode should work.  In other words, you can code complete to a toolbox call for example!
    * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
    * You can copy a directory of files onto the disk image other than just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
-   * Syntax highlighting and better editor support for ORCA/M assembly files.
+   * Syntax highlighting and better editor support for ORCA/M assembly and resource files.
 
-Other features which I am considering but may never deliver include:
-
-   * Support Hypercard XCMDs and Hyperstudio new button action project templates
-   * Provide assembly project templates for all project types.  Today, I only provide an assembly project template for the shell target.
-   * Support other ORCA languages like Pascal, Modula-2 or Basic.
-   * Allow multiple resource files and concatenate the resources together into the final executable.
-   * Add support for Merlin32 based assembly projects in Xcode.  This is the other major cross compilation/assembly tool available today for Apple //gs coding.
 
 Mac OS X Installation:
 ----------------------
 
-I am not at what I would call a version 1.0 yet so I am not distributing a installable package.  But you can make your own if you really don't want to wait.  You need to have ORCA and Golden Gate already installed on your machine for any of this to work.
+In order to use this infrastructure from Mac OS X, follow these instructions:
+   1. Install [Xcode from Apple](https://itunes.apple.com/us/app/xcode/id497799835?mt=12&uo=4).  Xcode is generally the most popular app in the Mac App Store in the "Developer Tools" category.  Xcode is free and you do not need to be a registered Apple developer to download and use it, especially if you are building Apple II programs.
+   2. You need to have Orca/C or Orca/M.  If you have purchased these development tools for the Apple IIgs in the past, you should be able to use what you have.  If you don't have access to these tools, Juiced.GS sells all of the tools as [Opus II: The Software](https://juiced.gs/store/opus-ii-software/) from their store for a reasonable price.
+   3. You also need [Golden Gate](https://juiced.gs/store/golden-gate/) which is also available for a reasonable price from the Juiced.GS store.  Golden Gate allows the Orca tools to execute from a modern Mac (or Windows and Linux system also).  Follow the installation instructions for Golden Gate.
+   4. Install [FUSE for macOS](https://osxfuse.github.io).  FUSE is required for ProFuse which you will install next.  At the moment, v3.6.3 is the latest and works well in my testing.
+   5. Install ProFUSE.  It is distributed with Golden Gate.  When you purchase Golden Gate, you should be given access to a GitLab repository.  Among the projects there is ProFUSE which allows your Mac to mount ProDOS volumes.  This is used by the build environment to create the bootable disk images.
+   5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/1.0/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
+   6. Install and setup the [GSPlus](https://apple2.gs/plus/) emulator or the [GSPort](http://gsport.sourceforge.net) emulator.  Either should work.  No matter which you choose, make sure you put a copy of your Apple //gs' ROM into a file called ~/Library/GSPort/ROM (where ~ represents your user's home directory).  Unfortunately, the Finder by default hides the Library folder from you so the easiest way to do accomplish this is probably from the Terminal.
 
-To build the installable package, execute "make createPackage" in the root directory of this repository.  If you do this, you should see a file called "Apple2GSXcodeTemplate.pkg" in the root directory.  Install that and you should see that you have the Xcode project templates now.
-
-In the future, I will distribute a signed installable package but not yet.
 
 Your First Project:
 -------------------
@@ -50,7 +47,7 @@ Everything you need is now installed.  To create a new Apple //gs project in Xco
    3. A dialog box with a few text fields will appear.  In product name, put in the name of the Apple //gs executable you want to build.  Organization Name and Organization Identifier can be anything you want it to be.  Leave Build Tool set to "/usr/bin/make".  Click "Next".
    4. Xcode now prompts you where you want to save your project.  The name of the project will be the product name you already gave.  Pick a good directory for your project.  Your Documents folder is a reasonable option.  Click "Create".
    5. Your project is now ready for you.  If you select Product->Build, it will build.  To see the resulting executable, right click on the Makefile file in the left pane and select "Show in Finder".  You should see the executable in the Finder window that just opened.
-   6. At this point, you can start Sweet16 or some other Apple //gs emulator.  With Sweet16, you can drag the executable into the //gs Finder and the emulator should copy it for you.  Once copied, you should be able to launch it (depending on the target type, double click may or may not launch it).
+   6. If you click the button on the upper left which looks like a play button or hit Command-R, your project will be built and run.  If you have a shell target, your build will execute in Xcode itself.  For desktop applications, CDAs, NDAs and CDEVs, your emulator will be launched with your executable on the boot disk.
    7. Review the Makefile and set any options you want.  The file has lots of comments to help you understand the configuration options.
    8. Change main.c (or main.s if you created an assembly project) and write more code in new C or assembly files until you have the program you always wanted to build.  To add new files, select File->New->File.  In the dialog, you will see an Apple //gs option in the OS X section.  Select that and in there, you will see options to create a new C file or a new Assembly File.  Select the one you want to add the file to your project.  Put the new file in the same directory as Makefile.  You can add assembly files in a C project or add C files in an assembly project.  The only difference between them is the type of the default source file in the project template.
 
@@ -60,6 +57,15 @@ UNIX Installation:
 This build infrastructure can be used in a non-Mac environment.  The Makefile infrastructure should work on any UNIX-y platform.  You will still need Golden Gate and the ORCA tools setup on your machine.  Just add the Makefile and the contents of the make directory to your project.  Modify the Makefile as appropriate and you should have a build environment which you can use with the make command.
 
 That said, I haven't tested this on any other platform to show this is actually true.
+
+Possible Future Improvements:
+-----------------------------
+
+   * Support Hypercard XCMDs and Hyperstudio new button action project templates
+   * Provide assembly project templates for all project types.  Today, I only provide an assembly project template for the shell target.
+   * Support other ORCA languages like Pascal, Modula-2 or Basic.
+   * Allow multiple resource files and concatenate the resources together into the final executable.
+   * Add support for Merlin32 based assembly projects in Xcode.  This is the other major cross compilation/assembly tool available today for Apple //gs coding.
 
 Acknowledgements:
 -----------------
