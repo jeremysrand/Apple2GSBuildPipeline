@@ -35,7 +35,7 @@ In order to use this infrastructure from macOS, follow these instructions:
    3. You also need [Golden Gate](https://juiced.gs/store/golden-gate/) which is also available for a reasonable price from the Juiced.GS store.  Golden Gate allows the Orca tools to execute from a modern Mac (or Windows and Linux system also).  Follow the installation instructions for Golden Gate.
    4. Install [FUSE for macOS](https://osxfuse.github.io).  FUSE is required for ProFuse which you will install next.  At the moment, v3.6.3 is the latest and works well in my testing.
    5. Install ProFUSE.  It is distributed with Golden Gate.  When you purchase Golden Gate, you should be given access to a GitLab repository.  Among the projects there is ProFUSE which allows your Mac to mount ProDOS volumes.  This is used by the build environment to create the bootable disk images.
-   5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/1.0.1/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
+   5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/1.1/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
    6. Install and setup the [GSPlus](https://apple2.gs/plus/) emulator or the [GSPort](http://gsport.sourceforge.net) emulator.  Either should work.  No matter which you choose, make sure you put a copy of your Apple //gs' ROM into a file called ~/Library/GSPort/ROM (where ~ represents your user's home directory).  Unfortunately, the Finder by default hides the Library folder from you so the easiest way to accomplish this is probably from the Terminal.
 
 
@@ -52,12 +52,24 @@ Everything you need is now installed.  To create a new Apple //gs project in Xco
    7. Review the Makefile and set any options you want.  The file has lots of comments to help you understand the configuration options.
    8. Change main.c (or main.s if you created an assembly project) and write more code in new C or assembly files until you have the program you always wanted to build.  To add new files, select File->New->File.  In the dialog, you will see an Apple //gs option in the macOS section.  Select that and in there, you will see options to create a new "C File", new "Assembly File" or new "Resource File".  Select the one you want to add the file to your project.  Put the new file in the same directory as Makefile.  You can add assembly files in a C project or add C files in an assembly project.  The only difference between them is the type of the default source file in the project template.
 
+
+Common Problems:
+----------------
+
+There are some known issues which can crop up:
+   * If you are using APFS (the latest filesystem) on High Sierra, you may have a problem with resources.  Make sure you have the latest version of Golden Gate.  The latest version has fixed these issues.
+   * If you aren't seeing the "ORCA Assembly" or "ORCA Resources" options under Editor->Syntax Coloring, you may be having an Xcode compatibility problem.  These syntax colouring files are provided as part of an Xcode plugin and plugins must advertize their compatibility.  During install, the plugin is set to be compatible with the version of Xcode you have.  If you upgrade Xcode, the plugin will be assumed to be incompatible and will not be loaded.  To workaround this, we force the plugin to be marked as compatiable on every build of a Apple //gs target.  So, you should do a build and then quit and re-launch Xcode.  You should see a warning asking if you want to load the plugin and if you allow the plugin to load, you should see the ORCA syntax colouring options.
+
+If these suggestions do not help or you are having some other problem, please contact me and I will try to help you out.
+
+
 UNIX Installation:
 ------------------
 
 This build infrastructure can be used in a non-Mac environment.  The Makefile infrastructure should work on any UNIX-y platform.  You will still need Golden Gate and the ORCA tools setup on your machine.  Just add the Makefile and the contents of the make directory to your project.  Modify the Makefile as appropriate and you should have a build environment which you can use with the make command.
 
 That said, I haven't tested this on any other platform to show this is actually true.
+
 
 Possible Future Improvements:
 -----------------------------
@@ -67,6 +79,7 @@ Possible Future Improvements:
    * Support other ORCA languages like Pascal, Modula-2 or Basic.
    * Allow multiple resource files and concatenate the resources together into the final executable.
    * Add support for Merlin32 based assembly projects in Xcode.  This is the other major cross compilation/assembly tool available today for Apple //gs coding.
+
 
 Acknowledgements:
 -----------------
