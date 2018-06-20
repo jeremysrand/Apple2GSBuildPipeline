@@ -8,8 +8,6 @@ ORCA_BINDIR = /usr/local/bin
 
 export ORCA=$(ORCA_BINDIR)/orca
 
-AC=make/AppleCommander.jar
-
 TARGETTYPE=shell
 
 SRCDIRS=.
