@@ -1,6 +1,7 @@
 #!/bin/bash
 
-TMPFILE=/tmp/orca-cc.$$
+STDOUTPUT=/tmp/orca-cc-std.$$
+ERROUTPUT=/tmp/orca-cc-errs.$$
 
 FILENAME="$1"
 shift
@@ -28,14 +29,31 @@ DEPSNAME="${BASENAME}.d"
 OBJSNAME="${BASENAME}.a"
 ROOTNAME="${BASENAME}.root"
 
-$ORCA --trace-gsos compile $COMPILEARGS "$FILENAME" keep="${BASENAME}" $CCARGS 2> $TMPFILE
+$ORCA --trace-gsos compile $COMPILEARGS "$FILENAME" keep="${BASENAME}" $CCARGS > $STDOUTPUT 2> $ERROUTPUT
 RESULT=$?
 
-sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $TMPFILE >&2
+awk '
+    {
+        print $0
+    }
+
+    $1 ~ /^[0-9][0-9]*$/ {
+        LINENO=$1
+    }
+
+    /^ *\^/ {
+        sub(/^ *\^/, "", $0)
+        printf("%s/%s:%d:0:%s\n", PWD, FILE, LINENO, $0)
+    }
+' "PWD=`pwd`" "FILE=$FILENAME" $STDOUTPUT
+
+
+sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $ERROUTPUT >&2
 
 if [ "$RESULT" -ne 0 ]
 then
-    rm -f $TMPFILE
+    rm -f $ERROUTPUT
+    rm -f $STDOUTPUT
     rm -f $OBJSNAME
     rm -f $ROOTNAME
     exit $RESULT
@@ -45,7 +63,7 @@ DEPS=`awk '
     /^FastFileLoad/ {
         sub(/^FastFileLoad\(/, "");
         sub(/\)$/, "");
-        print}' $TMPFILE | sort -u | while read FILE
+        print}' $ERROUTPUT | sort -u | while read FILE
     do
         if [ -f "$FILE" ]
         then
@@ -53,7 +71,8 @@ DEPS=`awk '
         fi
     done | tr '\012' ' '`
 
-rm -f $TMPFILE
+rm -f $ERROUTPUT
+rm -f $STDOUTPUT
 
 # We add a dependency for both the .o and the .root file.  If this is the
 # main.c file being compiled, we need the dependency on the .root file.

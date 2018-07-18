@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TMPFILE=/tmp/orca-rez.$$
+ERROUTPUT=/tmp/orca-rez-err.$$
 
 FILENAME="$1"
 shift
@@ -15,14 +15,29 @@ BASENAME=`echo $FILENAME | sed 's/\.rez$//'`
 DEPSNAME="${BASENAME}.rez.d"
 OBJSNAME="${BASENAME}.r"
 
-$ORCA --trace-gsos compile $* keep="${OBJSNAME}" "$FILENAME" 2> $TMPFILE
+$ORCA --trace-gsos compile $* keep="${OBJSNAME}" "$FILENAME" 2> $ERROUTPUT
 RESULT=$?
 
-sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $TMPFILE >&2
+awk '
+    /^[A-Za-z][A-Za-z]*\(.*\)$/ {
+        next
+    }
+
+    {
+        print
+    }
+
+    /^File [^ ]*; Line [0-9][0-9]*;/ {
+        sub(/;/,"",$4)
+        LINENO=$4
+        sub(/^File [^ ]*; Line [0-9][0-9]*/, "", $0)
+        printf("%s/%s:%d:0:%s\n", PWD, FILE, LINENO, $0)
+    }
+' "PWD=`pwd`" "FILE=$FILENAME" $ERROUTPUT >&2
 
 if [ "$RESULT" -ne 0 ]
 then
-    rm -f $TMPFILE
+    rm -f $ERROUTPUT
     rm -f $OBJSNAME
     exit $RESULT
 fi
@@ -31,7 +46,7 @@ DEPS=`awk '
     /^FastFileLoad/ {
         sub(/^FastFileLoad\(/, "");
         sub(/\)$/, "");
-        print}' $TMPFILE | sort -u | while read FILE
+        print}' $ERROUTPUT | sort -u | while read FILE
     do
         if [ -f "$FILE" ]
         then
@@ -40,6 +55,6 @@ DEPS=`awk '
     done`
 
 echo $OBJSNAME: $DEPS > $DEPSNAME
-rm -f $TMPFILE
+rm -f $ERROUTPUT
 
 exit 0
