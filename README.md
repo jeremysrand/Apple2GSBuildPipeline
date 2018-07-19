@@ -24,6 +24,7 @@ Features of this build environment include:
    * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
    * You can copy a directory of files onto the disk image beyond just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
    * Syntax highlighting and better editor support for ORCA/M assembly and resource files.  Keywords are completed and highlighted.  Indentation between start/end and data/end tokens for assembly and inside braces for resource files should be automatic.
+   * Errors returned by the C compiler or the resource compiler are now understood by Xcode.  The error will be visible in the editor itself and Xcode will jump to the line reported by the compiler to contain the error.
 
 
 MacOS  Installation:
