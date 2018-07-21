@@ -1,3 +1,11 @@
 #!/bin/bash
 
-defaults write ~/Library/Developer/Xcode/Plug-ins/OrcaM.ideplugin/Contents/Info.plist DVTPlugInCompatibilityUUIDs -array $(defaults read /Applications/Xcode.app/Contents/Info.plist DVTPlugInCompatibilityUUID)
+if [ ! -f /Applications/Xcode.app/Contents/Info.plist ]
+then
+    exit 0
+fi
+
+UUID=`defaults read /Applications/Xcode.app/Contents/Info.plist DVTPlugInCompatibilityUUID`
+
+defaults write "$2/Plug-ins/OrcaM.ideplugin/Contents/Info.plist" DVTPlugInCompatibilityUUIDs -array-add "${UUID}"
+
