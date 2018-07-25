@@ -15,6 +15,6 @@
 	<key>MainTemplateFile</key>
 	<string>___FILEBASENAME___.s</string>
 	<key>Summary</key>
-	<string>An assembly source file</string>
+        <string>An ORCA/M assembly source file</string>
 </dict>
 </plist>

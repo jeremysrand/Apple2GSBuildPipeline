@@ -9,13 +9,14 @@ cp -R pkg/Plug-ins $TMPDIR
 
 PROJECTS=/tmp/projects.$$
 cat > $PROJECTS << EOF
-cda:orca:C Classic Desk Accessory
-cdev:orca:C Control Panel
-desktop:orca:C Desktop Application
-shell:gno:C GNO Shell Command
-nda:orca:C New Desk Accessory
-shell:orca:C ORCA Shell Command
-shell:orca:Asm ORCA Shell Command
+cda:orca:ORCAC Classic Desk Accessory
+cda:orca:ORCAM Classic Desk Accessory
+cdev:orca:ORCAC Control Panel
+desktop:orca:ORCAC Desktop Application
+shell:gno:ORCAC GNO Shell Command
+nda:orca:ORCAC New Desk Accessory
+shell:orca:ORCAC Shell Command
+shell:orca:ORCAM Shell Command
 EOF
 
 while read PROJECT
