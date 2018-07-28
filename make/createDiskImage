@@ -89,8 +89,20 @@ do
     cd "$OLDDIR"
 done
 
-umount "$MOUNTDIR"
-if [ $? != 0 ]
+RETRIES=0
+while [ $RETRIES -lt 5 ]
+do
+    umount "$MOUNTDIR"
+    if [ $? -eq 0 ]
+    then
+        break
+    fi
+
+    RETRIES=`expr $RETRIES + 1`
+    sleep 1
+done
+
+if [ $RETRIES -ge 5 ]
 then
     echo Unable to unmount the disk image.
     cleanupAndExit

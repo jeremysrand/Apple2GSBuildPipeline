@@ -32,19 +32,6 @@ static unsigned int resourceId;
 static Str255 gStrBuf;
 
 
-BOOLEAN OpenResourceFork(void)
-{
-    GSString255Ptr fPtr;
-    unsigned id;
-    
-    id = SetHandleID(0, FindHandle((Pointer) OpenResourceFork));
-    fPtr = (GSString255Ptr) LGetPathname2(id, 1);
-    if (toolerror() == 0)
-        resourceId = OpenResourceFile(1, NULL, (Pointer) fPtr);
-    return toolerror() == 0;
-}
-
-
 void NDAClose(void)
 {
     if (ndaActive) {
@@ -98,6 +85,7 @@ GrafPortPtr NDAOpen(void)
     
     oldResourceApp = GetCurResourceApp();
     ResourceStartUp(userId);
+    
     pathToSelf = LGetPathname2(userId, 1);
     
     levelDCB.pCount = 2;
@@ -119,7 +107,6 @@ GrafPortPtr NDAOpen(void)
     SetSysWindow(winPtr);
     ShowWindow(winPtr);
     SelectWindow(winPtr);
-    SetPort(winPtr);
     
     ndaActive = TRUE;
     
@@ -135,7 +122,7 @@ GrafPortPtr NDAOpen(void)
 }
 
 
-void HandleAction(void)
+void HandleRun(void)
 {
 }
 
@@ -150,6 +137,11 @@ void HandleKey(EventRecord *event)
 }
 
 
+void HandleCursor(void)
+{
+}
+
+
 void HandleMenu(int menuItem)
 {
 }
@@ -157,14 +149,13 @@ void HandleMenu(int menuItem)
 
 BOOLEAN NDAAction(EventRecord *sysEvent, int code)
 {
-    int event;
     static EventRecord localEvent;
     unsigned int eventCode;
     BOOLEAN result = FALSE;
     
     switch (code) {
         case runAction:
-            HandleAction();
+            HandleRun();
             break;
             
         case eventAction:
@@ -187,6 +178,10 @@ BOOLEAN NDAAction(EventRecord *sysEvent, int code)
                     HandleKey(&localEvent);
                     break;
             }
+            break;
+            
+        case cursorAction:
+            HandleCursor();
             break;
             
         case cutAction:
