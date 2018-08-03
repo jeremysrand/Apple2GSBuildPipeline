@@ -40,7 +40,7 @@
 
 long doMachine(void)
 {
-    /* Return non-zero if you cannot be opened on this machine
+    /* Return zero if you cannot be opened on this machine
      * (and maybe display an alert explaining why).
      */
     return 1;
@@ -49,7 +49,7 @@ long doMachine(void)
 
 void doBoot(int *flag)
 {
-    /* Set bit 0 to 1 in flag if you want to draw at X through
+    /* Set bit 0 to 1 in flag if you want to draw an X through
      * the icon at boot time to indicate that this CDev will not
      * load.
      */

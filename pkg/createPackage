@@ -12,6 +12,7 @@ cat > $PROJECTS << EOF
 cda:orca:ORCAC Classic Desk Accessory
 cda:orca:ORCAM Classic Desk Accessory
 cdev:orca:ORCAC Control Panel
+cdev:orca:ORCAM Control Panel
 desktop:orca:ORCAC Desktop Application
 shell:gno:ORCAC GNO Shell Command
 nda:orca:ORCAC New Desk Accessory
