@@ -29,7 +29,6 @@ static BOOLEAN ndaActive;
 static GrafPortPtr winPtr;
 static unsigned int userId;
 static unsigned int resourceId;
-static Str255 gStrBuf;
 
 
 void NDAClose(void)
@@ -73,7 +72,6 @@ void DrawContents(void)
 
 GrafPortPtr NDAOpen(void)
 {
-    Pointer pathToSelf;
     unsigned int oldResourceApp;
     LevelRecGS levelDCB;
     unsigned int oldLevel;
@@ -82,11 +80,6 @@ GrafPortPtr NDAOpen(void)
     
     if (ndaActive)
         return NULL;
-    
-    oldResourceApp = GetCurResourceApp();
-    ResourceStartUp(userId);
-    
-    pathToSelf = LGetPathname2(userId, 1);
     
     levelDCB.pCount = 2;
     GetLevelGS(&levelDCB);
@@ -100,7 +93,7 @@ GrafPortPtr NDAOpen(void)
     prefsDCB.preferences = (prefsDCB.preferences & 0x1fff) | 0x8000;
     SetSysPrefsGS(&prefsDCB);
     
-    resourceId = OpenResourceFile(readEnable, NULL, pathToSelf);
+    oldResourceApp = OpenResourceFileByID(readEnable, userId);
     
     winPtr = NewWindow2("\p ___PACKAGENAME___ ", 0, DrawContents, NULL, 0x02, windowRes, rWindParam1);
     

@@ -15,6 +15,7 @@ cdev:orca:ORCAC Control Panel
 desktop:orca:ORCAC Desktop Application
 shell:gno:ORCAC GNO Shell Command
 nda:orca:ORCAC New Desk Accessory
+nda:orca:ORCAM New Desk Accessory
 shell:orca:ORCAC Shell Command
 shell:orca:ORCAM Shell Command
 EOF

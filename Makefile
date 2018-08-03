@@ -87,6 +87,10 @@ COPYDIRS=
 # commands are called here, if any.  You can generate .c, .s or .h
 # files for example.  You can generate data files.  Whatever you
 # might need.
+#
+# All of your commands associated with a rule _must_ start with a tab
+# character.  Xcode makes it a bit tough to type a tab character by
+# default.  Press option-tab within Xcode to insert a tab character.
 gen:
 
 # For any files you generated in the gen target above, you should
