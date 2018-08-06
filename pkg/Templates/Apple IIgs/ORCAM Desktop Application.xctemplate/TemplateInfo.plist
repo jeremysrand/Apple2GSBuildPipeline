@@ -5,6 +5,7 @@
 	<key>Nodes</key>
 	<array>
 		<string>main.s</string>
+		<string>main.rez</string>
 		<string>Makefile</string>
 		<string>make/config.txt</string>
 		<string>make/createDiskImage</string>
@@ -24,6 +25,11 @@
 		<dict>
 			<key>Path</key>
 			<string>main.s</string>
+		</dict>
+		<key>main.rez</key>
+		<dict>
+			<key>Path</key>
+			<string>main.rez</string>
 		</dict>
 		<key>make/config.txt</key>
 		<dict>
@@ -99,7 +105,7 @@
 		<dict>
 			<key>Path</key>
 			<string>Makefile</string>
-		</dict>
+                </dict>
 		<key>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</key>
 		<dict>
 			<key>Group</key>
@@ -113,7 +119,7 @@
 	<key>Kind</key>
 	<string>Xcode.Xcode3.ProjectTemplateUnitKind</string>
 	<key>Identifier</key>
-	<string>com.halcyontouch.apple2gsOrcaMCDA</string>
+	<string>com.halcyontouch.apple2gsOrcaMDesktopApp</string>
 	<key>Ancestors</key>
 	<array>
 		<string>com.apple.dt.unit.externalBuildSystem</string>
@@ -121,7 +127,7 @@
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-        <string>This template creates an Apple IIgs ORCA/M code project to build a classic desk accessory.  The project starts with a single assembly file which you can modify.  You can also add more assembly or C files as you may like.</string>
+        <string>This template creates an Apple IIgs ORCA/M code project to build desktop application.  The project starts with a single assembly file which you can modify.  You can also add more assembly or C files as you may like.</string>
 	<key>Options</key>
 	<array/>
 	<key>Targets</key>

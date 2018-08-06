@@ -28,7 +28,6 @@
 static BOOLEAN ndaActive;
 static GrafPortPtr winPtr;
 static unsigned int userId;
-static unsigned int resourceId;
 
 
 void NDAClose(void)
@@ -39,7 +38,6 @@ void NDAClose(void)
         ndaActive = FALSE;
     }
     
-    CloseResourceFile(resourceId);
     ResourceShutDown();
 }
 

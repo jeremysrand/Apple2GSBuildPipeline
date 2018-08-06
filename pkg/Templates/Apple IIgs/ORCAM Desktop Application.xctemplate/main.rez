@@ -8,7 +8,32 @@
 
 
 #include "types.rez"
-#include "___FILEBASENAME___.h"
+
+
+#define menuBar 1
+
+#define appleMenu 3
+#define fileMenu 4
+#define editMenu 5
+
+#define editUndo 250
+#define editCut 251
+#define editCopy 252
+#define editPaste 253
+#define editClear 254
+
+#define fileNew 401
+#define fileOpen 402
+#define fileClose 255
+#define fileQuit 256
+
+#define appleAbout 301
+
+#define aboutAlertString 1
+
+#define windowRes 1001
+
+#define toolStartup 1
 
 
 resource rMenuBar (menuBar) {
@@ -180,7 +205,7 @@ resource rAlertString (aboutAlertString) {
     "___PROJECTNAME___\n"
     "  by ___FULLUSERNAME___\n"
     "\n"
-    "Contains libraries from ORCA C,\n"
+    "Contains libraries from ORCA M,\n"
     "Copyright 1991, Byte Works Inc."
     "/^#0\$00";
 };

@@ -11,6 +11,21 @@
 
 windowRes   gequ    1001
 
+eventAction     gequ $0001
+runAction       gequ $0002
+cursorAction    gequ $0003
+undoAction      gequ $0005
+cutAction       gequ $0006
+copyAction      gequ $0007
+pasteAction     gequ $0008
+clearAction     gequ $0009
+
+updateEvt       gequ $0006
+wInControl      gequ $0021
+keyDownEvt      gequ $0003
+autoKeyEvt      gequ $0005
+
+
 main    start
         dc i4'NDAOpen'          ; Open callback
         dc i4'NDAClose'         ; Close callback
@@ -92,7 +107,7 @@ DrawContents entry
         
         ~PenNormal
         ~MoveTo #7,#10
-        ~DrawString #message
+        ~DrawString #messageStr
         
         plb
         
@@ -113,7 +128,6 @@ NDAClose entry
         stz ndaActive
         
 closeNotActive anop
-        ~CloseResourceFile resourceId
         ~ResourceShutdown
         
         plb
@@ -125,27 +139,27 @@ NDAAction entry
         phk
         plb
         
-        cmp #1
+        cmp #eventAction
         bne notEvent
         jsl HandleEvent
         bra actionDone
         
 notEvent anop
-        cmp #2
+        cmp #runAction
         bne notRun
         jsl HandleRun
         bra actionDone
         
 notRun  anop
-        cmp #3
+        cmp #cursorAction
         bne notCursor
         jsl HandleCursor
         bra actionDone
         
 notCursor anop
-        cmp #5
+        cmp #undoAction
         blt notEdit
-        cmp #10
+        cmp #clearAction+1
         bge notEdit
         jsl HandleEdit
         lda #1
@@ -182,17 +196,11 @@ HandleEvent entry
         lda #15             ; Copy 16 bytes
 moveIns mvn 0,0
         
-; Set the wmTaskData field to $1fffff
-        lda #$ffff
-        sta localEvent+20
-        lda #$001f
-        sta localEvent+22
-        
         pha
         ~TaskMasterDA 0,#localEvent
         pla
         
-        cmp #$6
+        cmp #updateEvt
         bne notUpdate
         ~BeginUpdate winPtr
         jsl DrawContents
@@ -200,15 +208,15 @@ moveIns mvn 0,0
         bra eventDone
         
 notUpdate anop
-        cmp #$21
+        cmp #wInControl
         bne notControl
         jsl HandleControl
         bra eventDone
         
 notControl anop
-        cmp #$3
+        cmp #keyDownEvt
         beq isKey
-        cmp #$5
+        cmp #autoKeyEvt
         beq isKey
 
 eventDone anop
@@ -266,9 +274,8 @@ initReturn anop
 ndaActive   dc i2'0'
 winPtr      dc i4'0'
 userId      dc i2'0'
-resourceId  dc i2'0'
 winName     dw ' ___PACKAGENAME___ '
-message     dw 'Hello, world!'
+messageStr  dw 'Hello, world!'
 
 ; Used by NDAOpen to access resources
 oldResApp   dc i2'0'
@@ -283,6 +290,22 @@ prefsDCB    dc i2'1'    ; GSOS control block to get/set preferences
 prefs       dc i2'0'
 
 ; Used by HandleEvent
-localEvent  ds 46
+localEvent          anop
+what                dc i2'0'
+message             dc i4'0'
+when                dc i4'0'
+where_vert          dc i2'0'
+where_horiz         dc i2'0'
+modifiers           dc i2'0'
+wmTaskData          dc i4'0'
+wmTaskMask          dc i4'$001fffff'
+wmLastClickTick     dc i4'0'
+wmClickCount        dc i2'0'
+wmTaskData2         dc i4'0'
+wmTaskData3         dc i4'0'
+wmTaskData4         dc i4'0'
+wmLastClickPt_vert  dc i2'0'
+wmLastClickPt_horiz dc i2'0'
+
 
         end

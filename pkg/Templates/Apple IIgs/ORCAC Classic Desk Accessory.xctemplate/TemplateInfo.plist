@@ -170,6 +170,7 @@
                                 <string>doNotBuild</string>
                                 <key>GCC_PREPROCESSOR_DEFINITIONS</key>
                                 <string>inline(X,Y)=""
+                                        extended=double
                                         pascal=""</string>
                                 <key>HEADER_SEARCH_PATHS</key>
                                 <string>$GOLDEN_GATE/Libraries/ORCACDefs

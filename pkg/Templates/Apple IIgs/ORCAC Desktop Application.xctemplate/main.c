@@ -8,7 +8,8 @@
  */
 
 
-#include <orca.h>
+#include <Memory.h>
+#include <Locator.h>
 #include <Event.h>
 #include <Menu.h>
 #include <QuickDraw.h>
@@ -21,6 +22,7 @@
 
 BOOLEAN done;
 EventRecord myEvent;
+unsigned int userid;
 
 
 void DoAbout(void)
@@ -99,8 +101,12 @@ void InitMenus(void)
 int main(void)
 {
     int event;
+    Ref toolStartupRef;
     
-    startdesk(640);
+    userid = MMStartUp();
+    TLStartUp();
+    toolStartupRef = StartUpTools(userid, refIsResource, toolStartup);
+    
     InitMenus();
     InitCursor();
     
@@ -118,6 +124,9 @@ int main(void)
                 break;
         }
     }
-    enddesk();
+    
+    ShutDownTools(refIsHandle, toolStartupRef);
+    TLShutDown();
+    MMShutDown(userid);
 }
 
