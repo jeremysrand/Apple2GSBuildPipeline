@@ -147,6 +147,9 @@ executeShell: all
 
 %.r:	%.rez
 	$(REZ) $< $(REZFLAGS)
+ifneq ($(RLINT_PATH),)
+	$(ORCA) $(RLINT_PATH) $@
+endif
 
 $(OBJS): Makefile
 

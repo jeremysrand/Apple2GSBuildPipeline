@@ -43,6 +43,13 @@ CFLAGS+=
 # Add any arguments you want passed to the resource compiler to this variable:
 REZFLAGS+=
 
+# Uncomment the following line if you have installed rlint as found here:
+#   https://github.com/ksherlock/rlint/releases
+# Assuming that it is in the path that ORCA searches (the Utilities directory is
+# probably a good choice), you can just leave the value unchanged.  If you have
+# put the rlint somewhere weird, you can set this to the correct path
+# RLINT_PATH=rlint
+
 # Add any arguments you want passed to the macro generator to this variable:
 MACGENFLAGS+=
 
