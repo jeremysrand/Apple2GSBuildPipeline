@@ -51,12 +51,9 @@ ORCAM_PLUGIN_INFO=$(ORCAM_PLUGIN_PATH)/Contents/Info.plist
 XCODE_PLUGIN_COMPATIBILITY=DVTPlugInCompatibilityUUID
 
 
-.PHONY: all gen genclean xcodefix
+.PHONY: all gen genclean
 
 all:
-	@make xcodefix
 	@make gen
 	@make build
 
-xcodefix:
-	defaults write "$(ORCAM_PLUGIN_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)s -array `defaults read "$(XCODE_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)` || true

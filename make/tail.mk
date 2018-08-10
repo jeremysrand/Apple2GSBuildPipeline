@@ -70,11 +70,16 @@ ALL_DEPS=$(C_DEPS) $(ASM_DEPS) $(REZ_DEPS)
 
 EXECCMD=
 
-.PHONY: build execute executeShell executeGUI clean
+.PHONY: build execute executeShell executeGUI clean xcodefix
 
 .PRECIOUS: $(ASM_MACROS)
 
 build: $(BUILDTARGET)
+
+gen: xcodefix
+
+xcodefix:
+	defaults write "$(ORCAM_PLUGIN_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)s -array `defaults read "$(XCODE_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)` || true
 
 clean: genclean
 	$(RM) "$(PGM)" $(BINTARGET)
