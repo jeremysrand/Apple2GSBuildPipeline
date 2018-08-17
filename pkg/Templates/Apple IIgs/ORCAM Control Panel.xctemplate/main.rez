@@ -15,6 +15,20 @@
 #define HELP_RESOURCE 0x101
 
 
+resource rVersion (1) {
+    {
+        0,          /* Major version number in BCD */
+        1,          /* Minor version number in BCD */
+        0,          /* Bug version number in BCD */
+        development,/* Development phase */
+        0           /* Release number */
+    },
+    verUS,
+    "___PROJECTNAME___",
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
+};
+
+
 /* This is the required resource to tell the control panel about the CDev */
 resource rCDEVFlags (CDEV_RESOURCE) {
     0x00C0,     /* This sets the wantCreate and wantAbout bits */
@@ -26,7 +40,7 @@ resource rCDEVFlags (CDEV_RESOURCE) {
     {0, 0, 110, 200},
     "___PROJECTNAME___",
     "___FULLUSERNAME___",
-    "1.0"
+    "0.1"
 };
 
 

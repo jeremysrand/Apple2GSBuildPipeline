@@ -10,6 +10,7 @@ DISKIMAGE=$(PGM).2mg
 BUILDTARGET=$(DISKIMAGE)
 EXECTARGET=executeGUI
 DISKIMAGEDEST=.
+AUXTYPE=
 
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
@@ -17,6 +18,7 @@ ifeq ($(TARGETTYPE),shell)
     BUILDTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
+    AUXTYPE=-a 0x0000db03
 else ifeq ($(TARGETTYPE),cda)
     FILETYPE=cda
     DISKIMAGEDEST=System/Desk.Accs
@@ -107,7 +109,7 @@ ifneq ($(REZ_OBJS),)
 	$(CP) $(REZ_OBJS) $(PGM)
 endif
 	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(PGM)
-	$(CHTYP) -t $(FILETYPE) $(PGM)
+	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(PGM)
 
 else
 
@@ -123,7 +125,7 @@ $(REZ_OBJS): $(BINTARGET)
 $(PGM): $(REZ_OBJS)
 	$(RM) $(PGM)
 	$(CP) $(REZ_OBJS) $(PGM)
-	$(CHTYP) -t $(FILETYPE) $(PGM)
+	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(PGM)
 
 endif
 

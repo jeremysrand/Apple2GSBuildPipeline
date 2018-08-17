@@ -12,12 +12,26 @@
 #include "___FILEBASENAME___.h"
 
 
+resource rVersion (1) {
+    {
+        0,          /* Major version number in BCD */
+        1,          /* Minor version number in BCD */
+        0,          /* Bug version number in BCD */
+        development,/* Development phase */
+        0           /* Release number */
+    },
+    verUS,
+    "___PROJECTNAME___",
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
+};
+
+
 resource rWindParam1 (windowRes) {
     $C0A5,                      /* wFrameBits */
     nil,                        /* wTitle */
     0,                          /* wRefCon */
     {0,0,0,0},                  /* ZoomRect */
-    linedColors,                /* wColor ID */
+    $07FF0001,                  /* wColor ID */
     {0,0},                      /* Origin */
     {0,0},                      /* data size */
     {0,0},                      /* max height-width */
@@ -32,10 +46,3 @@ resource rWindParam1 (windowRes) {
 };
 
 
-resource rWindColor (linedColors) {
-    0x0000,                     /* frameColor */
-    0x0F00,                     /* titleColor */
-    0x020F,                     /* tbarColor */
-    0xF0F0,                     /* growColor */
-    0x00F0,                     /* infoColor */
-};

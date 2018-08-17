@@ -11,6 +11,20 @@
 #include "___FILEBASENAME___.h"
 
 
+resource rVersion (1) {
+    {
+        0,          /* Major version number in BCD */
+        1,          /* Minor version number in BCD */
+        0,          /* Bug version number in BCD */
+        development,/* Development phase */
+        0           /* Release number */
+    },
+    verUS,
+    "___PROJECTNAME___",
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
+};
+
+
 resource rMenuBar (menuBar) {
     {
         appleMenu,
@@ -176,12 +190,19 @@ resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
 
 
 resource rAlertString (aboutAlertString) {
-    "43/"
+    "0"                 /* Custom size */
+    "\$38\$00"          /* Upper Y coordinate at 56 */
+    "\$90\$00"          /* Left X coordinate at 144 */
+    "\$90\$00"          /* Lower Y coorinate at 144 */
+    "\$F0\$01"          /* Right X coordinate at 496 */
+    "3/"
     "___PROJECTNAME___\n"
     "  by ___FULLUSERNAME___\n"
     "\n"
-    "Contains libraries from ORCA C,\n"
-    "Copyright 1991, Byte Works Inc."
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___ Rand\n"
+    "\n"
+    "Contains libraries from ORCAC,\n"
+    "Copyright \$A9 1991, Byte Works Inc."
     "/^#0\$00";
 };
 
@@ -191,7 +212,7 @@ resource rWindParam1 (windowRes) {
     nil,                /* wTitle */
     0,                  /* wRefCon */
     {0, 0, 0, 0},       /* ZoomRect */
-    nil,                /* wColor ID */
+    $07FF0001,          /* wColor ID */
     {0, 0},             /* Origin */
     {1, 1},             /* data size */
     {0, 0},             /* max height-width */
@@ -202,7 +223,7 @@ resource rWindParam1 (windowRes) {
     {30, 10, 183, 602}, /* wposition */
     infront,            /* wPlane */
     nil,                /* wStorage */
-    $0000               /* wInVerb */
+    $0800               /* wInVerb */
 };
 
 

@@ -11,8 +11,6 @@
 #define _GUARD_PROJECT___PROJECTNAMEASIDENTIFIER____FILE___FILEBASENAMEASIDENTIFIER____
 
 
-#define linedColors 1
-
 #define windowRes 1001
 
 
