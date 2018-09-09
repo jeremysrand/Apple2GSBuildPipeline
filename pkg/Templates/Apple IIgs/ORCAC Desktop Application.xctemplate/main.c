@@ -16,28 +16,39 @@
 #include <Window.h>
 #include <Desk.h>
 #include <Resources.h>
+#include <MiscTool.h>
 
 #include "___FILEBASENAME___.h"
 
+
+// Defines and macros
+
+#define TOOLFAIL(string) \
+    if (toolerror()) SysFailMgr(toolerror(), "\p" string "\n\r    Error Code -> $");
+
+
+// Globals
 
 BOOLEAN done;
 EventRecord myEvent;
 unsigned int userid;
 
 
-void DoAbout(void)
+// Implementation
+
+void doAbout(void)
 {
-    AlertWindow(awCString + awResource, NULL, aboutAlertString);
+    AlertWindow(awCString + awResource, NULL, ABOUT_ALERT_STRING);
 }
 
 
-GrafPortPtr NewDocument(void)
+GrafPortPtr newDocument(void)
 {
-    return(NewWindow2("\pMyWindow", 0, NULL, NULL, 0x02, windowRes, rWindParam1));
+    return(NewWindow2("\p MyWindow ", 0, NULL, NULL, 0x02, WINDOW_RESID, rWindParam1));
 }
 
 
-void CloseDocument(GrafPortPtr wPtr)
+void closeDocument(GrafPortPtr wPtr)
 {
     if (wPtr != NULL) {
         CloseWindow(wPtr);
@@ -45,7 +56,7 @@ void CloseDocument(GrafPortPtr wPtr)
 }
 
 
-void HandleMenu(void)
+void handleMenu(void)
 {
     int menuNum;
     int menuItemNum;
@@ -54,47 +65,58 @@ void HandleMenu(void)
     menuItemNum = myEvent.wmTaskData;
     
     switch (menuItemNum) {
-        case appleAbout:
-            DoAbout();
+        case APPLE_ABOUT:
+            doAbout();
             break;
-        case fileNew:
-            NewDocument();
+        case FILE_NEW:
+            newDocument();
             break;
-        case fileOpen:
-            NewDocument();
+        case FILE_OPEN:
+            newDocument();
             break;
-        case fileClose:
-            CloseDocument(FrontWindow());
+        case FILE_CLOSE:
+            closeDocument(FrontWindow());
             break;
-        case fileQuit:
+        case FILE_QUIT:
             done = TRUE;
             break;
-        case editUndo:
+        case EDIT_UNDO:
             break;
-        case editCut:
+        case EDIT_CUT:
             break;
-        case editCopy:
+        case EDIT_COPY:
             break;
-        case editPaste:
+        case EDIT_PASTE:
             break;
-        case editClear:
+        case EDIT_CLEAR:
             break;
     }
     HiliteMenu(FALSE, menuNum);
 }
 
 
-void InitMenus(void)
+void initMenus(void)
 {
     int height;
     MenuBarRecHndl menuBarHand;
     
-    menuBarHand = NewMenuBar2(refIsResource, menuBar, NULL);
+    menuBarHand = NewMenuBar2(refIsResource, MENU_BAR, NULL);
+    TOOLFAIL("Unable to create menu bar");
+    
     SetSysBar(menuBarHand);
+    TOOLFAIL("Unable to set system menu bar");
+    
     SetMenuBar(NULL);
-    FixAppleMenu(appleMenu);
+    TOOLFAIL("Unable to set menu bar");
+    
+    FixAppleMenu(APPLE_MENU);
+    TOOLFAIL("Unable to fix Apple menu");
+    
     height = FixMenuBar();
+    TOOLFAIL("Unable to fix menu bar");
+    
     DrawMenuBar();
+    TOOLFAIL("Unable to draw menu bar");
 }
 
 
@@ -104,29 +126,40 @@ int main(void)
     Ref toolStartupRef;
     
     userid = MMStartUp();
-    TLStartUp();
-    toolStartupRef = StartUpTools(userid, refIsResource, toolStartup);
+    TOOLFAIL("Unable to start memory manager");
     
-    InitMenus();
+    TLStartUp();
+    TOOLFAIL("Unable to start tool locator");
+    
+    toolStartupRef = StartUpTools(userid, refIsResource, TOOL_STARTUP);
+    TOOLFAIL("Unable to start tools");
+    
+    initMenus();
     InitCursor();
     
     done = FALSE;
     myEvent.wmTaskMask = 0x001F7FFF;
     while (!done) {
         event = TaskMaster(everyEvent, &myEvent);
+        TOOLFAIL("Unable to handle next event");
+        
         switch (event) {
             case wInSpecial:
             case wInMenuBar:
-                HandleMenu();
+                handleMenu();
                 break;
             case wInGoAway:
-                CloseDocument((GrafPortPtr)myEvent.wmTaskData);
+                closeDocument((GrafPortPtr)myEvent.wmTaskData);
                 break;
         }
     }
     
     ShutDownTools(refIsHandle, toolStartupRef);
+    TOOLFAIL("Unable to shutdown tools");
+    
     TLShutDown();
+    TOOLFAIL("Unable to shutdown tool locator");
+    
     MMShutDown(userid);
+    TOOLFAIL("Unable to shutdown memory manager");
 }
-

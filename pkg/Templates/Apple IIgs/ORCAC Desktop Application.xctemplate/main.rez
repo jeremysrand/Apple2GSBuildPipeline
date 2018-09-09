@@ -25,171 +25,171 @@ resource rVersion (1) {
 };
 
 
-resource rMenuBar (menuBar) {
+resource rMenuBar (MENU_BAR) {
     {
-        appleMenu,
-        fileMenu,
-        editMenu
+        APPLE_MENU,
+        FILE_MENU,
+        EDIT_MENU
     };
 };
 
 
-resource rMenu (appleMenu) {
-    appleMenu,
+resource rMenu (APPLE_MENU) {
+    APPLE_MENU,
     refIsResource * menuTitleRefShift
     + refIsResource * itemRefShift
     + fAllowCache,
-    appleMenu,
+    APPLE_MENU,
     {
-        appleAbout
+        APPLE_ABOUT
     };
 };
 
 
-resource rMenu (fileMenu) {
-    fileMenu,
+resource rMenu (FILE_MENU) {
+    FILE_MENU,
     refIsResource * menuTitleRefShift
     + refIsResource * itemRefShift
     + fAllowCache,
-    fileMenu,
+    FILE_MENU,
     {
-        fileNew,
-        fileOpen,
-        fileClose,
-        fileQuit
+        FILE_NEW,
+        FILE_OPEN,
+        FILE_CLOSE,
+        FILE_QUIT
     };
 };
 
 
-resource rMenu (editMenu) {
-    editMenu,
+resource rMenu (EDIT_MENU) {
+    EDIT_MENU,
     refIsResource * menuTitleRefShift
     + refIsResource * itemRefShift
     + fAllowCache,
-    editMenu,
+    EDIT_MENU,
     {
-        editUndo,
-        editCut,
-        editCopy,
-        editPaste,
-        editClear
+        EDIT_UNDO,
+        EDIT_CUT,
+        EDIT_COPY,
+        EDIT_PASTE,
+        EDIT_CLEAR
     };
 };
 
 
-resource rMenuItem (editUndo) {
-    editUndo,
+resource rMenuItem (EDIT_UNDO) {
+    EDIT_UNDO,
     "Z", "z",
     0,
     refIsResource * itemTitleRefShift
     + fDivider,
-    editUndo
+    EDIT_UNDO
 };
 
 
-resource rMenuItem (editCut) {
-    editCut,
+resource rMenuItem (EDIT_CUT) {
+    EDIT_CUT,
     "X", "x",
     0,
     refIsResource * itemTitleRefShift,
-    editCut
+    EDIT_CUT
 };
 
 
-resource rMenuItem (editCopy) {
-    editCopy,
+resource rMenuItem (EDIT_COPY) {
+    EDIT_COPY,
     "C", "c",
     0,
     refIsResource * itemTitleRefShift,
-    editCopy
+    EDIT_COPY
 };
 
 
-resource rMenuItem (editPaste) {
-    editPaste,
+resource rMenuItem (EDIT_PASTE) {
+    EDIT_PASTE,
     "V", "v",
     0,
     refIsResource * itemTitleRefShift,
-    editPaste
+    EDIT_PASTE
 };
 
 
-resource rMenuItem (editClear) {
-    editClear,
+resource rMenuItem (EDIT_CLEAR) {
+    EDIT_CLEAR,
     "", "",
     0,
     refIsResource * itemTitleRefShift,
-    editClear
+    EDIT_CLEAR
 };
 
 
-resource rMenuItem (fileNew) {
-    fileNew,
+resource rMenuItem (FILE_NEW) {
+    FILE_NEW,
     "N", "n",
     0,
     refIsResource * itemTitleRefShift,
-    fileNew
+    FILE_NEW
 };
 
 
-resource rMenuItem (fileOpen) {
-    fileOpen,
+resource rMenuItem (FILE_OPEN) {
+    FILE_OPEN,
     "O", "o",
     0,
     refIsResource * itemTitleRefShift
     + fDivider,
-    fileOpen
+    FILE_OPEN
 };
 
 
-resource rMenuItem (fileClose) {
-    fileClose,
+resource rMenuItem (FILE_CLOSE) {
+    FILE_CLOSE,
     "W", "w",
     0,
     refIsResource * itemTitleRefShift
     + fDivider,
-    fileClose
+    FILE_CLOSE
 };
 
 
-resource rMenuItem (fileQuit) {
-    fileQuit,
+resource rMenuItem (FILE_QUIT) {
+    FILE_QUIT,
     "Q", "q",
     0,
     refIsResource * itemTitleRefShift,
-    fileQuit
+    FILE_QUIT
 };
 
 
-resource rMenuItem (appleAbout) {
-    appleAbout,
+resource rMenuItem (APPLE_ABOUT) {
+    APPLE_ABOUT,
     "", "",
     0,
     refIsResource * itemTitleRefShift
     + fDivider,
-    appleAbout
+    APPLE_ABOUT
 };
 
 
-resource rPString (appleMenu, noCrossBank) {"@"};
-resource rPString (fileMenu, noCrossBank) {" File "};
-resource rPString (editMenu, noCrossBank) {" Edit "};
+resource rPString (APPLE_MENU, noCrossBank) {"@"};
+resource rPString (FILE_MENU, noCrossBank) {" File "};
+resource rPString (EDIT_MENU, noCrossBank) {" Edit "};
 
-resource rPString (editUndo, noCrossBank) {"Undo"};
-resource rPString (editCut, noCrossBank) {"Cut"};
-resource rPString (editCopy, noCrossBank) {"Copy"};
-resource rPString (editPaste, noCrossBank) {"Paste"};
-resource rPString (editClear, noCrossBank) {"Clear"};
+resource rPString (EDIT_UNDO, noCrossBank) {"Undo"};
+resource rPString (EDIT_CUT, noCrossBank) {"Cut"};
+resource rPString (EDIT_COPY, noCrossBank) {"Copy"};
+resource rPString (EDIT_PASTE, noCrossBank) {"Paste"};
+resource rPString (EDIT_CLEAR, noCrossBank) {"Clear"};
 
-resource rPString (fileNew, noCrossBank) {"New"};
-resource rPString (fileOpen, noCrossBank) {"Open"};
-resource rPString (fileClose, noCrossBank) {"Close"};
-resource rPString (fileQuit, noCrossBank) {"Quit"};
+resource rPString (FILE_NEW, noCrossBank) {"New"};
+resource rPString (FILE_OPEN, noCrossBank) {"Open"};
+resource rPString (FILE_CLOSE, noCrossBank) {"Close"};
+resource rPString (FILE_QUIT, noCrossBank) {"Quit"};
 
-resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
+resource rPString (APPLE_ABOUT, noCrossBank) {"About ___PROJECTNAME___..."};
 
 
-resource rAlertString (aboutAlertString) {
+resource rAlertString (ABOUT_ALERT_STRING) {
     "0"                 /* Custom size */
     "\$38\$00"          /* Upper Y coordinate at 56 */
     "\$90\$00"          /* Left X coordinate at 144 */
@@ -207,7 +207,7 @@ resource rAlertString (aboutAlertString) {
 };
 
 
-resource rWindParam1 (windowRes) {
+resource rWindParam1 (WINDOW_RESID) {
     $DDA5,              /* wFrameBits */
     nil,                /* wTitle */
     0,                  /* wRefCon */
@@ -227,7 +227,7 @@ resource rWindParam1 (windowRes) {
 };
 
 
-resource rToolStartup (toolStartup) {
+resource rToolStartup (TOOL_STARTUP) {
     mode640,
     {
         3,$0100,        /* Misc Tool */

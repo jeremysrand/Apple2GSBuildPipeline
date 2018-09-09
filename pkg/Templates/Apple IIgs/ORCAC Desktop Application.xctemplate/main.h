@@ -11,30 +11,30 @@
 #define _GUARD_PROJECT___PROJECTNAMEASIDENTIFIER____FILE___FILEBASENAMEASIDENTIFIER____
 
 
-#define menuBar 1
+#define MENU_BAR 1
 
-#define appleMenu 3
-#define fileMenu 4
-#define editMenu 5
+#define APPLE_MENU 3
+#define FILE_MENU 4
+#define EDIT_MENU 5
 
-#define editUndo 250
-#define editCut 251
-#define editCopy 252
-#define editPaste 253
-#define editClear 254
+#define EDIT_UNDO 250
+#define EDIT_CUT 251
+#define EDIT_COPY 252
+#define EDIT_PASTE 253
+#define EDIT_CLEAR 254
 
-#define fileNew 401
-#define fileOpen 402
-#define fileClose 255
-#define fileQuit 256
+#define FILE_NEW 401
+#define FILE_OPEN 402
+#define FILE_CLOSE 255
+#define FILE_QUIT 256
 
-#define appleAbout 301
+#define APPLE_ABOUT 301
 
-#define aboutAlertString 1
+#define ABOUT_ALERT_STRING 1
 
-#define windowRes 1001
+#define WINDOW_RESID 1001
 
-#define toolStartup 1
+#define TOOL_STARTUP 1
 
 
 #endif /* defined(_GUARD_PROJECT___PROJECTNAMEASIDENTIFIER____FILE___FILEBASENAMEASIDENTIFIER____) */
