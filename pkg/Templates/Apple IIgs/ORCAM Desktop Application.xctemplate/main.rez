@@ -35,6 +35,10 @@
 
 #define toolStartup 1
 
+/* By default, thie template builds for 640x200 mode.  To build for
+ * 320x200 change the following value to 320 */
+#define RES_MODE ___VARIABLE_RESOLUTIONMODE___
+
 
 resource rVersion (1) {
     {
@@ -216,15 +220,22 @@ resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
 
 resource rAlertString (aboutAlertString) {
     "0"                 /* Custom size */
+#if RES_MODE == 320
+    "\$38\$00"          /* Upper Y coordinate at 56 */
+    "\$10\$00"          /* Left X coordinate at 16 */
+    "\$90\$00"          /* Lower Y coorinate at 144 */
+    "\$30\$01"          /* Right X coordinate at 304 */
+#else
     "\$38\$00"          /* Upper Y coordinate at 56 */
     "\$90\$00"          /* Left X coordinate at 144 */
     "\$90\$00"          /* Lower Y coorinate at 144 */
     "\$F0\$01"          /* Right X coordinate at 496 */
+#endif
     "3/"
     "___PROJECTNAME___\n"
     "  by ___FULLUSERNAME___\n"
     "\n"
-    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___ Rand\n"
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___\n"
     "\n"
     "Contains libraries from ORCAC,\n"
     "Copyright \$A9 1991, Byte Works Inc."
@@ -245,7 +256,11 @@ resource rWindParam1 (windowRes) {
     {0, 0},             /* page ver horiz */
     0,                  /* winfoRefCon */
     10,                 /* wInfoHeight */
+#if RES_MODE == 320
+    {30, 10, 183, 300}, /* wposition */
+#else
     {30, 10, 183, 602}, /* wposition */
+#endif
     infront,            /* wPlane */
     nil,                /* wStorage */
     $0800               /* wInVerb */
@@ -253,7 +268,11 @@ resource rWindParam1 (windowRes) {
 
 
 resource rToolStartup (toolStartup) {
+#if RES_MODE == 320
+    mode320,
+#else
     mode640,
+#endif
     {
         3,$0100,        /* Misc Tool */
         4,$0100,        /* Quickdraw */

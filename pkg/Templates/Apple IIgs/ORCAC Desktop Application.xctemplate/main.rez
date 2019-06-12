@@ -11,6 +11,7 @@
 #include "___FILEBASENAME___.h"
 
 
+/* Version resource */
 resource rVersion (1) {
     {
         0,          /* Major version number in BCD */
@@ -25,6 +26,7 @@ resource rVersion (1) {
 };
 
 
+/* Menu bars */
 resource rMenuBar (MENU_BAR) {
     {
         APPLE_MENU,
@@ -34,6 +36,7 @@ resource rMenuBar (MENU_BAR) {
 };
 
 
+/* Menus */
 resource rMenu (APPLE_MENU) {
     APPLE_MENU,
     refIsResource * menuTitleRefShift
@@ -44,7 +47,7 @@ resource rMenu (APPLE_MENU) {
         APPLE_ABOUT
     };
 };
-
+resource rPString (APPLE_MENU, noCrossBank) {"@"};
 
 resource rMenu (FILE_MENU) {
     FILE_MENU,
@@ -55,11 +58,15 @@ resource rMenu (FILE_MENU) {
     {
         FILE_NEW,
         FILE_OPEN,
+        FILE_SAVE,
+        FILE_SAVE_AS,
         FILE_CLOSE,
+        FILE_PAGE_SETUP,
+        FILE_PRINT,
         FILE_QUIT
     };
 };
-
+resource rPString (FILE_MENU, noCrossBank) {" File "};
 
 resource rMenu (EDIT_MENU) {
     EDIT_MENU,
@@ -75,8 +82,10 @@ resource rMenu (EDIT_MENU) {
         EDIT_CLEAR
     };
 };
+resource rPString (EDIT_MENU, noCrossBank) {" Edit "};
 
 
+/* Menu items */
 resource rMenuItem (EDIT_UNDO) {
     EDIT_UNDO,
     "Z", "z",
@@ -85,7 +94,7 @@ resource rMenuItem (EDIT_UNDO) {
     + fDivider,
     EDIT_UNDO
 };
-
+resource rPString (EDIT_UNDO, noCrossBank) {"Undo"};
 
 resource rMenuItem (EDIT_CUT) {
     EDIT_CUT,
@@ -94,7 +103,7 @@ resource rMenuItem (EDIT_CUT) {
     refIsResource * itemTitleRefShift,
     EDIT_CUT
 };
-
+resource rPString (EDIT_CUT, noCrossBank) {"Cut"};
 
 resource rMenuItem (EDIT_COPY) {
     EDIT_COPY,
@@ -103,7 +112,7 @@ resource rMenuItem (EDIT_COPY) {
     refIsResource * itemTitleRefShift,
     EDIT_COPY
 };
-
+resource rPString (EDIT_COPY, noCrossBank) {"Copy"};
 
 resource rMenuItem (EDIT_PASTE) {
     EDIT_PASTE,
@@ -112,7 +121,7 @@ resource rMenuItem (EDIT_PASTE) {
     refIsResource * itemTitleRefShift,
     EDIT_PASTE
 };
-
+resource rPString (EDIT_PASTE, noCrossBank) {"Paste"};
 
 resource rMenuItem (EDIT_CLEAR) {
     EDIT_CLEAR,
@@ -121,7 +130,7 @@ resource rMenuItem (EDIT_CLEAR) {
     refIsResource * itemTitleRefShift,
     EDIT_CLEAR
 };
-
+resource rPString (EDIT_CLEAR, noCrossBank) {"Clear"};
 
 resource rMenuItem (FILE_NEW) {
     FILE_NEW,
@@ -130,7 +139,7 @@ resource rMenuItem (FILE_NEW) {
     refIsResource * itemTitleRefShift,
     FILE_NEW
 };
-
+resource rPString (FILE_NEW, noCrossBank) {"New"};
 
 resource rMenuItem (FILE_OPEN) {
     FILE_OPEN,
@@ -140,7 +149,25 @@ resource rMenuItem (FILE_OPEN) {
     + fDivider,
     FILE_OPEN
 };
+resource rPString (FILE_OPEN, noCrossBank) {"Open"};
 
+resource rMenuItem (FILE_SAVE) {
+    FILE_SAVE,
+    "S", "s",
+    0,
+    refIsResource * itemTitleRefShift,
+    FILE_SAVE
+};
+resource rPString (FILE_SAVE, noCrossBank) {"Save"};
+
+resource rMenuItem (FILE_SAVE_AS) {
+    FILE_SAVE_AS,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift,
+    FILE_SAVE_AS
+};
+resource rPString (FILE_SAVE_AS, noCrossBank) {"Save As..."};
 
 resource rMenuItem (FILE_CLOSE) {
     FILE_CLOSE,
@@ -150,7 +177,26 @@ resource rMenuItem (FILE_CLOSE) {
     + fDivider,
     FILE_CLOSE
 };
+resource rPString (FILE_CLOSE, noCrossBank) {"Close"};
 
+resource rMenuItem (FILE_PAGE_SETUP) {
+    FILE_PAGE_SETUP,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift,
+    FILE_PAGE_SETUP
+};
+resource rPString (FILE_PAGE_SETUP, noCrossBank) {"Page Setup..."};
+
+resource rMenuItem (FILE_PRINT) {
+    FILE_PRINT,
+    "P", "p",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    FILE_PRINT
+};
+resource rPString (FILE_PRINT, noCrossBank) {"Print..."};
 
 resource rMenuItem (FILE_QUIT) {
     FILE_QUIT,
@@ -159,7 +205,7 @@ resource rMenuItem (FILE_QUIT) {
     refIsResource * itemTitleRefShift,
     FILE_QUIT
 };
-
+resource rPString (FILE_QUIT, noCrossBank) {"Quit"};
 
 resource rMenuItem (APPLE_ABOUT) {
     APPLE_ABOUT,
@@ -169,84 +215,153 @@ resource rMenuItem (APPLE_ABOUT) {
     + fDivider,
     APPLE_ABOUT
 };
-
-
-resource rPString (APPLE_MENU, noCrossBank) {"@"};
-resource rPString (FILE_MENU, noCrossBank) {" File "};
-resource rPString (EDIT_MENU, noCrossBank) {" Edit "};
-
-resource rPString (EDIT_UNDO, noCrossBank) {"Undo"};
-resource rPString (EDIT_CUT, noCrossBank) {"Cut"};
-resource rPString (EDIT_COPY, noCrossBank) {"Copy"};
-resource rPString (EDIT_PASTE, noCrossBank) {"Paste"};
-resource rPString (EDIT_CLEAR, noCrossBank) {"Clear"};
-
-resource rPString (FILE_NEW, noCrossBank) {"New"};
-resource rPString (FILE_OPEN, noCrossBank) {"Open"};
-resource rPString (FILE_CLOSE, noCrossBank) {"Close"};
-resource rPString (FILE_QUIT, noCrossBank) {"Quit"};
-
 resource rPString (APPLE_ABOUT, noCrossBank) {"About ___PROJECTNAME___..."};
 
 
+/* Error strings */
+resource rCString (TOOL_ERROR_STRING) {"\n\nTool error code = $%04x"};
+resource rCString (NEW_WINDOW_ERROR_STRING) {"Error occurred when creating a new window"};
+resource rCString (MALLOC_ERROR_STRING) {"Out of memory"};
+resource rCString (OPEN_FILE_ERROR_STRING) {"Error opening file"};
+resource rCString (SAVE_FILE_ERROR_STRING) {"Error saving file"};
+resource rCString (PRINT_ERROR_STRING) {"Error printing document"};
+
+
+/* Other strings */
+resource rCString (UNTITLED_STRING) {"  Untitled %d  "};
+resource rPString (OPEN_FILE_STRING, noCrossBank) {"Choose a file to open..."};
+resource rPString (SAVE_FILE_STRING, noCrossBank) {"Save file as..."};
+resource rPString (HELLO_WORLD_STRING, noCrossBank) {"Hello, world!"};
+
+
+/* Alert strings */
 resource rAlertString (ABOUT_ALERT_STRING) {
     "0"                 /* Custom size */
+#if RES_MODE == 320
+    "\$38\$00"          /* Upper Y coordinate at 56 */
+    "\$10\$00"          /* Left X coordinate at 16 */
+    "\$90\$00"          /* Lower Y coorinate at 144 */
+    "\$30\$01"          /* Right X coordinate at 304 */
+#else
     "\$38\$00"          /* Upper Y coordinate at 56 */
     "\$90\$00"          /* Left X coordinate at 144 */
     "\$90\$00"          /* Lower Y coorinate at 144 */
     "\$F0\$01"          /* Right X coordinate at 496 */
+#endif
     "3/"
     "___PROJECTNAME___\n"
     "  by ___FULLUSERNAME___\n"
     "\n"
-    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___ Rand\n"
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___\n"
     "\n"
     "Contains libraries from ORCAC,\n"
     "Copyright \$A9 1991, Byte Works Inc."
     "/^#0\$00";
 };
 
+resource rAlertString (ERROR_ALERT_STRING) {
+    "42/"
+    "*0\n"
+    "*1"
+    "/^#0\$00";
+};
 
+resource rAlertString (SAVE_BEFORE_CLOSING) {
+    "34/"
+    "Save changes to *0 before closing?"
+    "/^#2/#3/#1\$00";
+};
+
+
+/* Windows */
 resource rWindParam1 (WINDOW_RESID) {
-    $DDA5,              /* wFrameBits */
+                        /* wFrameBits */
+    fTitle + fClose + fZoom + fMove + fVis + fAllocated + fHilited,
     nil,                /* wTitle */
     0,                  /* wRefCon */
     {0, 0, 0, 0},       /* ZoomRect */
     $07FF0001,          /* wColor ID */
     {0, 0},             /* Origin */
-    {1, 1},             /* data size */
+    {0, 0},             /* data size */
     {0, 0},             /* max height-width */
     {8, 8},             /* scroll ver hors */
     {0, 0},             /* page ver horiz */
     0,                  /* winfoRefCon */
     10,                 /* wInfoHeight */
+#if RES_MODE == 320
+    {30, 10, 183, 300}, /* wposition */
+#else
     {30, 10, 183, 602}, /* wposition */
+#endif
     infront,            /* wPlane */
-    nil,                /* wStorage */
-    $0800               /* wInVerb */
+    CONTROL_TEXT_EDIT,  /* wStorage */
+    $0802               /* wInVerb */
 };
 
 
+/* Controls */
+resource rControlTemplate (CONTROL_TEXT_EDIT) {
+    CONTROL_TEXT_EDIT,  /* Application defined ID */
+#if RES_MODE == 320
+    {0,0,165,300},      /* Bounding rectangle */
+#else
+    {0,0,165,620},      /* Bounding rectangle */
+#endif
+    editTextControl {
+        {
+            $0000,              /* Flags */
+                                /* More flags */
+            FctlCanBeTarget + FctlWantsEvents + FctlProcNotPtr + FctlTellAboutSize + FctlIsMultiPart,
+            0,                  /* Refcon */
+                                /* Text flags */
+            fSingleFormat + fSmartCutPaste + fGrowRuler + fDrawInactiveSelection,
+            {-1,-1,-1,-1},      /* Indent rectangle */
+            $FFFFFFFF,          /* Vertical bar */
+            0,                  /* Vertical amount */
+            nil,                /* Horizontal bar */
+            0,                  /* Horizontal amount */
+            nil,                /* Style ref */
+                                /* Text descriptor */
+            refIsResource * 8 + dataIsPString,
+            HELLO_WORLD_STRING, /* Text ref */
+            0,                  /* Text length */
+            nil,                /* Maximum chars */
+            nil,                /* Maximum lines */
+            nil,                /* Maximum chars per line */
+            nil,                /* Max height */
+            nil,                /* Color ref */
+            4,                  /* Drawing mode */
+            nil,                /* Filter procedure */
+        }
+    }
+};
+
+
+/* Tools */
 resource rToolStartup (TOOL_STARTUP) {
+#if RES_MODE == 320
+    mode320,
+#else
     mode640,
+#endif
     {
-        3,$0100,        /* Misc Tool */
-        4,$0100,        /* Quickdraw */
-        5,$0100,        /* Desk Manager */
-        6,$0100,        /* Event Manager */
-        11,$0100,       /* Int Math */
-        14,$0300,       /* Window Manager */
-        15,$0300,       /* Menu Manager */
-        16,$0300,       /* Control Manager */
-        18,$0200,       /* QD Aux */
-        19,$0100,       /* Print Manager */
-        20,$0100,       /* LineEdit Tool */
-        21,$0100,       /* Dialog Manager */
-        22,$0100,       /* Scrap Manager */
-        23,$0100,       /* Standard File */
-        27,$0100,       /* Font Manager */
-        28,$0100,       /* List Manager */
-        30,$0100,       /* Resource Manager */
-        34,$0100        /* TextEdit */
+        3,  $0100,      /* Misc Tool */
+        4,  $0100,      /* Quickdraw */
+        5,  $0100,      /* Desk Manager */
+        6,  $0100,      /* Event Manager */
+        11, $0100,      /* Int Math */
+        14, $0300,      /* Window Manager */
+        15, $0300,      /* Menu Manager */
+        16, $0300,      /* Control Manager */
+        18, $0200,      /* QD Aux */
+        19, $0100,      /* Print Manager */
+        20, $0100,      /* LineEdit Tool */
+        21, $0100,      /* Dialog Manager */
+        22, $0100,      /* Scrap Manager */
+        23, $0100,      /* Standard File */
+        27, $0100,      /* Font Manager */
+        28, $0100,      /* List Manager */
+        30, $0100,      /* Resource Manager */
+        34, $0100       /* TextEdit */
     }
 };

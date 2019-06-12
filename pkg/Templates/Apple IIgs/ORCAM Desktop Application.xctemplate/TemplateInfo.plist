@@ -128,8 +128,26 @@
 	<true/>
 	<key>Description</key>
         <string>This template creates an Apple IIgs ORCA/M code project to build desktop application.  The project starts with a single assembly file which you can modify.  You can also add more assembly or C files as you may like.</string>
-	<key>Options</key>
-	<array/>
+        <key>Options</key>
+        <array>
+            <dict>
+                <key>Identifier</key>
+                <string>RESOLUTIONMODE</string>
+                <key>Name</key>
+                <string>Desktop Resolution</string>
+                <key>Description</key>
+                <string>Specify 640 or 320 pixel desktop enviroment.</string>
+                <key>Type</key>
+                <string>popup</string>
+                <key>Default</key>
+                <string>640</string>
+                <key>Values</key>
+                <array>
+                    <string>640</string>
+                    <string>320</string>
+                </array>
+            </dict>
+        </array>
 	<key>Targets</key>
 	<array>
 		<dict>
