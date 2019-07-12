@@ -15,7 +15,7 @@ BASENAME=`echo $FILENAME | sed 's/\.rez$//'`
 DEPSNAME="${BASENAME}.rez.d"
 OBJSNAME="${BASENAME}.r"
 
-$ORCA --trace-gsos compile $* keep="${OBJSNAME}" "$FILENAME" 2> $ERROUTPUT
+$ORCA --trace-gsos compile "$@" keep="${OBJSNAME}" "$FILENAME" 2> $ERROUTPUT
 RESULT=$?
 
 awk '

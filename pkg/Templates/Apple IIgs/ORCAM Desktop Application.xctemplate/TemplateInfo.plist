@@ -136,7 +136,7 @@
                 <key>Name</key>
                 <string>Desktop Resolution</string>
                 <key>Description</key>
-                <string>Specify 640 or 320 pixel desktop enviroment.</string>
+                <string>Specify 640x200 or 320x200 resolution desktop enviroment.</string>
                 <key>Type</key>
                 <string>popup</string>
                 <key>Default</key>

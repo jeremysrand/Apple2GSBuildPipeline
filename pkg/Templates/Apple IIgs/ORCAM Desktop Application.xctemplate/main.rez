@@ -35,10 +35,6 @@
 
 #define toolStartup 1
 
-/* By default, thie template builds for 640x200 mode.  To build for
- * 320x200 change the following value to 320 */
-#define RES_MODE ___VARIABLE_RESOLUTIONMODE___
-
 
 resource rVersion (1) {
     {
@@ -220,7 +216,7 @@ resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
 
 resource rAlertString (aboutAlertString) {
     "0"                 /* Custom size */
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     "\$38\$00"          /* Upper Y coordinate at 56 */
     "\$10\$00"          /* Left X coordinate at 16 */
     "\$90\$00"          /* Lower Y coorinate at 144 */
@@ -256,7 +252,7 @@ resource rWindParam1 (windowRes) {
     {0, 0},             /* page ver horiz */
     0,                  /* winfoRefCon */
     10,                 /* wInfoHeight */
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     {30, 10, 183, 300}, /* wposition */
 #else
     {30, 10, 183, 602}, /* wposition */
@@ -268,7 +264,7 @@ resource rWindParam1 (windowRes) {
 
 
 resource rToolStartup (toolStartup) {
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     mode320,
 #else
     mode640,

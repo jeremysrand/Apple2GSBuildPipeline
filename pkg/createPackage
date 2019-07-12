@@ -9,28 +9,42 @@ cp -R pkg/Plug-ins $TMPDIR
 
 PROJECTS=/tmp/projects.$$
 cat > $PROJECTS << EOF
-cda:orca:ORCAC Classic Desk Accessory
-cda:orca:ORCAM Classic Desk Accessory
-cdev:orca:ORCAC Control Panel
-cdev:orca:ORCAM Control Panel
-desktop:orca:ORCAC Desktop Application
-desktop:orca:ORCAM Desktop Application
-shell:gno:ORCAC GNO Shell Command
-nda:orca:ORCAC New Desk Accessory
-nda:orca:ORCAM New Desk Accessory
-shell:orca:ORCAC Shell Command
-shell:orca:ORCAM Shell Command
+cda:orca:ORCAC Classic Desk Accessory:0:0
+cda:orca:ORCAM Classic Desk Accessory:0:0
+cdev:orca:ORCAC Control Panel:0:0
+cdev:orca:ORCAM Control Panel:0:0
+desktop:orca:ORCAC Desktop Application:1:1
+desktop:orca:ORCAM Desktop Application:1:0
+shell:gno:ORCAC GNO Shell Command:0:0
+nda:orca:ORCAC New Desk Accessory:0:0
+nda:orca:ORCAM New Desk Accessory:0:0
+shell:orca:ORCAC Shell Command:0:0
+shell:orca:ORCAM Shell Command:0:0
 EOF
 
 while read PROJECT
 do
-    PROJECTTYPE=`echo $PROJECT | awk -F: '{print $1}'`
-    SHELLTYPE=`echo $PROJECT | awk -F: '{print $2}'`
-    PROJECTNAME=`echo $PROJECT | awk -F: '{print $3}'`
+    PROJECT_TYPE=`echo $PROJECT | awk -F: '{print $1}'`
+    SHELL_TYPE=`echo $PROJECT | awk -F: '{print $2}'`
+    PROJECT_NAME=`echo $PROJECT | awk -F: '{print $3}'`
+    SUPPORTS_RES_MODE=`echo $PROJECT | awk -F: '{print $4}'`
+    SUPPORTS_MESSAGE_CENTER=`echo $PROJECT | awk -F: '{print $5}'`
+
     sed "
-        /^# TARGETTYPE=${PROJECTTYPE}/s/^# //
-        /^# export ORCA=.*\/${SHELLTYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECTNAME}.xctemplate/Makefile"
-    cp -R make "${TMPDIR}/Templates/Apple IIgs/${PROJECTNAME}.xctemplate/"
+        /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //
+        /^# export ORCA=.*\/${SHELL_TYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+
+    if [ "$SUPPORTS_RES_MODE" -eq 1 ]
+    then
+	sed -i "" 's/^# DESKTOP_RES_MODE=.*$/DESKTOP_RES_MODE=___VARIABLE_RESOLUTIONMODE___/' "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+    fi
+
+    if [ "$SUPPORTS_MESSAGE_CENTER" -eq 1 ]
+    then
+	sed -i "" 's/^# MESSAGE_CENTER=.*$/MESSAGE_CENTER=___VARIABLE_MESSAGECENTER___/' "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+    fi
+
+    cp -R make "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/"
 done < $PROJECTS
 
 rm -f $PROJECTS

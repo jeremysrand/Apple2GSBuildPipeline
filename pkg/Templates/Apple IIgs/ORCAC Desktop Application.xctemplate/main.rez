@@ -25,6 +25,38 @@ resource rVersion (1) {
     "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
 };
 
+#if MESSAGE_CENTER == 1
+/* Bunde resource */
+resource rBundle (1, preload, nospecialmemory) {
+    nil,                           /* rIcon ID for application if you wish a custom icon */
+    1,
+    {
+        {
+            native + LaunchThis,
+            {0},                     /* rFinderPath ID for this document */
+            {nil},                   /* rIcon ID for large icon for document */
+            {nil},                   /* rIcon ID for small icon for document */
+            "",                      /* String to describe this type of document */
+        },
+        Filetype + AuxType,                  /* Match field bits */
+        MatchFileType {{$04}},      /* File type to match */
+        MatchAuxType {              /* Auxiliary file type to match */
+            {$00000000,$00000000}
+        },
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {},
+        empty {}
+    }
+};
+#endif
+
 
 /* Menu bars */
 resource rMenuBar (MENU_BAR) {
@@ -237,7 +269,7 @@ resource rPString (HELLO_WORLD_STRING, noCrossBank) {"Hello, world!"};
 /* Alert strings */
 resource rAlertString (ABOUT_ALERT_STRING) {
     "0"                 /* Custom size */
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     "\$38\$00"          /* Upper Y coordinate at 56 */
     "\$10\$00"          /* Left X coordinate at 16 */
     "\$90\$00"          /* Lower Y coorinate at 144 */
@@ -288,7 +320,7 @@ resource rWindParam1 (WINDOW_RESID) {
     {0, 0},             /* page ver horiz */
     0,                  /* winfoRefCon */
     10,                 /* wInfoHeight */
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     {30, 10, 183, 300}, /* wposition */
 #else
     {30, 10, 183, 602}, /* wposition */
@@ -302,7 +334,7 @@ resource rWindParam1 (WINDOW_RESID) {
 /* Controls */
 resource rControlTemplate (CONTROL_TEXT_EDIT) {
     CONTROL_TEXT_EDIT,  /* Application defined ID */
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     {0,0,165,300},      /* Bounding rectangle */
 #else
     {0,0,165,620},      /* Bounding rectangle */
@@ -339,7 +371,7 @@ resource rControlTemplate (CONTROL_TEXT_EDIT) {
 
 /* Tools */
 resource rToolStartup (TOOL_STARTUP) {
-#if RES_MODE == 320
+#if DESKTOP_RES_MODE == 320
     mode320,
 #else
     mode640,

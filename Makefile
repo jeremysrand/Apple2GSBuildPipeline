@@ -90,6 +90,19 @@ COPYDIRS=
 # If you have it in a different location, specify that here.
 # GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
 
+# For a desktop application, it can operate in 640x200 or 320x200
+# resolution.  This setting is used to define which horizontal
+# resolution you want to use for a desktop application.  Other
+# target types ignore this value.
+# DESKTOP_RES_MODE=640
+
+# For a desktop application, it can support opening and printing
+# files based on paths sent to it by the message center.  This
+# option controls if that is or is not supported in the
+# application (note: only the C desktop template supports message
+# center today)
+# MESSAGE_CENTER=0
+
 # Add any rules you want to execute before any compiles or assembly
 # commands are called here, if any.  You can generate .c, .s or .h
 # files for example.  You can generate data files.  Whatever you

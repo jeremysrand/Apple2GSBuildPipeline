@@ -8,6 +8,7 @@
  */
 
 
+
 #include <Memory.h>
 #include <Locator.h>
 #include <Event.h>
@@ -49,7 +50,6 @@ typedef struct tDocument
     GrafPortPtr wPtr;
     char documentName[MAX_DOCUMENT_NAME + 1];
     BOOLEAN isOnDisk;
-    ResultBuf255Hndl fileName;
     ResultBuf255Hndl pathName;
     PrRecHndl printRecordHandle;
 } tDocument;
@@ -80,7 +80,7 @@ const char * resourceString(int resourceId, const char * defaultValue)
         HLock(handle);
         result = (const char *) (*handle);
     }
-    return(result);
+    return result;
 }
 
 
@@ -136,21 +136,69 @@ void drawContents(void)
 const char * getUntitledName(void)
 {
     static int untitledNum = 1;
-    static char buffer[MAX_DOCUMENT_NAME];
+    static char buffer[MAX_DOCUMENT_NAME + 1];
     const char *untitledFormat = resourceString(UNTITLED_STRING, "  Untitled %d  ");
     
-    sprintf(buffer, untitledFormat, untitledNum);
+    sprintf(buffer + 1, untitledFormat, untitledNum);
+    buffer[0] = strlen(buffer + 1);
+    
     freeResourceString(UNTITLED_STRING);
     untitledNum++;
     
-    return(buffer);
+    // Returns a Pascal string with a length byte prefix
+    return buffer;
+}
+
+
+const char * documentNameFromGSOSString(ResultBuf255Ptr gsosString)
+{
+    static char buffer[MAX_DOCUMENT_NAME + 1];
+    int nameLen = gsosString->bufString.length;
+    
+    strcpy(buffer + 1, "  ");
+    nameLen = gsosString->bufString.length;
+    if (nameLen > MAX_DOCUMENT_NAME - 5)
+        nameLen = MAX_DOCUMENT_NAME - 5;
+    strncat(buffer + 1, gsosString->bufString.text, nameLen);
+    strcat(buffer + 1, "  ");
+    buffer[0] = strlen(buffer + 1);
+    
+    return buffer;
+}
+
+
+const char * documentNameFromPath(wStringPtr pathString)
+{
+    static char buffer[MAX_DOCUMENT_NAME + 1];
+    int nameLen = pathString->length;
+    char * path = pathString->text;
+    int lastSeparator = 0;
+    int offset;
+    
+    for (offset = 0; offset < nameLen; offset++) {
+        if ((path[offset] == ':') ||
+            (path[offset] == '/'))
+            lastSeparator = offset + 1;
+    }
+    
+    path = &(path[lastSeparator]);
+    nameLen -= lastSeparator;
+    
+    strcpy(buffer + 1, "  ");
+    if (nameLen > MAX_DOCUMENT_NAME - 5)
+        nameLen = MAX_DOCUMENT_NAME - 5;
+    strncat(buffer + 1, path, nameLen);
+    strcat(buffer + 1, "  ");
+    buffer[0] = strlen(buffer + 1);
+    
+    return buffer;
 }
 
 
 tDocument * newDocument(const char * windowName)
 {
+    // windowName is a Pascal string with a length byte prefix
     tDocument * documentPtr;
-    int titleLength;
     
     documentPtr = malloc(sizeof(tDocument));
     if (documentPtr == NULL) {
@@ -161,20 +209,15 @@ tDocument * newDocument(const char * windowName)
     if (toolerror() != 0) {
         showErrorAlert(MALLOC_ERROR_STRING, toolerror());
         free(documentPtr);
-        return(NULL);
+        return NULL;
     }
     PrDefault(documentPtr->printRecordHandle);
     
     documentPtr->isOnDisk = FALSE;
-    documentPtr->fileName = NULL;
     documentPtr->pathName = NULL;
     
-    titleLength = strlen(windowName);
-    if (titleLength > MAX_DOCUMENT_NAME) {
-        titleLength = MAX_DOCUMENT_NAME;
-    }
-    documentPtr->documentName[0] = titleLength;
-    strncpy(&(documentPtr->documentName[1]), windowName, titleLength);
+    documentPtr->documentName[0] = windowName[0];
+    strncpy(documentPtr->documentName + 1, windowName + 1, windowName[0]);
     
     documentPtr->wPtr = NewWindow2(documentPtr->documentName, 0, drawContents, NULL, refIsResource,
                             WINDOW_RESID, rWindParam1);
@@ -182,7 +225,7 @@ tDocument * newDocument(const char * windowName)
         showErrorAlert(NEW_WINDOW_ERROR_STRING, toolerror());
         DisposeHandle((Handle)documentPtr->printRecordHandle);
         free(documentPtr);
-        return(NULL);
+        return NULL;
     }
     
     documentPtr->nextDocument = documentList;
@@ -192,7 +235,7 @@ tDocument * newDocument(const char * windowName)
     
     documentList = documentPtr;
     
-    return(documentPtr);
+    return documentPtr;
 }
 
 
@@ -418,11 +461,7 @@ void closeDocument(GrafPortPtr wPtr)
     
     if (documentPtr == NULL)
         return;
-
-    if (documentPtr->fileName != NULL) {
-        DisposeHandle((Handle) documentPtr->fileName);
-        documentPtr->fileName = NULL;
-    }
+    
     if (documentPtr->pathName != NULL) {
         DisposeHandle((Handle) documentPtr->pathName);
         documentPtr->pathName = NULL;
@@ -501,11 +540,8 @@ void doFileOpen(void)
 {
     tDocument * documentPtr;
     SFTypeList2 fileTypes;
-    Handle nameHandle;
-    ResultBuf255Ptr namePtr;
-    int nameLen;
-    char documentName[MAX_DOCUMENT_NAME];
     SFReplyRec2 reply;
+    ResultBuf255Hndl nameHandle;
     
     /* By default, we want to open text files only which is what
        the following fileTypes request.  Customize as necessary. */
@@ -523,22 +559,14 @@ void doFileOpen(void)
     }
     
     if (reply.good) {
-        nameHandle = (Handle) reply.nameRef;
-        HLock(nameHandle);
-        namePtr = (ResultBuf255Ptr) (*nameHandle);
-        strcpy(documentName, "  ");
-        nameLen = namePtr->bufString.length;
-        if (nameLen > MAX_DOCUMENT_NAME - 5)
-            nameLen = MAX_DOCUMENT_NAME - 5;
-        strncat(documentName, namePtr->bufString.text, nameLen);
-        strcat(documentName, "  ");
-        HUnlock(nameHandle);
-        documentPtr = newDocument(documentName);
+        nameHandle = (ResultBuf255Hndl) reply.nameRef;
+        HLock((Handle) nameHandle);
+        documentPtr = newDocument(documentNameFromGSOSString(*nameHandle));
+        DisposeHandle((Handle) nameHandle);
+        
         if (documentPtr == NULL) {
-            DisposeHandle((Handle) reply.nameRef);
             DisposeHandle((Handle) reply.pathRef);
         } else {
-            documentPtr->fileName = (ResultBuf255Hndl) reply.nameRef;
             documentPtr->pathName = (ResultBuf255Hndl) reply.pathRef;
             documentPtr->isOnDisk = loadDocument(documentPtr);
             
@@ -551,10 +579,9 @@ void doFileOpen(void)
 
 void doFileSaveAs(void)
 {
-    Handle nameHandle;
-    ResultBuf255Ptr namePtr;
-    int nameLen;
+    ResultBuf255Hndl nameHandle;
     SFReplyRec2 reply;
+    const char * documentName;
     tDocument * documentPtr = findDocumentFromWindow(FrontWindow());
     
     if (documentPtr == NULL)
@@ -563,9 +590,9 @@ void doFileSaveAs(void)
     reply.nameRefDesc = refIsNewHandle;
     reply.pathRefDesc = refIsNewHandle;
     
-    if (documentPtr->fileName == NULL)
+    if (documentPtr->pathName == NULL)
         SFPutFile2(30, 30, refIsResource, SAVE_FILE_STRING, refIsPointer,
-                   (Ref) &(documentPtr->fileName), &reply);
+                   (Ref) &(documentPtr->pathName), &reply);
     else
         SFPutFile2(30, 30, refIsResource, SAVE_FILE_STRING, refIsPointer,
                    (Ref) &((*(documentPtr->pathName))->bufString), &reply);
@@ -576,20 +603,15 @@ void doFileSaveAs(void)
     }
     
     if (reply.good) {
-        nameHandle = (Handle) reply.nameRef;
-        HLock(nameHandle);
-        namePtr = (ResultBuf255Ptr) (*nameHandle);
-        strcpy(documentPtr->documentName, "   ");
-        nameLen = namePtr->bufString.length;
-        if (nameLen > MAX_DOCUMENT_NAME - 6)
-            nameLen = MAX_DOCUMENT_NAME - 6;
-        strncat(documentPtr->documentName, namePtr->bufString.text, nameLen);
-        strcat(documentPtr->documentName, "  ");
-        documentPtr->documentName[0] = strlen(documentPtr->documentName) - 1;
-        HUnlock(nameHandle);
+        nameHandle = (ResultBuf255Hndl) reply.nameRef;
+        HLock((Handle) nameHandle);
+        documentName = documentNameFromGSOSString(*nameHandle);
+        documentPtr->documentName[0] = documentName[0];
+        strncpy(documentPtr->documentName + 1, documentName + 1, documentName[0]);
+        DisposeHandle((Handle) nameHandle);
+        
         SetWTitle(documentPtr->documentName, documentPtr->wPtr);
         
-        documentPtr->fileName = (ResultBuf255Hndl) reply.nameRef;
         documentPtr->pathName = (ResultBuf255Hndl) reply.pathRef;
         documentPtr->isOnDisk = TRUE;
         saveDocument(documentPtr);
@@ -788,6 +810,76 @@ void dimMenus(void)
 }
 
 
+void handleMessages(void)
+{
+#if MESSAGE_CENTER == 1
+    Handle msgHandle;
+    MessageRecGSPtr msgPtr;
+    wStringPtr pathPtr;
+    tDocument * documentPtr;
+    ResultBuf255Ptr resultBufPtr;
+    
+    msgHandle = NewHandle(1, userid, 0, NULL);
+    if (toolerror() != 0) {
+        showErrorAlert(MALLOC_ERROR_STRING, toolerror());
+        return;
+    }
+    
+    MessageCenter(getMessage, fileInfoTypeGS, msgHandle);
+    if (toolerror() != 0) {
+        DisposeHandle(msgHandle);
+        return;
+    }
+    
+    MessageCenter(deleteMessage, fileInfoTypeGS, msgHandle);
+    HLock(msgHandle);
+    msgPtr = (MessageRecGSPtr)(*msgHandle);
+    
+    for (pathPtr = msgPtr->fileNames;
+         pathPtr->length != 0;
+         pathPtr = (wStringPtr)(pathPtr->text + pathPtr->length))
+    {
+        documentPtr = newDocument(documentNameFromPath(pathPtr));
+        if (documentPtr == NULL)
+            continue;
+        
+        documentPtr->pathName = (ResultBuf255Hndl)NewHandle(pathPtr->length + 4, userid, 0, NULL);
+        if (toolerror() != 0)
+        {
+            showErrorAlert(MALLOC_ERROR_STRING, toolerror());
+            closeDocument(documentPtr->wPtr);
+            continue;
+        }
+        HLock((Handle) documentPtr->pathName);
+        resultBufPtr = *(documentPtr->pathName);
+        resultBufPtr->bufSize = pathPtr->length + 4;
+        resultBufPtr->bufString.length = pathPtr->length;
+        memcpy(resultBufPtr->bufString.text, pathPtr->text, pathPtr->length);
+        HUnlock((Handle) documentPtr->pathName);
+        
+        documentPtr->isOnDisk = loadDocument(documentPtr);
+        
+        if (!documentPtr->isOnDisk)
+        {
+            closeDocument(documentPtr->wPtr);
+            continue;
+        }
+        
+        if (msgPtr->printFlag)
+        {
+            doFilePrint();
+            closeDocument(documentPtr->wPtr);
+        }
+    }
+    
+    if (msgPtr->printFlag)
+        doFileQuit();
+    
+    DisposeHandle(msgHandle);
+#endif
+}
+
+
 void initMenus(void)
 {
     int height;
@@ -839,7 +931,10 @@ int main(void)
     initMenus();
     InitCursor();
     
+    handleMessages();
+    
     while (!shouldQuit) {
+        HandleDiskInsert(hdiScan | hdiHandle, 0);
         dimMenus();
         event = TaskMaster(everyEvent, &myEvent);
         TOOLFAIL("Unable to handle next event");

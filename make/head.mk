@@ -36,6 +36,9 @@ CHTYP=$(ORCA) chtyp
 RM=rm -f
 CP=cp
 
+DESKTOP_RES_MODE=640
+MESSAGE_CENTER=0
+
 GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
 GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
 

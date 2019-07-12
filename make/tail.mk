@@ -18,7 +18,14 @@ ifeq ($(TARGETTYPE),shell)
     BUILDTARGET=$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
-    AUXTYPE=-a 0x0000db03
+    ifeq ($(MESSAGE_CENTER),1)
+        AUXTYPE=-a 0x0000db07
+    else
+        AUXTYPE=-a 0x0000db03
+    endif
+    CFLAGS+=-dMESSAGE_CENTER=$(MESSAGE_CENTER)
+    REZFLAGS+=rez='-d DESKTOP_RES_MODE=$(DESKTOP_RES_MODE)'
+    REZFLAGS+=rez='-d MESSAGE_CENTER=$(MESSAGE_CENTER)'
 else ifeq ($(TARGETTYPE),cda)
     FILETYPE=cda
     DISKIMAGEDEST=System/Desk.Accs

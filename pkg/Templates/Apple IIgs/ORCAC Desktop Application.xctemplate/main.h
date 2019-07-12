@@ -74,9 +74,4 @@
 #define TOOL_STARTUP 1
 
 
-/* By default, thie template builds for 640x200 mode.  To build for
- * 320x200 change the following value to 320 */
-#define RES_MODE ___VARIABLE_RESOLUTIONMODE___
-
-
 #endif /* defined(_GUARD_PROJECT___PROJECTNAMEASIDENTIFIER____FILE___FILEBASENAMEASIDENTIFIER____) */

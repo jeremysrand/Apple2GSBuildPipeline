@@ -142,7 +142,7 @@
                 <key>Name</key>
                 <string>Desktop Resolution</string>
                 <key>Description</key>
-                <string>Specify 640 or 320 pixel desktop enviroment.</string>
+                <string>Specify 640x200 or 320x200 resolution desktop enviroment.</string>
                 <key>Type</key>
                 <string>popup</string>
                 <key>Default</key>
@@ -152,6 +152,18 @@
                     <string>640</string>
                     <string>320</string>
                 </array>
+            </dict>
+            <dict>
+                <key>Identifier</key>
+                <string>MESSAGECENTER</string>
+                <key>Name</key>
+                <string>Message Center</string>
+                <key>Description</key>
+                <string>Specify whether the application will support opening and printing files.</string>
+                <key>Type</key>
+                <string>checkbox</string>
+                <key>Default</key>
+                <string>0</string>
             </dict>
         </array>
 	<key>Targets</key>
