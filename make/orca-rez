@@ -5,17 +5,22 @@ ERROUTPUT=/tmp/orca-rez-err.$$
 FILENAME="$1"
 shift
 
+DESTBASENAME="$1"
+shift
+
 if echo $FILENAME | grep -v '\.rez$' > /dev/null
 then
     echo Expected first argument to be a *.rez file but got $FILENAME
     exit 1
 fi
 
-BASENAME=`echo $FILENAME | sed 's/\.rez$//'`
-DEPSNAME="${BASENAME}.rez.d"
-OBJSNAME="${BASENAME}.r"
+SRCBASENAME=`echo $FILENAME | sed 's/\.rez$//'`
+SRCOBJNAME="${SRCBASENAME}.r"
 
-$ORCA --trace-gsos compile "$@" keep="${OBJSNAME}" "$FILENAME" 2> $ERROUTPUT
+DESTDEPSNAME="${DESTBASENAME}.rez.d"
+DESTOBJNAME="${DESTBASENAME}.r"
+
+$ORCA --trace-gsos compile "$@" keep="${SRCOBJNAME}" "$FILENAME" 2> $ERROUTPUT
 RESULT=$?
 
 awk '
@@ -38,9 +43,12 @@ awk '
 if [ "$RESULT" -ne 0 ]
 then
     rm -f $ERROUTPUT
-    rm -f $OBJSNAME
+    rm -f $SRCOBJNAME
     exit $RESULT
 fi
+
+mkdir -p `dirname "$DESTOBJNAME"`
+mv -f "$SRCOBJNAME" "$DESTOBJNAME" 2> /dev/null
 
 DEPS=`awk '
     /^FastFileLoad/ {
@@ -54,7 +62,7 @@ DEPS=`awk '
         fi
     done`
 
-echo $OBJSNAME: $DEPS > $DEPSNAME
+echo $DESTOBJNAME: $DEPS > $DESTDEPSNAME
 rm -f $ERROUTPUT
 
 exit 0

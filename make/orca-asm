@@ -1,18 +1,77 @@
 #!/bin/bash
 
+TMPFILE=/tmp/orca-macgen.$$
+
 FILENAME="$1"
+shift
+
+DESTBASENAME="$1"
 shift
 
 if echo $FILENAME | grep -v '\.s$' > /dev/null
 then
-    echo Expected first argument to be a *.s file but got $FILENAME
+    echo Expected second argument to be a *.s file but got $FILENAME
     exit 1
 fi
+
+SRCBASENAME=`echo $FILENAME | sed 's/\.s$//'`
+SRCMACROSNAME="${SRCBASENAME}.macros"
+SRCROOTNAME="${SRCBASENAME}.ROOT"
+SRCOBJNAME="${SRCBASENAME}.a"
+
+DESTMACROSNAME="${DESTBASENAME}.macros"
+DESTDEPSNAME="${DESTBASENAME}.macros.d"
+DESTROOTNAME="${DESTBASENAME}.ROOT"
+DESTOBJNAME="${DESTBASENAME}.a"
+
+$ORCA --trace-gsos macgen $MACGENFLAGS "$FILENAME" "$SRCMACROSNAME" $MACGENMACROS < /dev/null 2> $TMPFILE
+RESULT=$?
+
+sed '/^[A-Za-z][A-Za-z]*(.*)$/d' $TMPFILE >&2
+
+if [ "$RESULT" -ne 0 ]
+then
+    rm -f "$TMPFILE"
+    rm -f "$SRCMACROSNAME"
+    exit $RESULT
+fi
+
+DEPS=`awk '
+    /^FastFileLoad/ {
+        sub(/^FastFileLoad\(/, "");
+        sub(/\)$/, "");
+        print}' $TMPFILE | sort -u | while read FILE
+    do
+        if [ -f "$FILE" ]
+        then
+            echo $FILE
+        fi
+    done | tr '\012' ' '`
+
+rm -f $TMPFILE
 
 DIRNAME=`dirname $FILENAME`
 BASENAME=`basename $FILENAME .s`
 
-cd "$DIRNAME"
+pushd "$DIRNAME" > /dev/null
 $ORCA assemble $* keep="${BASENAME}" "${BASENAME}.s"
 RESULT=$?
-exit $RESULT
+popd > /dev/null
+
+if [ "$RESULT" -ne 0 ]
+then
+    rm -f "$SRCROOTNAME"
+    rm -f "$SRCMACROSNAME"
+    rm -f "$SRCOBJNAME"
+fi
+
+mkdir -p `dirname "$DESTROOTNAME"`
+mv -f "$SRCROOTNAME" "$DESTROOTNAME" 2> /dev/null
+mv -f "$SRCMACROSNAME" "$DESTMACROSNAME" 2> /dev/null
+mv -f "$SRCOBJNAME" "$DESTOBJNAME" 2> /dev/null
+
+cat > $DESTDEPSNAME << EOF
+$DESTROOTNAME: $DEPS
+EOF
+
+exit 0

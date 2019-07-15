@@ -65,6 +65,18 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "TARGET_BUILD_DIR=$TARGET_BUILD_DIR"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "DERIVED_SOURCES_DIR=$DERIVED_SOURCES_DIR"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "OBJECT_FILE_DIR=$OBJECT_FILE_DIR"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "execute"
             isEnabled = "YES">
          </CommandLineArgument>

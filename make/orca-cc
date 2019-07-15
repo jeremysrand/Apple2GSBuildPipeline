@@ -6,6 +6,9 @@ ERROUTPUT=/tmp/orca-cc-errs.$$
 FILENAME="$1"
 shift
 
+DESTBASENAME="$1"
+shift
+
 if echo $FILENAME | grep -v '\.c$' > /dev/null
 then
     echo Expected first argument to be a *.c file but got $FILENAME
@@ -24,12 +27,15 @@ do
     fi
 done
 
-BASENAME=`echo $FILENAME | sed 's/\.c$//'`
-DEPSNAME="${BASENAME}.d"
-OBJSNAME="${BASENAME}.a"
-ROOTNAME="${BASENAME}.root"
+SRCBASENAME=`echo "$FILENAME" | sed 's/\.c$//'`
+SRCOBJNAME="${SRCBASENAME}.a"
+SRCROOTNAME="${SRCBASENAME}.root"
 
-$ORCA --trace-gsos compile $COMPILEARGS "$FILENAME" keep="${BASENAME}" $CCARGS > $STDOUTPUT 2> $ERROUTPUT
+DESTDEPSNAME="${DESTBASENAME}.d"
+DESTOBJNAME="${DESTBASENAME}.a"
+DESTROOTNAME="${DESTBASENAME}.root"
+
+$ORCA --trace-gsos compile $COMPILEARGS "$FILENAME" keep="${SRCBASENAME}" $CCARGS > $STDOUTPUT 2> $ERROUTPUT
 RESULT=$?
 
 awk '
@@ -54,10 +60,14 @@ if [ "$RESULT" -ne 0 ]
 then
     rm -f $ERROUTPUT
     rm -f $STDOUTPUT
-    rm -f $OBJSNAME
-    rm -f $ROOTNAME
+    rm -f $SRCOBJNAME
+    rm -f $SRCROOTNAME
     exit $RESULT
 fi
+
+mkdir -p `dirname "$DESTOBJNAME"`
+mv -f "$SRCOBJNAME" "$DESTOBJNAME" 2> /dev/null
+mv -f "$SRCROOTNAME" "$DESTROOTNAME" 2> /dev/null
 
 DEPS=`awk '
     /^FastFileLoad/ {
@@ -76,10 +86,10 @@ rm -f $STDOUTPUT
 
 # We add a dependency for both the .o and the .root file.  If this is the
 # main.c file being compiled, we need the dependency on the .root file.
-cat > $DEPSNAME << EOF
-$OBJSNAME: $DEPS
+cat > $DESTDEPSNAME << EOF
+$DESTOBJNAME: $DEPS
 
-$ROOTNAME: $DEPS
+$DESTROOTNAME: $DEPS
 EOF
 
 exit 0

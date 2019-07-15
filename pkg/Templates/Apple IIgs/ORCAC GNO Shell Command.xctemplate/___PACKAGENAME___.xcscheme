@@ -57,7 +57,7 @@
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "$PROJECT_DIR/___PACKAGENAME___/___PACKAGENAME___"
+            argument = "$TARGET_BUILD_DIR/___PACKAGENAME___"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

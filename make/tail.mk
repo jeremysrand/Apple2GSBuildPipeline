@@ -6,7 +6,7 @@ export PATH := $(PATH):$(ORCA_BIN)
 
 CWD=$(shell pwd)
 
-DISKIMAGE=$(PGM).2mg
+DISKIMAGE=$(TARGETDIR)/$(PGM).2mg
 BUILDTARGET=$(DISKIMAGE)
 EXECTARGET=executeGUI
 DISKIMAGEDEST=.
@@ -15,7 +15,7 @@ AUXTYPE=
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
     EXECTARGET=executeShell
-    BUILDTARGET=$(PGM)
+    BUILDTARGET=$(TARGETDIR)/$(PGM)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
     ifeq ($(MESSAGE_CENTER),1)
@@ -30,38 +30,39 @@ else ifeq ($(TARGETTYPE),cda)
     FILETYPE=cda
     DISKIMAGEDEST=System/Desk.Accs
 else ifeq ($(TARGETTYPE),cdev)
-    BINTARGET=$(PGM).bin
+    BINTARGET=$(TARGETDIR)/$(PGM).bin
     FILETYPE=199
     DISKIMAGEDEST=System/CDevs
+    REZFLAGS+=rez='-d BINTARGET="$(BINTARGET)"'
 else ifeq ($(TARGETTYPE),nba)
     FILETYPE=exe
-    BUILDTARGET=$(PGM)
+    BUILDTARGET=$(TARGETDIR)/$(PGM)
 else ifeq ($(TARGETTYPE),nda)
     FILETYPE=nda
     DISKIMAGEDEST=System/Desk.Accs
 else ifeq ($(TARGETTYPE),xcmd)
     FILETYPE=exe
-    BUILDTARGET=$(PGM)
+    BUILDTARGET=$(TARGETDIR)/$(PGM)
 endif
 
 ifeq ($(wildcard $(ROOTCFILE)),)
     ROOTCFILE=
 endif
 
-C_ROOTS=$(ROOTCFILE:.c=.root)
+C_ROOTS=$(patsubst %.c, $(OBJDIR)/%.root, $(ROOTCFILE))
 C_SRCS+=$(filter-out $(ROOTCFILE), $(patsubst ./%, %, $(wildcard $(addsuffix /*.c, $(SRCDIRS)))))
-C_OBJS=$(C_SRCS:.c=.a)
-C_DEPS=$(ROOTCFILE:.c=.d) $(C_SRCS:.c=.d)
+C_OBJS=$(patsubst %.c, $(OBJDIR)/%.a, $(C_SRCS))
+C_DEPS=$(patsubst %.c, $(OBJDIR)/%.d, $(ROOTCFILE)) $(patsubst %.c, $(OBJDIR)/%.d, $(C_SRCS))
 
 ASM_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.s, $(SRCDIRS))))
-ASM_MACROS=$(ASM_SRCS:.s=.macros)
-ASM_DEPS=$(ASM_SRCS:.s=.macros.d)
-ASM_ROOTS=$(ASM_SRCS:.s=.ROOT)
-ASM_OBJS=$(ASM_SRCS:.s=.a)
+ASM_MACROS=$(patsubst %.s, $(OBJDIR)/%.macros, $(ASM_SRCS))
+ASM_DEPS=$(patsubst %.s, $(OBJDIR)/%.macros.d, $(ASM_SRCS))
+ASM_ROOTS=$(patsubst %.s, $(OBJDIR)/%.ROOT, $(ASM_SRCS))
+ASM_OBJS=$(patsubst %.s, $(OBJDIR)/%.a, $(ASM_SRCS))
 
 REZ_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.rez, $(SRCDIRS))))
-REZ_DEPS=$(REZ_SRCS:.rez=.rez.d)
-REZ_OBJS=$(REZ_SRCS:.rez=.r)
+REZ_DEPS=$(patsubst %.rez, $(OBJDIR)/%.rez.d, $(REZ_SRCS))
+REZ_OBJS=$(patsubst %.rez, $(OBJDIR)/%.r, $(REZ_SRCS))
 
 ifneq ($(firstword $(REZ_SRCS)), $(lastword $(REZ_SRCS)))
     $(error Only a single resource file supported, found $(REZ_SRCS))
@@ -91,7 +92,7 @@ xcodefix:
 	defaults write "$(ORCAM_PLUGIN_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)s -array `defaults read "$(XCODE_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)` || true
 
 clean: genclean
-	$(RM) "$(PGM)" $(BINTARGET)
+	$(RM) "$(TARGETDIR)/$(PGM)" $(BINTARGET)
 	$(RM) $(ALL_OBJS)
 	$(RM) $(ALL_ROOTS)
 	$(RM) $(ALL_DEPS)
@@ -110,13 +111,13 @@ ifeq ($(BINTARGET),)
 # This is a standard build where we generate the resources if any and then link
 # the binary over that same file creating the resource fork first and the data
 # fork second.
-$(PGM): $(BUILD_OBJS)
+$(TARGETDIR)/$(PGM): $(BUILD_OBJS)
 ifneq ($(REZ_OBJS),)
-	$(RM) $(PGM)
-	$(CP) $(REZ_OBJS) $(PGM)
+	$(RM) $(TARGETDIR)/$(PGM)
+	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
 endif
-	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(PGM)
-	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(PGM)
+	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(TARGETDIR)/$(PGM)
+	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
 else
 
@@ -129,38 +130,35 @@ $(BINTARGET): $(BUILD_OBJS)
 
 $(REZ_OBJS): $(BINTARGET)
 
-$(PGM): $(REZ_OBJS)
-	$(RM) $(PGM)
-	$(CP) $(REZ_OBJS) $(PGM)
-	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(PGM)
+$(TARGETDIR)/$(PGM): $(REZ_OBJS)
+	$(RM) $(TARGETDIR)/$(PGM)
+	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
+	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
 endif
 
-$(DISKIMAGE): $(PGM)
-	make/createDiskImage "$(DISKIMAGE)" "$(PGM)" "$(DISKIMAGEDEST)" $(COPYDIRS)
+$(DISKIMAGE): $(TARGETDIR)/$(PGM)
+	make/createDiskImage "$(DISKIMAGE)" "$(TARGETDIR)/$(PGM)" "$(DISKIMAGEDEST)" $(COPYDIRS)
 
 execute: $(EXECTARGET)
 
 executeGUI: all
-	make/launchEmulator -doit
+	make/launchEmulator $(DISKIMAGE)
 
 executeShell: all
-	$(ORCA) ./$(PGM)
+	$(ORCA) $(TARGETDIR)/$(PGM)
 
-%.a:	%.c
-	$(COMPILE) $< $(CFLAGS) --noroot
+$(OBJDIR)/%.a:	%.c
+	$(COMPILE) $< $(@:.a=) $(CFLAGS) --noroot
 
-%.root:	%.c
-	$(COMPILE) $< $(CFLAGS)
+$(OBJDIR)/%.root:	%.c
+	$(COMPILE) $< $(@:.root=) $(CFLAGS)
 
-%.macros:	%.s
-	$(MACGEN) "$(MACGENFLAGS)" $< $@ $(MACGENMACROS)
+$(OBJDIR)/%.ROOT:	%.s
+	MACGENFLAGS="$(MACGENFLAGS)" MACGENMACROS="$(MACGENMACROS)" $(ASSEMBLE) $< $(@:.ROOT=) $(ASMFLAGS)
 
-%.ROOT:	%.macros
-	$(ASSEMBLE) $(<:.macros=.s) $(ASMFLAGS)
-
-%.r:	%.rez
-	$(REZ) $< $(REZFLAGS)
+$(OBJDIR)/%.r:	%.rez
+	$(REZ) $< $(@:.r=) $(REZFLAGS)
 ifneq ($(RLINT_PATH),)
 	$(ORCA) $(RLINT_PATH) $@
 endif

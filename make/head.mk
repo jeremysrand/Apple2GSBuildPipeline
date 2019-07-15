@@ -12,6 +12,29 @@ TARGETTYPE=shell
 
 SRCDIRS=.
 
+# Check for Xcode build variables for the locations of build outputs and fall back
+# to the current directory if not set.
+ifeq ($(OBJECT_FILE_DIR),)
+    OBJDIR=.
+else
+    export OBJECT_FILE_DIR
+    OBJDIR=$(OBJECT_FILE_DIR)
+endif
+
+ifeq ($(DERIVED_SOURCES_DIR),)
+    GENDIR=.
+else
+    export DERIVED_SOURCES_DIR
+    GENDIR=$(DERIVED_SOURCES_DIR)
+endif
+
+ifeq ($(TARGET_BUILD_DIR),)
+    TARGETDIR=.
+else
+    export TARGET_BUILD_DIR
+    TARGETDIR=$(TARGET_BUILD_DIR)
+endif
+
 COMPILE=make/orca-cc
 CFLAGS= -P -I
 ROOTCFILE=main.c
@@ -35,6 +58,7 @@ CHTYP=$(ORCA) chtyp
 
 RM=rm -f
 CP=cp
+MKDIR=mkdir -p
 
 DESKTOP_RES_MODE=640
 MESSAGE_CENTER=0
@@ -57,6 +81,7 @@ XCODE_PLUGIN_COMPATIBILITY=DVTPlugInCompatibilityUUID
 .PHONY: all gen genclean
 
 all:
+	$(MKDIR) $(OBJDIR) $(GENDIR) $(TARGETDIR)
 	@make gen
 	@make build
 

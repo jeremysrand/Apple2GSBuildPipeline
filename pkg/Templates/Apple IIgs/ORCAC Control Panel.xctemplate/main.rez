@@ -42,7 +42,7 @@ resource rCDEVFlags (CDEV_RESOURCE) {
 
 
 /* Code resource; the executable part of the CDev */
-read rCDevCode (CDEV_RESOURCE,convert) "___PROJECTNAME___.bin";
+read rCDevCode (CDEV_RESOURCE,convert) BINTARGET;
 
 
 /* This is the icon displayed by the control panel */

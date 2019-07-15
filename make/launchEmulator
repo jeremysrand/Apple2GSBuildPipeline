@@ -16,7 +16,14 @@ then
     exit 1
 fi
 
+DISKIMAGE="$1"
+if echo $DISKIMAGE | grep -v '^/' > /dev/null
+then
+    DISKIMAGE="$PWD/$DISKIMAGE"
+fi
+
 cd make
+sed -i "" "s:^s7d1 *=.*$:s7d1 = $DISKIMAGE:" config.txt
 
 # This magic ensure that clicking stop in Xcode results in the emulator terminating.
 
