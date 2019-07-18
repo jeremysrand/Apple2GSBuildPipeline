@@ -197,7 +197,7 @@ HandleEvent entry
 moveIns mvn 0,0
         
         pha
-        ~TaskMasterDA 0,#localEvent
+        ~TaskMasterDA #0,#localEvent
         pla
         
         cmp #updateEvt
@@ -249,6 +249,9 @@ HandleEdit entry
         rtl
         
 NDAInit entry
+        phb
+        phk
+        plb
         cmp #$00
         beq toolShutdown
         
@@ -267,6 +270,7 @@ toolShutdown anop
         jsl NDAClose
         
 initReturn anop
+        plb
         rtl
 
 ; Global data

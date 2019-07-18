@@ -1,0 +1,292 @@
+/*
+ *  ___FILENAME___
+ *  ___PROJECTNAME___
+ *
+ * Created by ___FULLUSERNAME___ on ___DATE___.
+ * ___COPYRIGHT___
+ */
+
+
+#include "types.rez"
+
+
+#define menuBar 1
+
+#define appleMenu 3
+#define fileMenu 4
+#define editMenu 5
+
+#define editUndo 250
+#define editCut 251
+#define editCopy 252
+#define editPaste 253
+#define editClear 254
+
+#define fileNew 401
+#define fileOpen 402
+#define fileClose 255
+#define fileQuit 256
+
+#define appleAbout 301
+
+#define aboutAlertString 1
+
+#define windowRes 1001
+
+#define toolStartup 1
+
+
+resource rVersion (1) {
+    {
+        0,          /* Major version number in BCD */
+        1,          /* Minor version number in BCD */
+        0,          /* Bug version number in BCD */
+        development,/* Development phase */
+        0           /* Release number */
+    },
+    verUS,
+    "___PROJECTNAME___",
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
+};
+
+
+resource rMenuBar (menuBar) {
+    {
+        appleMenu,
+        fileMenu,
+        editMenu
+    };
+};
+
+
+resource rMenu (appleMenu) {
+    appleMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    appleMenu,
+    {
+        appleAbout
+    };
+};
+
+
+resource rMenu (fileMenu) {
+    fileMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    fileMenu,
+    {
+        fileNew,
+        fileOpen,
+        fileClose,
+        fileQuit
+    };
+};
+
+
+resource rMenu (editMenu) {
+    editMenu,
+    refIsResource * menuTitleRefShift
+    + refIsResource * itemRefShift
+    + fAllowCache,
+    editMenu,
+    {
+        editUndo,
+        editCut,
+        editCopy,
+        editPaste,
+        editClear
+    };
+};
+
+
+resource rMenuItem (editUndo) {
+    editUndo,
+    "Z", "z",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    editUndo
+};
+
+
+resource rMenuItem (editCut) {
+    editCut,
+    "X", "x",
+    0,
+    refIsResource * itemTitleRefShift,
+    editCut
+};
+
+
+resource rMenuItem (editCopy) {
+    editCopy,
+    "C", "c",
+    0,
+    refIsResource * itemTitleRefShift,
+    editCopy
+};
+
+
+resource rMenuItem (editPaste) {
+    editPaste,
+    "V", "v",
+    0,
+    refIsResource * itemTitleRefShift,
+    editPaste
+};
+
+
+resource rMenuItem (editClear) {
+    editClear,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift,
+    editClear
+};
+
+
+resource rMenuItem (fileNew) {
+    fileNew,
+    "N", "n",
+    0,
+    refIsResource * itemTitleRefShift,
+    fileNew
+};
+
+
+resource rMenuItem (fileOpen) {
+    fileOpen,
+    "O", "o",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    fileOpen
+};
+
+
+resource rMenuItem (fileClose) {
+    fileClose,
+    "W", "w",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    fileClose
+};
+
+
+resource rMenuItem (fileQuit) {
+    fileQuit,
+    "Q", "q",
+    0,
+    refIsResource * itemTitleRefShift,
+    fileQuit
+};
+
+
+resource rMenuItem (appleAbout) {
+    appleAbout,
+    "", "",
+    0,
+    refIsResource * itemTitleRefShift
+    + fDivider,
+    appleAbout
+};
+
+
+resource rPString (appleMenu, noCrossBank) {"@"};
+resource rPString (fileMenu, noCrossBank) {" File "};
+resource rPString (editMenu, noCrossBank) {" Edit "};
+
+resource rPString (editUndo, noCrossBank) {"Undo"};
+resource rPString (editCut, noCrossBank) {"Cut"};
+resource rPString (editCopy, noCrossBank) {"Copy"};
+resource rPString (editPaste, noCrossBank) {"Paste"};
+resource rPString (editClear, noCrossBank) {"Clear"};
+
+resource rPString (fileNew, noCrossBank) {"New"};
+resource rPString (fileOpen, noCrossBank) {"Open"};
+resource rPString (fileClose, noCrossBank) {"Close"};
+resource rPString (fileQuit, noCrossBank) {"Quit"};
+
+resource rPString (appleAbout, noCrossBank) {"About ___PROJECTNAME___..."};
+
+
+resource rAlertString (aboutAlertString) {
+    "0"                 /* Custom size */
+#if DESKTOP_RES_MODE == 320
+    "\$38\$00"          /* Upper Y coordinate at 56 */
+    "\$10\$00"          /* Left X coordinate at 16 */
+    "\$90\$00"          /* Lower Y coorinate at 144 */
+    "\$30\$01"          /* Right X coordinate at 304 */
+#else
+    "\$38\$00"          /* Upper Y coordinate at 56 */
+    "\$90\$00"          /* Left X coordinate at 144 */
+    "\$90\$00"          /* Lower Y coorinate at 144 */
+    "\$F0\$01"          /* Right X coordinate at 496 */
+#endif
+    "3/"
+    "___PROJECTNAME___\n"
+    "  by ___FULLUSERNAME___\n"
+    "\n"
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___\n"
+    "\n"
+    "Contains libraries from ORCAC,\n"
+    "Copyright \$A9 1991, Byte Works Inc."
+    "/^#0\$00";
+};
+
+
+resource rWindParam1 (windowRes) {
+    $DDA5,              /* wFrameBits */
+    nil,                /* wTitle */
+    0,                  /* wRefCon */
+    {0, 0, 0, 0},       /* ZoomRect */
+    $07FF0001,          /* wColor ID */
+    {0, 0},             /* Origin */
+    {1, 1},             /* data size */
+    {0, 0},             /* max height-width */
+    {8, 8},             /* scroll ver hors */
+    {0, 0},             /* page ver horiz */
+    0,                  /* winfoRefCon */
+    10,                 /* wInfoHeight */
+#if DESKTOP_RES_MODE == 320
+    {30, 10, 183, 300}, /* wposition */
+#else
+    {30, 10, 183, 602}, /* wposition */
+#endif
+    infront,            /* wPlane */
+    nil,                /* wStorage */
+    $0800               /* wInVerb */
+};
+
+
+resource rToolStartup (toolStartup) {
+#if DESKTOP_RES_MODE == 320
+    mode320,
+#else
+    mode640,
+#endif
+    {
+        3,$0100,        /* Misc Tool */
+        4,$0100,        /* Quickdraw */
+        5,$0100,        /* Desk Manager */
+        6,$0100,        /* Event Manager */
+        11,$0100,       /* Int Math */
+        14,$0300,       /* Window Manager */
+        15,$0300,       /* Menu Manager */
+        16,$0300,       /* Control Manager */
+        18,$0200,       /* QD Aux */
+        19,$0100,       /* Print Manager */
+        20,$0100,       /* LineEdit Tool */
+        21,$0100,       /* Dialog Manager */
+        22,$0100,       /* Scrap Manager */
+        23,$0100,       /* Standard File */
+        27,$0100,       /* Font Manager */
+        28,$0100,       /* List Manager */
+        30,$0100,       /* Resource Manager */
+        34,$0100        /* TextEdit */
+    }
+};

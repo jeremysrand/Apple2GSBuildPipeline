@@ -1,0 +1,47 @@
+/*
+ *  ___FILENAME___
+ *  ___PROJECTNAME___
+ *
+ * Created by ___FULLUSERNAME___ on ___DATE___.
+ * ___COPYRIGHT___
+ */
+
+
+#include "types.rez"
+
+
+#define windowRes 1001
+
+
+resource rVersion (1) {
+    {
+        0,          /* Major version number in BCD */
+        1,          /* Minor version number in BCD */
+        0,          /* Bug version number in BCD */
+        development,/* Development phase */
+        0           /* Release number */
+    },
+    verUS,
+    "___PROJECTNAME___",
+    "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___"
+};
+
+
+resource rWindParam1 (windowRes) {
+    $C0A5,                      /* wFrameBits */
+    nil,                        /* wTitle */
+    0,                          /* wRefCon */
+    {0,0,0,0},                  /* ZoomRect */
+    $07FF0001,                  /* wColor ID */
+    {0,0},                      /* Origin */
+    {0,0},                      /* data size */
+    {0,0},                      /* max height-width */
+    {0,0},                      /* scroll ver hors */
+    {0,0},                      /* page ver horiz */
+    0,                          /* winfoRefcon */
+    0,                          /* wInfoHeight */
+    {50,50,62,200},             /* wposition */
+    infront,                    /* wPlane */
+    nil,                        /* wStorage */
+    $0800                       /* wInVerb */
+};

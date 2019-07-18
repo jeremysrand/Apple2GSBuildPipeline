@@ -17,9 +17,11 @@ cdev:orca:ORCAM Control Panel:0:0
 cdev:merlin:Merlin Control Panel:0:0
 desktop:orca:ORCAC Desktop Application:1:1
 desktop:orca:ORCAM Desktop Application:1:0
+desktop:merlin:Merlin Desktop Application:1:0
 shell:gno:ORCAC GNO Shell Command:0:0
 nda:orca:ORCAC New Desk Accessory:0:0
 nda:orca:ORCAM New Desk Accessory:0:0
+nda:merlin:Merlin New Desk Accessory:0:0
 shell:orca:ORCAC Shell Command:0:0
 shell:orca:ORCAM Shell Command:0:0
 EOF
