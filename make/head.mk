@@ -10,6 +10,12 @@ export ORCA=$(ORCA_BINDIR)/orca
 
 TARGETTYPE=shell
 
+ASSEMBLER=orcam
+
+MERLIN_DIR=/usr/local
+MERLIN_BIN=$(MERLIN_DIR)/bin/Merlin32
+MERLIN_LIB=$(MERLIN_DIR)/lib/Merlin
+
 SRCDIRS=.
 
 # Check for Xcode build variables for the locations of build outputs and fall back
@@ -58,6 +64,7 @@ CHTYP=$(ORCA) chtyp
 
 RM=rm -f
 CP=cp
+MV=mv
 MKDIR=mkdir -p
 
 DESKTOP_RES_MODE=640

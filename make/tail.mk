@@ -19,9 +19,9 @@ ifeq ($(TARGETTYPE),shell)
 else ifeq ($(TARGETTYPE),desktop)
     FILETYPE=s16
     ifeq ($(MESSAGE_CENTER),1)
-        AUXTYPE=-a 0x0000db07
+	AUXTYPE=-a 0x0000db07
     else
-        AUXTYPE=-a 0x0000db03
+	AUXTYPE=-a 0x0000db03
     endif
     CFLAGS+=-dMESSAGE_CENTER=$(MESSAGE_CENTER)
     REZFLAGS+=rez='-d DESKTOP_RES_MODE=$(DESKTOP_RES_MODE)'
@@ -45,20 +45,24 @@ else ifeq ($(TARGETTYPE),xcmd)
     BUILDTARGET=$(TARGETDIR)/$(PGM)
 endif
 
-ifeq ($(wildcard $(ROOTCFILE)),)
-    ROOTCFILE=
-endif
-
-C_ROOTS=$(patsubst %.c, $(OBJDIR)/%.root, $(ROOTCFILE))
-C_SRCS+=$(filter-out $(ROOTCFILE), $(patsubst ./%, %, $(wildcard $(addsuffix /*.c, $(SRCDIRS)))))
-C_OBJS=$(patsubst %.c, $(OBJDIR)/%.a, $(C_SRCS))
-C_DEPS=$(patsubst %.c, $(OBJDIR)/%.d, $(ROOTCFILE)) $(patsubst %.c, $(OBJDIR)/%.d, $(C_SRCS))
 
 ASM_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.s, $(SRCDIRS))))
-ASM_MACROS=$(patsubst %.s, $(OBJDIR)/%.macros, $(ASM_SRCS))
-ASM_DEPS=$(patsubst %.s, $(OBJDIR)/%.macros.d, $(ASM_SRCS))
-ASM_ROOTS=$(patsubst %.s, $(OBJDIR)/%.ROOT, $(ASM_SRCS))
-ASM_OBJS=$(patsubst %.s, $(OBJDIR)/%.a, $(ASM_SRCS))
+
+ifeq ($(ASSEMBLER),orcam)
+    ASM_MACROS=$(patsubst %.s, $(OBJDIR)/%.macros, $(ASM_SRCS))
+    ASM_DEPS=$(patsubst %.s, $(OBJDIR)/%.macros.d, $(ASM_SRCS))
+    ASM_ROOTS=$(patsubst %.s, $(OBJDIR)/%.ROOT, $(ASM_SRCS))
+    ASM_OBJS=$(patsubst %.s, $(OBJDIR)/%.a, $(ASM_SRCS))
+
+    ifeq ($(wildcard $(ROOTCFILE)),)
+	ROOTCFILE=
+    endif
+
+    C_ROOTS=$(patsubst %.c, $(OBJDIR)/%.root, $(ROOTCFILE))
+    C_SRCS+=$(filter-out $(ROOTCFILE), $(patsubst ./%, %, $(wildcard $(addsuffix /*.c, $(SRCDIRS)))))
+    C_OBJS=$(patsubst %.c, $(OBJDIR)/%.a, $(C_SRCS))
+    C_DEPS=$(patsubst %.c, $(OBJDIR)/%.d, $(ROOTCFILE)) $(patsubst %.c, $(OBJDIR)/%.d, $(C_SRCS))
+endif
 
 REZ_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.rez, $(SRCDIRS))))
 REZ_DEPS=$(patsubst %.rez, $(OBJDIR)/%.rez.d, $(REZ_SRCS))
@@ -107,10 +111,11 @@ cleanMacCruft:
 
 
 ifeq ($(BINTARGET),)
+    ifeq ($(ASSEMBLER),orcam)
 
-# This is a standard build where we generate the resources if any and then link
-# the binary over that same file creating the resource fork first and the data
-# fork second.
+# This is a standard ORCA build where we generate the resources if any and
+# then link the binary over that same file creating the resource fork first
+# and the data fork second.
 $(TARGETDIR)/$(PGM): $(BUILD_OBJS)
 ifneq ($(REZ_OBJS),)
 	$(RM) $(TARGETDIR)/$(PGM)
@@ -119,14 +124,45 @@ endif
 	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(TARGETDIR)/$(PGM)
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
+    endif
+
+    ifeq ($(ASSEMBLER),merlin)
+# This is a standard Merlin build where we generate the resources if any and
+# then link the binary over that same file creating the resource fork first
+# and the data fork second.
+
+$(TARGETDIR)/$(PGM): $(BUILD_OBJS) $(ASM_SRCS)
+	$(RM) $(TARGETDIR)/$(PGM)
+	$(MERLIN_BIN) -V $(MERLIN_LIB) linkscript.s
+	$(MV) $(PGM) $(TARGETDIR)/$(PGM)
+ifneq ($(REZ_OBJS),)
+	$(CP) $(REZ_OBJS)/rsrc $(TARGETDIR)/$(PGM)/rsrc
+endif
+	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
+
+    endif
+
 else
 
-# This is a special build for CDevs (maybe others also?) where we build the binary
-# into a $(PGM).bin file and then build the resources into the $(PGM) target.  The
-# resource compile will read the $(PGM).bin binary and load it into the resources
-# also.
+    ifeq ($(ASSEMBLER),orcam)
+# This is a special build for CDevs under ORCA where we build the binary into
+# a $(PGM).bin file and then build the resources into the $(PGM) target.  The
+# resource compile will read the $(PGM).bin binary and load it into the
+# resources also.
 $(BINTARGET): $(BUILD_OBJS)
 	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(BINTARGET)
+
+    endif
+
+    ifeq ($(ASSEMBLER),merlin)
+# This is a special build for CDevs under Merlin where we build the binary into
+# a $(PGM).bin file and then build the resources into the $(PGM) target.  The
+# resource compile will read the $(PGM).bin binary and load it into the
+# resources # also.
+$(BINTARGET): $(BUILD_OBJS) $(ASM_SRCS)
+	$(MERLIN_BIN) -V $(MERLIN_LIB) linkscript.s
+
+    endif
 
 $(REZ_OBJS): $(BINTARGET)
 

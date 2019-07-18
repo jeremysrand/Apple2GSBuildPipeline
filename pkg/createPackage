@@ -11,6 +11,7 @@ PROJECTS=/tmp/projects.$$
 cat > $PROJECTS << EOF
 cda:orca:ORCAC Classic Desk Accessory:0:0
 cda:orca:ORCAM Classic Desk Accessory:0:0
+cda:merlin:Merlin Classic Desk Accessory:0:0
 cdev:orca:ORCAC Control Panel:0:0
 cdev:orca:ORCAM Control Panel:0:0
 desktop:orca:ORCAC Desktop Application:1:1
@@ -30,9 +31,15 @@ do
     SUPPORTS_RES_MODE=`echo $PROJECT | awk -F: '{print $4}'`
     SUPPORTS_MESSAGE_CENTER=`echo $PROJECT | awk -F: '{print $5}'`
 
-    sed "
-        /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //
-        /^# export ORCA=.*\/${SHELL_TYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+    if [ $SHELL_TYPE = merlin ]
+    then
+        sed "
+            /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //" Makefile.merlin > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+    else
+        sed "
+            /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //
+            /^# export ORCA=.*\/${SHELL_TYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+    fi
 
     if [ "$SUPPORTS_RES_MODE" -eq 1 ]
     then
