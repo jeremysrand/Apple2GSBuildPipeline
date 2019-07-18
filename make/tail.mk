@@ -161,6 +161,7 @@ $(BINTARGET): $(BUILD_OBJS)
 # resources # also.
 $(BINTARGET): $(BUILD_OBJS) $(ASM_SRCS)
 	$(MERLIN_BIN) -V $(MERLIN_LIB) linkscript.s
+	$(MV) $(PGM) $(BINTARGET)
 
     endif
 

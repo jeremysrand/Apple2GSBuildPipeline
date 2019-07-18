@@ -14,6 +14,7 @@ cda:orca:ORCAM Classic Desk Accessory:0:0
 cda:merlin:Merlin Classic Desk Accessory:0:0
 cdev:orca:ORCAC Control Panel:0:0
 cdev:orca:ORCAM Control Panel:0:0
+cdev:merlin:Merlin Control Panel:0:0
 desktop:orca:ORCAC Desktop Application:1:1
 desktop:orca:ORCAM Desktop Application:1:0
 shell:gno:ORCAC GNO Shell Command:0:0
