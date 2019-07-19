@@ -6,12 +6,12 @@ A build pipeline for making Apple IIgs software on macOS.
 Features:
 ---------
 
-This project was built using a similar approach as the one I created for [8-bit Apple //'s](https://github.com/jeremysrand/Apple2BuildPipeline).  I used cc65 in the 8-bit tools but this build environment uses the [ORCA languages](https://juiced.gs/store/opus-ii-software/) and [Golden Gate](http://golden-gate.ksherlock.com) from Kelvin Sherlock.
+This project was built using a similar approach as the one I created for [8-bit Apple //'s](https://github.com/jeremysrand/Apple2BuildPipeline).  I used cc65 in the 8-bit tools but this build environment uses the [ORCA languages](https://juiced.gs/store/opus-ii-software/) and [Golden Gate](http://golden-gate.ksherlock.com) from Kelvin Sherlock.  You can also use [Merlin32](https://www.brutaldeluxe.fr/products/crossdevtools/merlin/) from Brutal Deluxe.  Note that you still need ORCA and GoldenGate for Merlin targets because of how disk images are created in the build and the ORCA resource compiler is used for Merlin targets.
 
 Features of this build environment include:
 
    * Attempts to hide all of the infrastructure which you don't need to modify in a make directory.
-   * Supports linking together multiple C and assembly files.  To add a new file to the project, just create a new *.c or *.s file in the project directory.
+   * Supports linking together multiple ORCA/C and ORCA/M assembly files.  To add a new file to the project, just create a new *.c or *.s file in the project directory.
    * Supports a single resource file in your project.  Any files included in your resource files are detected in the build and if you change the header, the resource file will rebuild automatically.
    * Supports putting your source files in multiple directories.  Just make sure to add those directories to the SRCDIRS variable in the root Makefile.  Once you add the source directory to the build, any source files in that directory will automatically be built and linked into your executable.
    * If you change a header file, the right source files will rebuild automatically.  Header file dependencies are generated during the build.
@@ -23,8 +23,8 @@ Features of this build environment include:
    * C source and header files (including ORCA system includes) are indexed by Xcode.  By doing this, code completion and other features of Xcode should work.  That means, if you are coding in C and type "NewW", Xcode will suggest the toolbox calls NewWindow() and NewWindow2().  Select the one you want and Xcode fills it in, including the arguments that the toolbox call expects.
    * There is an optional code generation phase in the build.  If you want to write some scripts which generate C source files, C header files or assembly files which are then compiled/assembled in later phases of the build, this would let you do exactly that.
    * You can copy a directory of files onto the disk image beyond just the executable.  This is useful if you have other files you need to generate and/or distribute in your project.
-   * Syntax highlighting and better editor support for ORCA/M assembly and resource files.  Keywords are completed and highlighted.  Indentation between start/end and data/end tokens for assembly and inside braces for resource files should be automatic.
-   * Errors returned by the C compiler or the resource compiler are now understood by Xcode.  The error will be visible in the editor itself and Xcode will jump to the line reported by the compiler to contain the error.
+   * Syntax highlighting and better editor support for ORCA/M assembly, Merlin assembly and resource files.  Keywords are completed and highlighted.  Indentation between start/end and data/end tokens for assembly and inside braces for resource files should be automatic.
+   * Errors returned by the C compiler, the resource compiler and the Merlin assembler are now understood by Xcode.  The error will be visible in the editor itself and Xcode will jump to the line reported by the compiler to contain the error.  Note that ORCA/M errors are not understood by Xcode at this time.
 
 
 MacOS  Installation:
@@ -34,9 +34,9 @@ In order to use this infrastructure from macOS, follow these instructions:
    1. Install [Xcode from Apple](https://itunes.apple.com/us/app/xcode/id497799835?mt=12&uo=4).  Xcode is generally the most popular app in the Mac App Store in the "Developer Tools" category.  Xcode is free and you do not need to be a registered Apple developer to download and use it, especially if you are building Apple II programs.
    2. You need to have Orca/C or Orca/M.  If you have purchased these development tools for the Apple IIgs in the past, you should be able to use what you have.  If you don't have access to these tools, Juiced.GS sells all of the tools as [Opus II: The Software](https://juiced.gs/store/opus-ii-software/) from their store for a reasonable price.
    3. You also need [Golden Gate](https://juiced.gs/store/golden-gate/) which is also available for a reasonable price from the Juiced.GS store.  Golden Gate allows the Orca tools to execute from a modern Mac (or Windows and Linux system also).  Follow the installation instructions for Golden Gate.
-   4. Install [FUSE for macOS](https://osxfuse.github.io).  FUSE is required for ProFuse which you will install next.  At the moment, v3.6.3 is the latest and works well in my testing.
+   4. Install [FUSE for macOS](https://osxfuse.github.io).  FUSE is required for ProFuse which you will install next.
    5. Install ProFUSE.  It is distributed with Golden Gate.  When you purchase Golden Gate, you should be given access to a GitLab repository.  Among the projects there is ProFUSE which allows your Mac to mount ProDOS volumes.  This is used by the build environment to create the bootable disk images.
-   5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/1.2/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
+   5. Install the [Apple IIgs project template](https://github.com/jeremysrand/Apple2GSBuildPipeline/releases/download/2.0/Apple2GSXcodeTemplate.pkg).  Note that the next time you launch Xcode, you will be asked whether to load the OrcaM.ideplugin.  This is part of the project template and will provide better syntax highlighting for assembly and resource files.  Select the "Load Bundle" option in the dialog that Xcode shows you.
    6. Install and setup the [GSPlus](https://apple2.gs/plus/) emulator or the [GSPort](http://gsport.sourceforge.net) emulator.  Either should work.  No matter which you choose, make sure you put a copy of your Apple //gs' ROM into a file called ~/Library/GSPort/ROM (where ~ represents your user's home directory).  Unfortunately, the Finder by default hides the Library folder from you so the easiest way to accomplish this is probably from the Terminal.
 
 
@@ -76,13 +76,13 @@ Possible Future Improvements:
 -----------------------------
 
    * Support Hypercard XCMDs and Hyperstudio new button action project templates
-   * Provide assembly project templates for all project types.  Today, I only provide an assembly project template for the shell target.
+   * Support Finder Extra project templates
+   * Improve the assembly project templates to be for feature rich and handle errors better.
    * Support other ORCA languages like Pascal, Modula-2 or Basic.
    * Allow multiple resource files and concatenate the resources together into the final executable.
-   * Add support for Merlin32 based assembly projects in Xcode.  This is the other major cross compilation/assembly tool available today for Apple //gs coding.
 
 
 Acknowledgements:
 -----------------
 
-Thanks to Mike Westerfield for the ORCA environment and languages and Kelvin Sherlock for Golden Gate which allows us to use those tools under modern systems making this build environment possible.
+Thanks to Mike Westerfield for the ORCA environment and languages and Kelvin Sherlock for Golden Gate which allows us to use those tools under modern systems making this build environment possible.  Thanks to Brutal Deluxe for Merlin32.
