@@ -1,0 +1,38 @@
+#!/bin/bash
+
+ERROUTPUT=/tmp/merlin-err.$$
+
+LINKSCRIPT="$1"
+shift
+
+OUTFILE="$1"
+shift
+
+TARGETOUTPUT="$1"
+shift
+
+cleanup()
+{
+    rm -r error_output.txt
+    rm -f _FileInformation.txt
+    rm -f _Output.txt
+    rm -f "$ERROUTPUT"
+}
+
+"$MERLIN_BIN" -V "$MERLIN_LIB" "$LINKSCRIPT" 2>&1 | tee "$ERROUTPUT"
+if [ ! -f "$OUTFILE" ]
+then
+    cat error_output.txt
+    tr "'" '"' < "$ERROUTPUT" |
+        grep '\[Error\]' |
+        sed 's!^.*\[Error\] \(.*file "\([^"]*\.s\)".*line \([1-9][0-9]*\).*\)$!'`pwd`'/\2:\3:0: error: \1!' |
+        sed 's!^.*\[Error\] \(.*line \([1-9][0-9]*\).*file "\([^"]*\.s\)".*\)$!'`pwd`'/\3:\2:0: error: \1!'
+    cleanup
+    exit 1
+fi
+
+mv "$OUTFILE" "$TARGETOUTPUT"
+
+cleanup
+
+exit 0

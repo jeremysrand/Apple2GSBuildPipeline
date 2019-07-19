@@ -49,7 +49,7 @@ awk '
 
     /^ *\^/ {
         sub(/^ *\^/, "", $0)
-        printf("%s/%s:%d:0:%s\n", PWD, FILE, LINENO, $0)
+        printf("%s/%s:%d:0: error: %s\n", PWD, FILE, LINENO, $0)
     }
 ' "PWD=`pwd`" "FILE=$FILENAME" $STDOUTPUT
 

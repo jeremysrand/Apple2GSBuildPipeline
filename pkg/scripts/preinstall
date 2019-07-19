@@ -2,5 +2,6 @@
 
 rm -rf "$2/Templates/Apple IIgs"
 rm -rf "$2/Templates/File Templates/Apple IIgs"
+rm -rf "$2/Templates/File Templates/Apple II/Merlin Assembly File.xctemplate"
 rm -rf "$2/Plug-ins/OrcaM.ideplugin"
 

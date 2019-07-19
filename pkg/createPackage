@@ -34,14 +34,19 @@ do
     SUPPORTS_RES_MODE=`echo $PROJECT | awk -F: '{print $4}'`
     SUPPORTS_MESSAGE_CENTER=`echo $PROJECT | awk -F: '{print $5}'`
 
+    cp -R make "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/"
+
     if [ $SHELL_TYPE = merlin ]
     then
         sed "
             /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //" Makefile.merlin > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+        rm -f "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/make/orca-asm"
+        rm -f "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/make/orca-cc"
     else
         sed "
             /^# TARGETTYPE=${PROJECT_TYPE}/s/^# //
             /^# export ORCA=.*\/${SHELL_TYPE}$/s/^# //" Makefile > "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
+        rm -f "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/make/merlin-asm"
     fi
 
     if [ "$SUPPORTS_RES_MODE" -eq 1 ]
@@ -54,7 +59,6 @@ do
 	sed -i "" 's/^# MESSAGE_CENTER=.*$/MESSAGE_CENTER=___VARIABLE_MESSAGECENTER___/' "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/Makefile"
     fi
 
-    cp -R make "${TMPDIR}/Templates/Apple IIgs/${PROJECT_NAME}.xctemplate/"
 done < $PROJECTS
 
 rm -f $PROJECTS

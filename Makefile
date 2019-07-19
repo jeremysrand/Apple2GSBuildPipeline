@@ -106,7 +106,9 @@ COPYDIRS=
 # Add any rules you want to execute before any compiles or assembly
 # commands are called here, if any.  You can generate .c, .s or .h
 # files for example.  You can generate data files.  Whatever you
-# might need.
+# might need.  You should generate these files in the $(GENDIR)
+# directory or within a subdirectory under $(GENDIR) which you create
+# yourself.
 #
 # All of your commands associated with a rule _must_ start with a tab
 # character.  Xcode makes it a bit tough to type a tab character by

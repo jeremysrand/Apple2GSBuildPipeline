@@ -278,3 +278,4 @@ wmLastClickPt_horiz dw 0
 * Used by doQuit
 quitDCB         dw 0
 
+]XCODEEND       ; Keep this at the end and put your code above this

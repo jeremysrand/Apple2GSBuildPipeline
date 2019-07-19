@@ -342,3 +342,4 @@ wmTaskData4         adrl 0
 wmLastClickPt_vert  dw 0
 wmLastClickPt_horiz dw 0
 
+]XCODEEND       ; Keep this at the end and put your code above this

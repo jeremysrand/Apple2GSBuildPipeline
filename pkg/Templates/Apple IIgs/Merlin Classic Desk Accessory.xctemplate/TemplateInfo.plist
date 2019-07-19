@@ -11,8 +11,7 @@
 		<string>make/createDiskImage</string>
 		<string>make/head.mk</string>
 		<string>make/launchEmulator</string>
-                <string>make/orca-asm</string>
-		<string>make/orca-cc</string>
+		<string>make/merlin-asm</string>
 		<string>make/orca-rez</string>
 		<string>make/system601.2mg</string>
 		<string>make/tail.mk</string>
@@ -58,19 +57,12 @@
 			<key>Path</key>
 			<string>make/launchEmulator</string>
 		</dict>
-		<key>make/orca-asm</key>
+		<key>make/merlin-asm</key>
 		<dict>
 			<key>Group</key>
 			<string>make</string>
 			<key>Path</key>
-			<string>make/orca-asm</string>
-		</dict>
-		<key>make/orca-cc</key>
-		<dict>
-			<key>Group</key>
-			<string>make</string>
-			<key>Path</key>
-			<string>make/orca-cc</string>
+			<string>make/merlin-asm</string>
 		</dict>
 		<key>make/orca-rez</key>
 		<dict>

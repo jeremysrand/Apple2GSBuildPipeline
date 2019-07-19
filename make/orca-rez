@@ -36,7 +36,7 @@ awk '
         sub(/;/,"",$4)
         LINENO=$4
         sub(/^File [^ ]*; Line [0-9][0-9]*/, "", $0)
-        printf("%s/%s:%d:0:%s\n", PWD, FILE, LINENO, $0)
+        printf("%s/%s:%d:0: error: %s\n", PWD, FILE, LINENO, $0)
     }
 ' "PWD=`pwd`" "FILE=$FILENAME" $ERROUTPUT >&2
 

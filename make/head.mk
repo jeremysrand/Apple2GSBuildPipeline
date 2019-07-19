@@ -13,8 +13,9 @@ TARGETTYPE=shell
 ASSEMBLER=orcam
 
 MERLIN_DIR=/usr/local
-MERLIN_BIN=$(MERLIN_DIR)/bin/Merlin32
-MERLIN_LIB=$(MERLIN_DIR)/lib/Merlin
+export MERLIN_BIN=$(MERLIN_DIR)/bin/Merlin32
+export MERLIN_LIB=$(MERLIN_DIR)/lib/Merlin
+MERLIN_ASM=make/merlin-asm
 
 SRCDIRS=.
 

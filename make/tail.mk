@@ -133,8 +133,7 @@ endif
 
 $(TARGETDIR)/$(PGM): $(BUILD_OBJS) $(ASM_SRCS)
 	$(RM) $(TARGETDIR)/$(PGM)
-	$(MERLIN_BIN) -V $(MERLIN_LIB) linkscript.s
-	$(MV) $(PGM) $(TARGETDIR)/$(PGM)
+	$(MERLIN_ASM) linkscript.s $(PGM) $(TARGETDIR)/$(PGM)
 ifneq ($(REZ_OBJS),)
 	$(CP) $(REZ_OBJS)/..namedfork/rsrc $(TARGETDIR)/$(PGM)/..namedfork/rsrc
 endif
@@ -160,8 +159,7 @@ $(BINTARGET): $(BUILD_OBJS)
 # resource compile will read the $(PGM).bin binary and load it into the
 # resources # also.
 $(BINTARGET): $(BUILD_OBJS) $(ASM_SRCS)
-	$(MERLIN_BIN) -V $(MERLIN_LIB) linkscript.s
-	$(MV) $(PGM) $(BINTARGET)
+	$(MERLIN_ASM) linkscript.s $(PGM) $(BINTARGET)
 
     endif
 
