@@ -165,6 +165,77 @@
                                 <string>true</string>
 				<key>version</key>
 				<string>1.0</string>
+                        </dict>
+			<key>Xcode.FileDataType.merlin.Assembly</key>
+			<dict>
+				<key>id</key>
+				<string>Xcode.FileDataType.merlin.Assembly</string>
+				<key>localizedDescription</key>
+				<string>Merlin Assembly Source</string>
+				<key>name</key>
+				<string>File type for Merlin assembly</string>
+				<key>point</key>
+				<string>Xcode.FileDataType</string>
+				<key>typeConformedTo</key>
+				<array>
+					<dict>
+						<key>typeIdentifier</key>
+						<string>public.assembly-source</string>
+					</dict>
+				</array>
+				<key>typeIdentifier</key>
+				<string>com.rand-family.xcode.merlin</string>
+				<key>version</key>
+				<string>1.0</string>
+			</dict>
+			<key>Xcode.FileDataTypeDetector.merlin.Assembly</key>
+			<dict>
+				<key>detectedTypeIdentifier</key>
+				<string>com.rand-family.xcode.merlin</string>
+				<key>id</key>
+				<string>Xcode.FileDataTypeDetector.merlin.Assembly</string>
+				<key>matchesExtension</key>
+				<string>s</string>
+				<key>point</key>
+				<string>Xcode.FileDataTypeDetector</string>
+			</dict>
+			<key>Xcode.SourceCodeLanguage.merlin-Assembly</key>
+			<dict>
+				<key>commentSyntax</key>
+				<array>
+					<dict>
+						<key>prefix</key>
+						<string>;</string>
+					</dict>
+				</array>
+				<key>conformsTo</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>Xcode.SourceCodeLanguage.Generic</string>
+					</dict>
+				</array>
+				<key>fileDataType</key>
+				<array>
+					<dict>
+						<key>identifier</key>
+						<string>com.rand-family.xcode.merlin</string>
+					</dict>
+				</array>
+				<key>id</key>
+				<string>Xcode.SourceCodeLanguage.merlin-Assembly</string>
+				<key>languageName</key>
+				<string>Merlin Assembly</string>
+				<key>languageSpecification</key>
+				<string>xcode.lang.asm.merlin</string>
+				<key>name</key>
+				<string>Merlin Assembly</string>
+				<key>point</key>
+                                <string>Xcode.SourceCodeLanguage</string>
+                                <key>supportsIndentation</key>
+                                <string>true</string>
+				<key>version</key>
+				<string>1.0</string>
 			</dict>
 		</dict>
 	</dict>
