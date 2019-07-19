@@ -1,6 +1,6 @@
 #
 #  Makefile
-#  	Apple //GS Build Engine for ORCA
+#  	Apple //GS Build Engine for ORCA and Merlin
 #
 
 include make/head.mk

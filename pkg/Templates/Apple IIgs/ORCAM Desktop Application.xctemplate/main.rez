@@ -233,7 +233,7 @@ resource rAlertString (aboutAlertString) {
     "\n"
     "Copyright \$A9 ___YEAR___ ___FULLUSERNAME___\n"
     "\n"
-    "Contains libraries from ORCAC,\n"
+    "Contains libraries from ORCAM,\n"
     "Copyright \$A9 1991, Byte Works Inc."
     "/^#0\$00";
 };
