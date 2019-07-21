@@ -146,7 +146,8 @@
                                         extended=double
                                         pascal=""</string>
                                 <key>HEADER_SEARCH_PATHS</key>
-                                <string>$GOLDEN_GATE/Libraries/ORCACDefs
+                                <string>$TEMP_ROOT/___PACKAGENAME___.build/$CONFIGURATION/___PACKAGENAME___.build/DerivedSources
+                                        $GOLDEN_GATE/Libraries/ORCACDefs
                                         ~/Library/GoldenGate/Libraries/ORCACDefs
                                         /Library/GoldenGate/Libraries/ORCACDefs
                                         ~/GoldenGate/Libraries/ORCACDefs</string>

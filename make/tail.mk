@@ -11,6 +11,9 @@ BUILDTARGET=$(DISKIMAGE)
 EXECTARGET=executeGUI
 DISKIMAGEDEST=.
 AUXTYPE=
+CFLAGS+=-i$(GENDIR)
+
+vpath $(GENDIR)
 
 ifeq ($(TARGETTYPE),shell)
     FILETYPE=exe
@@ -46,7 +49,7 @@ else ifeq ($(TARGETTYPE),xcmd)
 endif
 
 
-ASM_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.s, $(SRCDIRS))))
+ASM_SRCS=$(patsubst $(GENDIR)/%, %, $(patsubst ./%, %, $(wildcard $(addsuffix /*.s, $(SRCDIRS)))))
 
 ifeq ($(ASSEMBLER),orcam)
     ASM_MACROS=$(patsubst %.s, $(OBJDIR)/%.macros, $(ASM_SRCS))
@@ -59,12 +62,12 @@ ifeq ($(ASSEMBLER),orcam)
     endif
 
     C_ROOTS=$(patsubst %.c, $(OBJDIR)/%.root, $(ROOTCFILE))
-    C_SRCS+=$(filter-out $(ROOTCFILE), $(patsubst ./%, %, $(wildcard $(addsuffix /*.c, $(SRCDIRS)))))
+    C_SRCS+=$(filter-out $(ROOTCFILE), $(patsubst $(GENDIR)/%, %, $(patsubst ./%, %, $(wildcard $(addsuffix /*.c, $(SRCDIRS))))))
     C_OBJS=$(patsubst %.c, $(OBJDIR)/%.a, $(C_SRCS))
     C_DEPS=$(patsubst %.c, $(OBJDIR)/%.d, $(ROOTCFILE)) $(patsubst %.c, $(OBJDIR)/%.d, $(C_SRCS))
 endif
 
-REZ_SRCS=$(patsubst ./%, %, $(wildcard $(addsuffix /*.rez, $(SRCDIRS))))
+REZ_SRCS=$(patsubst $(GENDIR)/%, %, $(patsubst ./%, %, $(wildcard $(addsuffix /*.rez, $(SRCDIRS)))))
 REZ_DEPS=$(patsubst %.rez, $(OBJDIR)/%.rez.d, $(REZ_SRCS))
 REZ_OBJS=$(patsubst %.rez, $(OBJDIR)/%.r, $(REZ_SRCS))
 
@@ -186,13 +189,28 @@ executeShell: all
 $(OBJDIR)/%.a:	%.c
 	$(COMPILE) $< $(@:.a=) $(CFLAGS) --noroot
 
+$(OBJDIR)/%.a:    $(GENDIR)/%.c
+	$(COMPILE) $< $(@:.a=) $(CFLAGS) --noroot
+
 $(OBJDIR)/%.root:	%.c
+	$(COMPILE) $< $(@:.root=) $(CFLAGS)
+
+$(OBJDIR)/%.root:    $(GENDIR)/%.c
 	$(COMPILE) $< $(@:.root=) $(CFLAGS)
 
 $(OBJDIR)/%.ROOT:	%.s
 	MACGENFLAGS="$(MACGENFLAGS)" MACGENMACROS="$(MACGENMACROS)" $(ASSEMBLE) $< $(@:.ROOT=) $(ASMFLAGS)
 
+$(OBJDIR)/%.ROOT:    $(GENDIR)/%.s
+	MACGENFLAGS="$(MACGENFLAGS)" MACGENMACROS="$(MACGENMACROS)" $(ASSEMBLE) $< $(@:.ROOT=) $(ASMFLAGS)
+
 $(OBJDIR)/%.r:	%.rez
+	$(REZ) $< $(@:.r=) $(REZFLAGS)
+ifneq ($(RLINT_PATH),)
+	$(ORCA) $(RLINT_PATH) $@
+endif
+
+$(OBJDIR)/%.r:    $(GENDIR)/%.rez
 	$(REZ) $< $(@:.r=) $(REZFLAGS)
 ifneq ($(RLINT_PATH),)
 	$(ORCA) $(RLINT_PATH) $@
