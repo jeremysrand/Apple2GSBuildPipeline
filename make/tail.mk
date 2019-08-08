@@ -120,11 +120,12 @@ ifeq ($(BINTARGET),)
 # then link the binary over that same file creating the resource fork first
 # and the data fork second.
 $(TARGETDIR)/$(PGM): $(BUILD_OBJS)
+	$(MKDIR) $(TARGETDIR)
 ifneq ($(REZ_OBJS),)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
 endif
-	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(TARGETDIR)/$(PGM)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) --keep=$(TARGETDIR)/$(PGM)
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
     endif
@@ -135,6 +136,7 @@ endif
 # and the data fork second.
 
 $(TARGETDIR)/$(PGM): $(BUILD_OBJS) $(ASM_SRCS)
+	$(MKDIR) $(TARGETDIR)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(MERLIN_ASM) linkscript.s $(PGM) $(TARGETDIR)/$(PGM)
 ifneq ($(REZ_OBJS),)
@@ -152,7 +154,7 @@ else
 # resource compile will read the $(PGM).bin binary and load it into the
 # resources also.
 $(BINTARGET): $(BUILD_OBJS)
-	$(LINK) $(LDFLAGS) $(BUILD_OBJS_NOSUFFIX) --keep=$(BINTARGET)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) --keep=$(BINTARGET)
 
     endif
 
@@ -169,6 +171,7 @@ $(BINTARGET): $(BUILD_OBJS) $(ASM_SRCS)
 $(REZ_OBJS): $(BINTARGET)
 
 $(TARGETDIR)/$(PGM): $(REZ_OBJS)
+	$(MKDIR) $(TARGETDIR)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
