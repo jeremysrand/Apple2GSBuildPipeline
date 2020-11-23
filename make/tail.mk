@@ -96,7 +96,7 @@ build: $(BUILDTARGET)
 gen: xcodefix
 
 xcodefix:
-	defaults write "$(ORCAM_PLUGIN_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)s -array `defaults read "$(XCODE_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)` || true
+	[ "`uname`" == Darwin ] && defaults write "$(ORCAM_PLUGIN_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)s -array `defaults read "$(XCODE_INFO)" $(XCODE_PLUGIN_COMPATIBILITY)` || true
 
 clean: genclean
 	$(RM) "$(TARGETDIR)/$(PGM)" $(BINTARGET)
