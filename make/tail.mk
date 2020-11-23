@@ -125,7 +125,7 @@ ifneq ($(REZ_OBJS),)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
 endif
-	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) --keep=$(TARGETDIR)/$(PGM)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep=$(TARGETDIR)/$(PGM)
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
     endif
@@ -154,7 +154,7 @@ else
 # resource compile will read the $(PGM).bin binary and load it into the
 # resources also.
 $(BINTARGET): $(BUILD_OBJS)
-	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) --keep=$(BINTARGET)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep=$(BINTARGET)
 
     endif
 
