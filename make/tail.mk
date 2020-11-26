@@ -5,6 +5,9 @@
 export PATH := $(PATH):$(ORCA_BIN)
 
 CWD=$(shell pwd)
+OBJDIR:=$(abspath $(OBJDIR))
+GENDIR:=$(abspath $(GENDIR))
+TARGETDIR:=$(abspath $(TARGETDIR))
 
 DISKIMAGE=$(TARGETDIR)/$(PGM).2mg
 BUILDTARGET=$(DISKIMAGE)
