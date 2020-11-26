@@ -5,9 +5,6 @@
 export PATH := $(PATH):$(ORCA_BIN)
 
 CWD=$(shell pwd)
-OBJDIR:=$(abspath $(OBJDIR))
-GENDIR:=$(abspath $(GENDIR))
-TARGETDIR:=$(abspath $(TARGETDIR))
 
 DISKIMAGE=$(TARGETDIR)/$(PGM).2mg
 BUILDTARGET=$(DISKIMAGE)
@@ -128,7 +125,7 @@ ifneq ($(REZ_OBJS),)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(CP) $(REZ_OBJS) $(TARGETDIR)/$(PGM)
 endif
-	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep=$(TARGETDIR)/$(PGM)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep="$(abspath $(TARGETDIR)/$(PGM))"
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
     endif
@@ -157,7 +154,7 @@ else
 # resource compile will read the $(PGM).bin binary and load it into the
 # resources also.
 $(BINTARGET): $(BUILD_OBJS)
-	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep=$(BINTARGET)
+	cd $(OBJDIR); $(LINK) $(LDFLAGS) $(patsubst $(OBJDIR)/%, %, $(BUILD_OBJS_NOSUFFIX)) keep="$(abspath $(BINTARGET))"
 
     endif
 
@@ -187,7 +184,7 @@ $(DISKIMAGE): $(TARGETDIR)/$(PGM)
 execute: $(EXECTARGET)
 
 executeGUI: all
-	make/launchEmulator $(DISKIMAGE)
+	make/launchEmulator "$(DISKIMAGE)"
 
 executeShell: all
 	$(ORCA) $(TARGETDIR)/$(PGM)

@@ -61,7 +61,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "$PROJECT_DIR/___PACKAGENAME___"
+            argument = "&quot;$PROJECT_DIR/___PACKAGENAME___&quot;"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
