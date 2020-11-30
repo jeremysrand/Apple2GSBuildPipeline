@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TMPFILE=/tmp/orca-macgen.$$
+ERROUTPUT=/tmp/orca-asm-errs.$$
 
 FILENAME="$1"
 shift
@@ -54,15 +55,39 @@ DIRNAME=`dirname $FILENAME`
 BASENAME=`basename $FILENAME .s`
 
 pushd "$DIRNAME" > /dev/null
-$ORCA assemble $* keep="${BASENAME}" "${BASENAME}.s"
+$ORCA assemble $* keep="${BASENAME}" "${BASENAME}.s" 2> $ERROUTPUT
 RESULT=$?
 popd > /dev/null
+
+if [ -s $ERROUTPUT ]
+then
+    RESULT=1
+    awk '
+        {
+            print $0
+        }
+        
+        /^Error /{
+            $1=""
+            $2=""
+            LINENO=$3
+            $3=""
+            printf("%s/%s:%d:0: error: %s\n", PWD, FILE, LINENO, $0)
+        }
+    ' "PWD=`pwd`" "FILE=${BASENAME}.s" $ERROUTPUT
+fi
+rm -f $ERROUTPUT
 
 if [ "$RESULT" -ne 0 ]
 then
     rm -f "$SRCROOTNAME"
     rm -f "$SRCMACROSNAME"
     rm -f "$SRCOBJNAME"
+    rm -f "$DESTROOTNAME"
+    rm -f "$DESTMACROSNAME"
+    rm -f "$DESTOBJNAME"
+    rm -f "$DESTDEPSNAME"
+    exit 1
 fi
 
 mkdir -p `dirname "$DESTROOTNAME"`
