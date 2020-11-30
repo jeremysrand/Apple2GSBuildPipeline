@@ -23,6 +23,20 @@ DEST="${MOUNTDIR}/${DISKIMAGEDEST}"
 
 COPYDIRS=$*
 
+# It looks like on Linux, the cp command needs a special argument to preserve the resource fork.  This isn't ideal
+# but for now, if uname is Darwin, then this is MacOS and we don't need any cp args.  If not Darwin, then assume
+# this is Linux and ask for extended attributes to be preserved through the copy.
+#
+# Ultimately, it could be that other platforms (BSD, does Solaris still exist?) or even other Linux versions or
+# distributions need different arguments for this rather special thing.  If true, this may need to be a build time
+# option which can be set.
+if [ "`uname`" = Darwin ]
+then
+    CPARGS=""
+else
+    CPARGS="--preserve=xattr"
+fi
+
 cleanupAndExit()
 {
     umount "$MOUNTDIR" 2> /dev/null
@@ -59,7 +73,7 @@ then
     cleanupAndExit
 fi
 
-cp "$FILE" "$DEST"
+cp $CPARGS "$FILE" "$DEST"
 if [ $? != 0 ]
 then
     echo Unable to copy the file to the disk image.
@@ -83,7 +97,7 @@ do
             mkdir -p "${MOUNTDIR}/$FILEORDIR"
         elif [ -f "$FILEORDIR" ]
         then
-            cp "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
+            cp $CPARGS "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
         fi
     done
     cd "$OLDDIR"

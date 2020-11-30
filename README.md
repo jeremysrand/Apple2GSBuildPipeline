@@ -27,6 +27,14 @@ Features of this build environment include:
    * Errors returned by the C compiler, the resource compiler and the Merlin assembler are now understood by Xcode.  The error will be visible in the editor itself and Xcode will jump to the line reported by the compiler to contain the error.  Note that ORCA/M errors are not understood by Xcode at this time.
 
 
+MacOS  Versions:
+----------------
+
+As of today, I have not been able to test these build tools under MacOS 11 (Big Sur).  There are barriers which prevent me from upgrading to MacOS 11 right now so I am unable to test it and can make no guarantees.  I did get some informal feedback from someone using a beta of MacOS 11 who was having permission problems.  That is the most likely issue.  In general, with each release recently, Apple has tighted up security in ways that can lead to problems.  If you are trying to use these tools on MacOS 11 right now and are having problems, please contact me and I will try to help but it may be difficult to assist until I can upgrade myself.
+
+And when it comes to Apple silicon, I have no specific plans right now to purchase new hardware so I cannot do any testing.  However, there are no binaries in this package itself since it is just makefiles, scripts and Xcode configuration files.  Assuming that Golden Gate and Fuse work on Apple silicon and assuming that MacOS 11 is OK (see the previous paragraph), I don't expect any specific issues with Apple silicon.  But again, I have no ability to test that right now so I cannot make any guarantees.
+
+
 MacOS  Installation:
 --------------------
 
@@ -71,7 +79,7 @@ UNIX Installation:
 
 This build infrastructure can be used in a non-Mac environment.  The Makefile infrastructure should work on any UNIX-y platform.  You will still need Golden Gate and the ORCA tools setup on your machine.  Just add the Makefile and the contents of the make directory to your project.  Modify the Makefile as appropriate and you should have a build environment which you can use with the make command.
 
-That said, I haven't tested this on any other platform to show this is actually true.
+Thanks to [xandark](https://github.com/xandark) who has done some testing of the build scripts under Linux.  Thanks to that work and the issues raised, I have more confidence that these build scripts should work on non-MacOS platforms.  Feel free to submit issues if you find problems.
 
 
 Possible Future Improvements:
