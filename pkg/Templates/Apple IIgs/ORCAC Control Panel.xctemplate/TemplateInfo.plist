@@ -16,6 +16,8 @@
 		<string>make/orca-cc</string>
 		<string>make/orca-rez</string>
 		<string>make/system601.2mg</string>
+		<string>make/empty.2mg</string>
+		<string>make/tar</string>
 		<string>make/tail.mk</string>
                 <string>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</string>
 	</array>
@@ -91,6 +93,20 @@
 			<string>make</string>
 			<key>Path</key>
 			<string>make/system601.2mg</string>
+		</dict>
+		<key>make/empty.2mg</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/empty.2mg</string>
+		</dict>
+		<key>make/tar</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/tar</string>
 		</dict>
 		<key>make/tail.mk</key>
 		<dict>
@@ -185,6 +201,19 @@
                         <dict>
                                 <key>PRODUCT_NAME</key>
                                 <string>___PACKAGENAME___.2mg</string>
+                        </dict>
+                </dict>
+                <dict>
+                        <key>ProductType</key>
+                        <string>com.apple.product-type.tool</string>
+                        <key>TargetIdentifier</key>
+                        <string>com.apple.dt.commandLineToolTarget</string>
+                        <key>Name</key>
+                        <string>Archive</string>
+                        <key>SharedSettings</key>
+                        <dict>
+                                <key>PRODUCT_NAME</key>
+                                <string>___PACKAGENAME___.shk</string>
                         </dict>
                 </dict>
                 <dict>

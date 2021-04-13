@@ -1,18 +1,29 @@
 #!/bin/sh
 
-if [ ! -z "$GSPLUS" ] && [ -x "$GSPLUS" ]
-then
-    EMULATORPATH="$GSPLUS"
-elif [ ! -z "$GSPORT" ] && [ -x "$GSPORT" ]
-then
-    EMULATORPATH="$GSPORT"
-fi
+TMPDIR="/tmp/a2gs_emulator.$$"
 
-if [ -z "$EMULATORPATH" ]
+cleanupAndExit()
+{
+    cd
+    if [ ! -z $PID ]
+    then
+        kill $PID 2> /dev/null
+    fi
+    rm -rf $TMPDIR
+    exit 0
+}
+
+createConfigTxt()
+{
+    mkdir "$TMPDIR"
+    sed "s:^s7d1 *=.*$:s7d1 = $BOOTIMAGE:
+s:^s5d1 *=.*:s5d1 = $DISKIMAGE:" < make/config.txt > "$TMPDIR/config.txt"
+    
+}
+
+if [ $# -ne 2 ]
 then
-    echo Unable to find GSplus or GSport at these locations.
-    echo "    GSPLUS=$GSPLUS"
-    echo "    GSPORT=$GSPORT"
+    echo USAGE $0: diskimage bootimage
     exit 1
 fi
 
@@ -22,15 +33,52 @@ then
     DISKIMAGE="$PWD/$DISKIMAGE"
 fi
 
-cd make
-sed -i "" "s:^s7d1 *=.*$:s7d1 = $DISKIMAGE:" config.txt
+BOOTIMAGE="$2"
+if echo $BOOTIMAGE | grep -v '^/' > /dev/null
+then
+    BOOTIMAGE="$PWD/$BOOTIMAGE"
+fi
 
+case "$EMULATOR" in
+    gsplus)
+        EMULATORPATH="$GSPLUS"
+        EMULATORARGS="$GSPLUSARGS"
+        EMULATORDIR="$TMPDIR"
+        createConfigTxt
+        ;;
+    gsport)
+        EMULATORPATH="$GSPORT"
+        EMULATORARGS="$GSPORTARGS"
+        EMULATORDIR="$TMPDIR"
+        createConfigTxt
+        ;;
+    mame)
+        EMULATORPATH="$MAME"
+        EMULATORARGS="$MAMEARGS -hard1 "$BOOTIMAGE" -flop3 "$DISKIMAGE""
+        EMULATORDIR="$MAMELIB"
+        ;;
+    *)
+        echo Invalid emulator specified, \"$EMULATOR\"
+        exit 1
+        ;;
+esac
+
+if [ ! -x "$EMULATORPATH" ]
+then
+    echo Unable to find $EMULATOR at $EMULATORPATH
+    exit 1
+fi
+
+if [ ! -d "$EMULATORDIR" ]
+then
+    echo Unable to find $EMULATOR library at $EMULATORDIR
+    exit 1
+fi
+
+cd "$EMULATORDIR"
 # This magic ensure that clicking stop in Xcode results in the emulator terminating.
-
-$EMULATORPATH &
+"$EMULATORPATH" $EMULATORARGS &
 PID=$!
 
-trap 'kill $PID' SIGTERM SIGINT SIGHUP EXIT
+trap cleanupAndExit SIGTERM SIGINT SIGHUP EXIT
 wait
-
-exit 0

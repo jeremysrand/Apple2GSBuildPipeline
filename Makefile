@@ -28,6 +28,22 @@ PGM=___PACKAGENAME___
 # TARGETTYPE=nda
 # TARGETTYPE=xcmd
 
+# Uncomment one of the following lines to force a particular GS emulator.
+# By default, specific paths are tested for these emulators in the below
+# order and the first found is what will be used.  You can overrride that
+# here:
+#
+# EMULATOR=gsplus
+# EMULATOR=mame
+# EMULATOR=gsport
+
+# By default, the build provides a single boot environment to test with.
+# You can put other .2mg files into the make directory and override this
+# variable to change what boot disk you want to use when you launch the
+# emulator.  The disk image you specify must be found in the make directory:
+#
+# BOOTIMAGE=system601.2mg
+
 # Add any other directories where you are putting C or assembly source
 # files to this list:
 # SRCDIRS+=
@@ -65,7 +81,7 @@ LDFLAGS+=
 # Uncomment the following line if you want to build against the GNO libraries
 # export ORCA=$(ORCA_BINDIR)/gno
 
-# If you want to copy one or more files or directories to the target disk
+# If you want to copy one or more files or directories to the distribution disk
 # image, add the root directory to this variable.  Any directories under
 # the source directory which don't exist in the target disk image will be
 # created.  All files will be copied from the source to the target using
@@ -73,22 +89,60 @@ LDFLAGS+=
 #
 # For example, if you set COPYDIRS to dir and in your project you have
 # the following files:
+#     dir/Icons/myIconFile
+#     dir/newDir/anotherFile
+# Then, during the copy phase, myIconFile will be copied into the Icons
+# folder and a folder newDir will be created and anotherFile will be copied
+# into there.
+COPYDIRS=
+
+# If you want to copy one or more files or directories to the boot disk
+# image, add the root directory to this variable.  Any directories under
+# the source directory which don't exist in the boot disk image will be
+# created.  All files will be copied from the source to the target using
+# the same path from the source.
+#
+# For example, if you set COPYBOOTDIRS to dir and in your project you have
+# the following files:
 #     dir/System/mySystemFile
 #     dir/newDir/anotherFile
 # Then, during the copy phase, mySystemFile will be copied into the System
 # folder and a folder newDir will be created and anotherFile will be copied
 # into there.
-COPYDIRS=
+COPYBOOTDIRS=
 
 # By default, the build expects that you have GSplus in the path:
 # 	/Applications/GSplus.app/Contents/MacOS/gsplus
 # If you have it in a different location, specify that here.
 # GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
 
+# By default, the build uses no arguments with GSplus.  If you would like to
+# use different arguments, specify that here.
+# GSPLUSARGS=
+
 # By default, the build expects that you have GSport in the path:
 # 	/Applications/GSport/GSport.app/Contents/MacOS/GSport
 # If you have it in a different location, specify that here.
 # GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
+
+# By default, the build uses no arguments with GSport.  If you would like to
+# use different arguments, specify that here.
+# GSPORTARGS=
+
+# By default, the build expects that you have Ample/mame in the path:
+# 	/Applications/Ample.app/Contents/MacOS/mame64
+# If you have it in a different location, specify that here.
+# MAME=/Applications/Ample.app/Contents/MacOS/mame64
+
+# By default, the build expects that you have the mame ROMs/libs in the path:
+# 	$(HOME)/Library/Application Support/Ample
+# If you have it in a different location, specify that here.
+# MAMELIB=$(HOME)/Library/Application Support/Ample
+
+# By default, the build uses these arguments with mame:
+# 	apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
+# If you would like to use different arguments, specify that here.
+# MAMEARGS=apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 
 # For a desktop application, it can operate in 640x200 or 320x200
 # resolution.  This setting is used to define which horizontal

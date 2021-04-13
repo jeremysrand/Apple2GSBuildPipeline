@@ -72,10 +72,40 @@ DESKTOP_RES_MODE=640
 MESSAGE_CENTER=0
 
 GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
+GSPLUSARGS=
 GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
+GSPORTARGS=
+MAME=/Applications/Ample.app/Contents/MacOS/mame64
+MAMELIB=$(HOME)/Library/Application Support/Ample
+MAMEARGS=apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 
 export GSPLUS
+export GSPLUSARGS
 export GSPORT
+export GSPORTARGS
+export MAME
+export MAMELIB
+export MAMEARGS
+
+ifneq (,$(wildcard $GSPLUS))
+    EMULATOR=gsplus
+else ifneq (,$(wildcard $MAME))
+    EMULATOR=mame
+else ifneq (,$(wildcard $GSPORT))
+    EMULATOR=gsport
+else
+    EMULATOR=gsplus
+endif
+
+export EMULATOR
+
+BOOTIMAGE=system601.2mg
+export BOOTIMAGE
+
+COPYDIRS=
+export COPYDIRS
+COPYBOOTDIRS=
+export COPYBOOTDIRS
 
 XCODE_PATH=/Applications/Xcode.app
 XCODE_INFO=$(XCODE_PATH)/Contents/Info.plist

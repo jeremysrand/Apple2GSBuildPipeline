@@ -7,9 +7,11 @@ export PATH := $(PATH):$(ORCA_BIN)
 CWD=$(shell pwd)
 
 DISKIMAGE=$(TARGETDIR)/$(PGM).2mg
+ARCHIVE=$(TARGETDIR)/$(PGM).shk
+DESTBOOTIMAGE=$(TARGETDIR)/$(BOOTIMAGE)
 BUILDTARGET=$(DISKIMAGE)
 EXECTARGET=executeGUI
-DISKIMAGEDEST=.
+BOOTCOPYPATH=
 AUXTYPE=
 CFLAGS+=-i$(GENDIR)
 
@@ -31,18 +33,18 @@ else ifeq ($(TARGETTYPE),desktop)
     REZFLAGS+=rez='-d MESSAGE_CENTER=$(MESSAGE_CENTER)'
 else ifeq ($(TARGETTYPE),cda)
     FILETYPE=cda
-    DISKIMAGEDEST=System/Desk.Accs
+    BOOTCOPYPATH=System/Desk.Accs
 else ifeq ($(TARGETTYPE),cdev)
     BINTARGET=$(TARGETDIR)/$(PGM).bin
     FILETYPE=199
-    DISKIMAGEDEST=System/CDevs
+    BOOTCOPYPATH=System/CDevs
     REZFLAGS+=rez='-d BINTARGET="$(BINTARGET)"'
 else ifeq ($(TARGETTYPE),nba)
     FILETYPE=exe
     BUILDTARGET=$(TARGETDIR)/$(PGM)
 else ifeq ($(TARGETTYPE),nda)
     FILETYPE=nda
-    DISKIMAGEDEST=System/Desk.Accs
+    BOOTCOPYPATH=System/Desk.Accs
 else ifeq ($(TARGETTYPE),xcmd)
     FILETYPE=exe
     BUILDTARGET=$(TARGETDIR)/$(PGM)
@@ -105,6 +107,8 @@ clean: genclean
 	$(RM) $(ALL_DEPS)
 	$(RM) $(ASM_MACROS)
 	$(RM) "$(DISKIMAGE)"
+	$(RM) "$(DESTBOOTIMAGE)"
+	$(RM) "$(ARCHIVE)"
 
 createPackage:
 	pkg/createPackage
@@ -178,13 +182,13 @@ $(TARGETDIR)/$(PGM): $(REZ_OBJS)
 
 endif
 
-$(DISKIMAGE): $(TARGETDIR)/$(PGM)
-	make/createDiskImage "$(DISKIMAGE)" "$(TARGETDIR)/$(PGM)" "$(DISKIMAGEDEST)" $(COPYDIRS)
+$(DISKIMAGE): $(TARGETDIR)/$(PGM) make/empty.2mg make/$(BOOTIMAGE)
+	make/createDiskImage "$(DISKIMAGE)" $(DESTBOOTIMAGE) "$(TARGETDIR)/$(PGM)" $(BOOTCOPYPATH)
 
 execute: $(EXECTARGET)
 
 executeGUI: all
-	make/launchEmulator "$(DISKIMAGE)"
+	make/launchEmulator "$(DISKIMAGE)" "$(DESTBOOTIMAGE)"
 
 executeShell: all
 	$(ORCA) $(TARGETDIR)/$(PGM)
