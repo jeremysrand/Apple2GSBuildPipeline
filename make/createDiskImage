@@ -41,8 +41,10 @@ else
     CPARGS="--preserve=xattr"
 fi
 
-cleanupAndExit()
+
+printErrorAndExit()
 {
+    echo "`pwd`/Makefile:0:0: error: $*" >&2
     umount "$MOUNTDIR" 2> /dev/null
     rm -f "$TMPDISKIMAGE" 2> /dev/null
     rm -f "$TMPBOOTIMAGE" 2> /dev/null
@@ -53,84 +55,13 @@ cleanupAndExit()
     exit 1
 }
 
-if [ ! -f "$TEMPLATEDISKIMAGE" ]
-then
-    echo Unable to find the template disk image, $TEMPLATEDISKIMAGE
-    cleanupAndExit
-fi
 
-if [ ! -f "$TEMPLATEBOOTIMAGE" ]
-then
-    echo Unable to find the template boot image, $TEMPLATEBOOTIMAGE
-    cleanupAndExit
-fi
-
-mkdir "$TMPDIR"
-if [ $? != 0 ]
-then
-    echo Unable to create the mount directory.
-    cleanupAndExit
-fi
-
-mkdir "$MOUNTDIR"
-if [ $? != 0 ]
-then
-    echo Unable to create the mount directory.
-    cleanupAndExit
-fi
-
-cp "$TEMPLATEBOOTIMAGE" "$TMPBOOTIMAGE"
-if [ $? != 0 ]
-then
-    echo Unable to copy template boot image.
-    cleanupAndExit
-fi
-if [ ! -z "$COPYBOOTDIRS" ] || [ ! -z "BOOTCOPYPATH" ]
-then
-    profuse -orw "$TMPBOOTIMAGE" "$MOUNTDIR"
-    if [ $? != 0 ]
-    then
-        echo Unable to mount the boot image.
-        cleanupAndExit
-    fi
-
-    if [ ! -z "$BOOTCOPYPATH" ]
-    then
-        cp $CPARGS "$FILE" "$MOUNTDIR/$BOOTCOPYPATH"
-        if [ $? != 0 ]
-        then
-            echo Unable to copy the file to the boot image.
-            cleanupAndExit
-        fi
-    fi
-
-    OLDDIR=`pwd`
-    for COPYDIR in $COPYBOOTDIRS
-    do
-        cd "$COPYDIR"
-        if [ $? != 0 ]
-        then
-            echo Unable to find $COPYDIR
-            cleanupAndExit
-        fi
-
-        find . -print | while read FILEORDIR
-        do
-            if [ -d "$FILEORDIR" ]
-            then
-                mkdir -p "${MOUNTDIR}/$FILEORDIR"
-            elif [ -f "$FILEORDIR" ]
-            then
-                cp $CPARGS "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
-            fi
-        done
-        cd "$OLDDIR"
-    done
-
+unmount()
+{
     RETRIES=0
     while [ $RETRIES -lt 5 ]
     do
-        umount "$MOUNTDIR"
+        umount "$1"
         if [ $? -eq 0 ]
         then
         break
@@ -142,102 +73,172 @@ then
 
     if [ $RETRIES -ge 5 ]
     then
-        echo Unable to unmount the boot image.
-        cleanupAndExit
+        printErrorAndExit "Unable to unmount the disk image."
     fi
+}
+
+
+validateProDOSName()
+{
+    NAME=`basename $1`
+    echo $NAME | egrep '^[a-zA-Z][a-zA-Z0-9.]{0,14}$' > /dev/null
+}
+
+
+mkdirProDOS()
+{
+    validateProDOSName "$1"
+    if [ $? -ne 0 ]
+    then
+        printErrorAndExit "Invalid ProDOS name of directory `basename $1`.  ProDOS names must be 1 to 15 characters, start with a letter and only letters, numbers and a period can be used in the name."
+    fi
+
+    mkdir -p "$1"
+    if [ $? -ne 0 ]
+    then
+        printErrorAndExit "Unable to create directory $1"
+    fi
+}
+
+
+cpProDOS()
+{
+    validateProDOSName "$2"
+    if [ $? -ne 0 ]
+    then
+        printErrorAndExit "Invalid ProDOS name of file `basename $2`.  ProDOS names must be 1 to 15 characters, start with a letter and only letters, numbers and a period can be used in the name."
+    fi
+
+    cp $CPARGS "$1" "$2"
+    if [ $? -ne 0 ]
+    then
+        printErrorAndExit "Unable to create directory $1"
+    fi
+}
+
+
+copyDirs()
+{
+    OLDDIR=`pwd`
+    for COPYDIR in $*
+    do
+        cd "$COPYDIR"
+        if [ $? != 0 ]
+        then
+            printErrorAndExit "Unable to find $COPYDIR"
+        fi
+
+        find . -print | while read FILEORDIR
+        do
+            if [ -d "$FILEORDIR" ]
+            then
+                mkdirProDOS "${MOUNTDIR}/$FILEORDIR"
+            elif [ -f "$FILEORDIR" ]
+            then
+                cpProDOS "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
+            fi
+        done
+        cd "$OLDDIR"
+    done
+}
+
+
+if [ ! -f "$TEMPLATEDISKIMAGE" ]
+then
+    printErrorAndExit "Unable to find the template disk image, $TEMPLATEDISKIMAGE"
+fi
+
+if [ ! -f "$TEMPLATEBOOTIMAGE" ]
+then
+    printErrorAndExit "Unable to find the template boot image, $TEMPLATEBOOTIMAGE"
+fi
+
+mkdir "$TMPDIR"
+if [ $? != 0 ]
+then
+    printErrorAndExit "Unable to create the mount directory."
+fi
+
+mkdir "$MOUNTDIR"
+if [ $? != 0 ]
+then
+    printErrorAndExit "Unable to create the mount directory."
+fi
+
+cp "$TEMPLATEBOOTIMAGE" "$TMPBOOTIMAGE"
+if [ $? != 0 ]
+then
+    printErrorAndExit "Unable to copy template boot image."
+fi
+if [ ! -z "$COPYBOOTDIRS" ] || [ ! -z "BOOTCOPYPATH" ]
+then
+    profuse -orw "$TMPBOOTIMAGE" "$MOUNTDIR"
+    if [ $? != 0 ]
+    then
+        printErrorAndExit "Unable to mount the boot image."
+    fi
+
+    if [ ! -z "$BOOTCOPYPATH" ]
+    then
+        cpProDOS "$FILE" "$MOUNTDIR/$BOOTCOPYPATH"
+        if [ $? != 0 ]
+        then
+            printErrorAndExit "Unable to copy the file to the boot image."
+        fi
+    fi
+
+    copyDirs $COPYBOOTDIRS
+
+    unmount "$MOUNTDIR"
 fi
 
 cp "$TEMPLATEDISKIMAGE" "$TMPDISKIMAGE"
 if [ $? != 0 ]
 then
-    echo Unable to copy template disk image.
-    cleanupAndExit
+    printErrorAndExit "Unable to copy template disk image."
 fi
 
 profuse -orw "$TMPDISKIMAGE" "$MOUNTDIR"
 if [ $? != 0 ]
 then
-    echo Unable to mount the disk image.
-    cleanupAndExit
+    printErrorAndExit "Unable to mount the disk image."
 fi
 
-cp $CPARGS "$FILE" "$MOUNTDIR"
+cpProDOS "$FILE" "$MOUNTDIR"
 if [ $? != 0 ]
 then
-    echo Unable to copy the file to the disk image.
-    cleanupAndExit
+    printErrorAndExit "Unable to copy the file to the disk image."
 fi
 
+copyDirs $COPYDIRS
+
 OLDDIR=`pwd`
-for COPYDIR in $COPYDIRS
-do
-    cd "$COPYDIR"
-    if [ $? != 0 ]
-    then
-        echo Unable to find $COPYDIR
-        cleanupAndExit
-    fi
-
-    find . -print | while read FILEORDIR
-    do
-        if [ -d "$FILEORDIR" ]
-        then
-            mkdir -p "${MOUNTDIR}/$FILEORDIR"
-        elif [ -f "$FILEORDIR" ]
-        then
-            cp $CPARGS "$FILEORDIR" "${MOUNTDIR}/$FILEORDIR"
-        fi
-    done
-    cd "$OLDDIR"
-done
-
 cd "$TMPDIR"
 $ORCA "$OLDDIR/make/tar" cf "$TMPARCHIVE" "$PROGRAM"
 if [ $? != 0 ]
 then
-    echo Unable to create archive.
-    cleanupAndExit
+    printErrorAndExit "Unable to create archive."
 fi
 cd "$OLDDIR"
 
-RETRIES=0
-while [ $RETRIES -lt 5 ]
-do
-    umount "$MOUNTDIR"
-    if [ $? -eq 0 ]
-    then
-        break
-    fi
-
-    RETRIES=`expr $RETRIES + 1`
-    sleep 1
-done
-
-if [ $RETRIES -ge 5 ]
-then
-    echo Unable to unmount the disk image.
-    cleanupAndExit
-fi
+unmount "$MOUNTDIR"
 
 cp "$TMPDISKIMAGE" "$DISKIMAGE"
 if [ $? != 0 ]
 then
-    echo Unable to copy the disk image to the destination.
-    cleanupAndExit
+    printErrorAndExit "Unable to copy the disk image to the destination."
 fi
 
 cp "$TMPBOOTIMAGE" "$DESTBOOTIMAGE"
 if [ $? != 0 ]
 then
-    echo Unable to copy the boot image to the destination.
-    cleanupAndExit
+    printErrorAndExit "Unable to copy the boot image to the destination."
 fi
 
 cp "$TMPARCHIVE" "$ARCHIVE"
 if [ $? != 0 ]
 then
-    echo Unable to copy the archive to the destination.
-    cleanupAndExit
+    printErrorAndExit "Unable to copy the archive to the destination."
 fi
 
 rm -f "$TMPDISKIMAGE"
