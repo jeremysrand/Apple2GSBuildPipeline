@@ -77,7 +77,7 @@ GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
 GSPORTARGS=
 MAME=/Applications/Ample.app/Contents/MacOS/mame64
 MAMELIB=$(HOME)/Library/Application Support/Ample
-MAMEARGS=apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
+MAMEARGS=apple2gs -skip_gameinfo -speed 2 -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 
 export GSPLUS
 export GSPLUSARGS

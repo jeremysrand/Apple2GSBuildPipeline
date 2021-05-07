@@ -142,7 +142,7 @@ COPYBOOTDIRS=
 # By default, the build uses these arguments with mame:
 # 	apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 # If you would like to use different arguments, specify that here.
-# MAMEARGS=apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
+# MAMEARGS=apple2gs -skip_gameinfo -speed 2 -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 
 # For a desktop application, it can operate in 640x200 or 320x200
 # resolution.  This setting is used to define which horizontal
