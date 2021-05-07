@@ -120,6 +120,6 @@ XCODE_PLUGIN_COMPATIBILITY=DVTPlugInCompatibilityUUID
 
 all:
 	$(MKDIR) $(OBJDIR) $(GENDIR) $(TARGETDIR)
-	@make gen
-	@make build
+	@make -f $(firstword $(MAKEFILE_LIST)) gen
+	@make -f $(firstword $(MAKEFILE_LIST)) build
 
