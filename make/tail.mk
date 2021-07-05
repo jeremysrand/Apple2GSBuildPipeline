@@ -73,17 +73,22 @@ REZ_SRCS=$(patsubst $(GENDIR)/%, %, $(patsubst ./%, %, $(wildcard $(addsuffix /*
 REZ_DEPS=$(patsubst %.rez, $(OBJDIR)/%.rez.d, $(REZ_SRCS))
 REZ_OBJS=$(patsubst %.rez, $(OBJDIR)/%.r, $(REZ_SRCS))
 
+TEACH_FILES=$(patsubst %.md, $(GENDIR)/Teach/%, $(MD_SRCS))
+ifneq ($(TEACH_FILES),)
+    COPYDIRS+=$(GENDIR)/Teach
+endif
+
 ifneq ($(firstword $(REZ_SRCS)), $(lastword $(REZ_SRCS)))
     $(error Only a single resource file supported, found $(REZ_SRCS))
 endif
 
-BUILD_OBJS=$(C_ROOTS) $(C_OBJS) $(ASM_ROOTS)
+BUILD_OBJS=$(C_ROOTS) $(C_OBJS) $(ASM_ROOTS) $(TEACH_FILES)
 ifeq ($(BINTARGET),)
     BUILD_OBJS+=$(REZ_OBJS)
 endif
 BUILD_OBJS_NOSUFFIX=$(C_ROOTS:.root=) $(C_OBJS:.a=) $(ASM_ROOTS:.ROOT=)
 
-ALL_OBJS=$(C_ROOTS:.root=.a) $(C_OBJS) $(ASM_OBJS) $(REZ_OBJS)
+ALL_OBJS=$(C_ROOTS:.root=.a) $(C_OBJS) $(ASM_OBJS) $(REZ_OBJS) $(TEACH_FILES)
 ALL_ROOTS=$(C_ROOTS) $(C_OBJS:.a=.root) $(ASM_ROOTS)
 ALL_DEPS=$(C_DEPS) $(ASM_DEPS) $(REZ_DEPS)
 
@@ -222,6 +227,10 @@ $(OBJDIR)/%.r:    $(GENDIR)/%.rez
 ifneq ($(RLINT_PATH),)
 	$(ORCA) $(RLINT_PATH) $@
 endif
+
+$(GENDIR)/Teach/%: %.md
+	$(MKDIR) "$(GENDIR)/Teach"
+	$(ORCA) make/md2teach "$<" "$@"
 
 $(OBJS): Makefile
 

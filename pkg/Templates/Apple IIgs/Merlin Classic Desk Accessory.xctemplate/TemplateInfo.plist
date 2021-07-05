@@ -11,6 +11,7 @@
 		<string>make/createDiskImage</string>
 		<string>make/head.mk</string>
 		<string>make/launchEmulator</string>
+		<string>make/md2teach</string>
 		<string>make/merlin-asm</string>
 		<string>make/orca-rez</string>
 		<string>make/system601.2mg</string>
@@ -58,6 +59,13 @@
 			<string>make</string>
 			<key>Path</key>
 			<string>make/launchEmulator</string>
+		</dict>
+		<key>make/md2teach</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/md2teach</string>
 		</dict>
 		<key>make/merlin-asm</key>
 		<dict>

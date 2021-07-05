@@ -130,6 +130,10 @@ copyDirs()
 
         find . -print | while read FILEORDIR
         do
+            if [ "$FILEORDIR" = "." ]
+            then
+                continue
+            fi
             if [ -d "$FILEORDIR" ]
             then
                 mkdirProDOS "${MOUNTDIR}/$FILEORDIR"

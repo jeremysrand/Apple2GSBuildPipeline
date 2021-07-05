@@ -81,6 +81,13 @@ LDFLAGS+=
 # Uncomment the following line if you want to build against the GNO libraries
 # export ORCA=$(ORCA_BINDIR)/gno
 
+# Add any markdown files to the MD_SRCS variable to specify which files to
+# convert to a Teach text file format during the build.  Using this, you can
+# write your documentation in markdown in your project and at build time,
+# that documentation is converted to a format that is good to package with
+# your software and can be opened on a GS.
+MD_SRCS=
+
 # If you want to copy one or more files or directories to the distribution disk
 # image, add the root directory to this variable.  Any directories under
 # the source directory which don't exist in the target disk image will be

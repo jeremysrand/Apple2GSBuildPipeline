@@ -11,6 +11,7 @@
 		<string>make/createDiskImage</string>
 		<string>make/head.mk</string>
 		<string>make/launchEmulator</string>
+		<string>make/md2teach</string>
                 <string>make/orca-asm</string>
 		<string>make/orca-cc</string>
 		<string>make/orca-rez</string>
@@ -59,6 +60,13 @@
 			<string>make</string>
 			<key>Path</key>
 			<string>make/launchEmulator</string>
+		</dict>
+		<key>make/md2teach</key>
+		<dict>
+			<key>Group</key>
+			<string>make</string>
+			<key>Path</key>
+			<string>make/md2teach</string>
 		</dict>
 		<key>make/orca-asm</key>
 		<dict>
