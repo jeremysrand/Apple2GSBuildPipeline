@@ -1,7 +1,7 @@
 #!/bin/bash
 
-rm -rf "$2/Templates/Apple IIgs"
-rm -rf "$2/Templates/File Templates/Apple IIgs"
-rm -rf "$2/Templates/File Templates/Apple II/Merlin Assembly File.xctemplate"
-rm -rf "$2/Plug-ins/OrcaM.ideplugin"
+rm -rf "$HOME/Library/Developer/Xcode/Templates/Apple IIgs"
+rm -rf "$HOME/Library/Developer/Xcode/Templates/File Templates/Apple IIgs"
+rm -rf "$HOME/Library/Developer/Xcode/Templates/File Templates/Apple II/Merlin Assembly File.xctemplate"
+rm -rf "$HOME/Library/Developer/Xcode/Plug-ins/OrcaM.ideplugin"
 

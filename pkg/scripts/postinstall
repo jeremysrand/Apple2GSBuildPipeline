@@ -1,5 +1,10 @@
 #!/bin/bash
 
+
+cp -r /tmp/com.halcyontouch.Apple2gsTemplate.pkg/* "$HOME/Library/Developer/Xcode/"
+chown -R "$USER" "$HOME/Library/Developer/Xcode/"
+rm -rf /tmp/com.halcyontouch.Apple2gsTemplate.pkg
+
 if [ ! -f /Applications/Xcode.app/Contents/Info.plist ]
 then
     exit 0

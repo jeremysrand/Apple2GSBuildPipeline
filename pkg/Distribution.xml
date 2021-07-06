@@ -3,7 +3,6 @@
     <title>Apple IIgs XCode Template</title>
     <pkg-ref id="com.halcyontouch.Apple2gsTemplate.pkg"/>
     <options customize="never" require-scripts="false"/>
-    <domains enable_anywhere="false" enable_currentUserHome="true" enable_localSystem="false"/>
     <choices-outline>
         <line choice="default">
             <line choice="com.halcyontouch.Apple2gsTemplate.pkg"/>
