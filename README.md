@@ -32,9 +32,9 @@ Features of this build environment include:
 MacOS  Versions:
 ----------------
 
-As of today, I have not been able to test these build tools under MacOS 11 (Big Sur).  There are barriers which prevent me from upgrading to MacOS 11 right now so I am unable to test it and can make no guarantees.  I did get some informal feedback from someone using a beta of MacOS 11 who was having permission problems.  That is the most likely issue.  In general, with each release recently, Apple has tighted up security in ways that can lead to problems.  If you are trying to use these tools on MacOS 11 right now and are having problems, please contact me and I will try to help but it may be difficult to assist until I can upgrade myself.
+I have tested these build tools under MacOS 11 (Big Sur) and things do seem to work for me.  However, most of my development is still done under MacOS 10.15 so it could be that there are some unknown issues on the latest OS.  I plan to update my main machine to MacOS 11 soon so hopefully I will find any remaining issues then.  In the meantime, if you are trying to use these tools on MacOS 11 right now and are having problems, please contact me and I will try to help.
 
-And when it comes to Apple silicon, I have no specific plans right now to purchase new hardware so I cannot do any testing.  However, there are no binaries in this package itself since it is just makefiles, scripts and Xcode configuration files.  Assuming that Golden Gate and Fuse work on Apple silicon and assuming that MacOS 11 is OK (see the previous paragraph), I don't expect any specific issues with Apple silicon.  But again, I have no ability to test that right now so I cannot make any guarantees.
+And when it comes to Apple silicon, I have no specific plans right now to purchase new hardware so I cannot do any testing.  However, there are no binaries in this package itself since it is just makefiles, scripts and Xcode configuration files.  Assuming that Golden Gate and Fuse work on Apple silicon, I don't expect any specific issues with these scripts when run on Apple silicon.  But again, I have no ability to test that right now so I cannot make any guarantees.
 
 
 MacOS  Installation:
