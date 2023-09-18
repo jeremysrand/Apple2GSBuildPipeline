@@ -19,7 +19,7 @@
 		<string>make/empty.2mg</string>
 		<string>make/tar</string>
 		<string>make/tail.mk</string>
-                <string>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</string>
+		<string>../___PACKAGENAME___.xcodeproj/xcshareddata/xcschemes/___PACKAGENAME___.xcscheme</string>
 	</array>
 	<key>Definitions</key>
 	<dict>
@@ -141,7 +141,7 @@
 	<key>Concrete</key>
 	<true/>
 	<key>Description</key>
-        <string>This template creates an Apple IIgs Merlin code project to build a control panel.  The project starts with a single assembly file which you can modify.  You can also add more assembly files as you may like.</string>
+	<string>This template creates an Apple IIgs Merlin code project to build a control panel.  The project starts with a single assembly file which you can modify.  You can also add more assembly files as you may like.</string>
 	<key>Options</key>
 	<array/>
 	<key>Targets</key>
@@ -176,90 +176,90 @@
 				<key>Release</key>
 				<dict/>
 			</dict>
-                </dict>
-                <dict>
-                        <key>ProductType</key>
-                        <string>com.apple.product-type.tool</string>
-                        <key>TargetIdentifier</key>
-                        <string>com.apple.dt.commandLineToolTarget</string>
-                        <key>Name</key>
-                        <string>Binary</string>
-                        <key>SharedSettings</key>
-                        <dict>
-                                <key>PRODUCT_NAME</key>
-                                <string>___PACKAGENAME___</string>
-                        </dict>
-                </dict>
-                <dict>
-                        <key>ProductType</key>
-                        <string>com.apple.product-type.tool</string>
-                        <key>TargetIdentifier</key>
-                        <string>com.apple.dt.commandLineToolTarget</string>
-                        <key>Name</key>
-                        <string>DiskImage</string>
-                        <key>SharedSettings</key>
-                        <dict>
-                                <key>PRODUCT_NAME</key>
-                                <string>___PACKAGENAME___.2mg</string>
-                        </dict>
-                </dict>
-                <dict>
-                        <key>ProductType</key>
-                        <string>com.apple.product-type.tool</string>
-                        <key>TargetIdentifier</key>
-                        <string>com.apple.dt.commandLineToolTarget</string>
-                        <key>Name</key>
-                        <string>Archive</string>
-                        <key>SharedSettings</key>
-                        <dict>
-                                <key>PRODUCT_NAME</key>
-                                <string>___PACKAGENAME___.shk</string>
-                        </dict>
-                </dict>
-                <dict>
-                        <key>ProductType</key>
-                        <string>com.apple.product-type.tool</string>
-                        <key>TargetIdentifier</key>
-                        <string>com.apple.dt.commandLineToolTarget</string>
-                        <key>Name</key>
-                        <string>doNotBuild</string>
-                        <key>SharedSettings</key>
-                        <dict>
-                                <key>PRODUCT_NAME</key>
-                                <string>doNotBuild</string>
-                                <key>GCC_PREPROCESSOR_DEFINITIONS</key>
-                                <string>inline(X,Y)=""
-                                        extended=double
-                                        pascal=""</string>
-                                <key>HEADER_SEARCH_PATHS</key>
-                                <string>$TEMP_ROOT/___PACKAGENAME___.build/$CONFIGURATION/___PACKAGENAME___.build/DerivedSources
-                                        $GOLDEN_GATE/Libraries/ORCACDefs
-                                        ~/Library/GoldenGate/Libraries/ORCACDefs
-                                        /Library/GoldenGate/Libraries/ORCACDefs
-                                        ~/GoldenGate/Libraries/ORCACDefs</string>
-                        </dict>
-                        <key>BuildPhases</key>
-                        <array>
-                                <dict>
-                                        <key>Class</key>
-                                        <string>Sources</string>
-                                </dict>
-                                <dict>
-                                        <key>Class</key>
-                                        <string>Frameworks</string>
-                                </dict>
-                                <dict>
-                                        <key>Class</key>
-                                        <string>CopyFiles</string>
-                                        <key>DstPath</key>
-                                        <string>/usr/share/man/man1/</string>
-                                        <key>DstSubfolderSpec</key>
-                                        <string>0</string>
-                                        <key>RunOnlyForDeploymentPostprocessing</key>
-                                        <string>YES</string>
-                                </dict>
-                        </array>
-                </dict>
+		</dict>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.tool</string>
+			<key>TargetIdentifier</key>
+			<string>com.apple.dt.commandLineToolTarget</string>
+			<key>Name</key>
+			<string>Binary</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>___PACKAGENAME___</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.tool</string>
+			<key>TargetIdentifier</key>
+			<string>com.apple.dt.commandLineToolTarget</string>
+			<key>Name</key>
+			<string>DiskImage</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>___PACKAGENAME___.2mg</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.tool</string>
+			<key>TargetIdentifier</key>
+			<string>com.apple.dt.commandLineToolTarget</string>
+			<key>Name</key>
+			<string>Archive</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>___PACKAGENAME___.shk</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>ProductType</key>
+			<string>com.apple.product-type.tool</string>
+			<key>TargetIdentifier</key>
+			<string>com.apple.dt.commandLineToolTarget</string>
+			<key>Name</key>
+			<string>doNotBuild</string>
+			<key>SharedSettings</key>
+			<dict>
+				<key>PRODUCT_NAME</key>
+				<string>doNotBuild</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<string>inline(X,Y)=""
+					extended=double
+					pascal=""</string>
+				<key>HEADER_SEARCH_PATHS</key>
+				<string>$TEMP_ROOT/___PACKAGENAME___.build/$CONFIGURATION/___PACKAGENAME___.build/DerivedSources
+					$GOLDEN_GATE/Libraries/ORCACDefs
+					~/Library/GoldenGate/Libraries/ORCACDefs
+					/Library/GoldenGate/Libraries/ORCACDefs
+					~/GoldenGate/Libraries/ORCACDefs</string>
+			</dict>
+			<key>BuildPhases</key>
+			<array>
+				<dict>
+					<key>Class</key>
+					<string>Sources</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>Frameworks</string>
+				</dict>
+				<dict>
+					<key>Class</key>
+					<string>CopyFiles</string>
+					<key>DstPath</key>
+					<string>/usr/share/man/man1/</string>
+					<key>DstSubfolderSpec</key>
+					<string>0</string>
+					<key>RunOnlyForDeploymentPostprocessing</key>
+					<string>YES</string>
+				</dict>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

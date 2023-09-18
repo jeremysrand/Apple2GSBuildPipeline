@@ -2,9 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-        <key>AllowedTypes</key>
+	<key>AllowedTypes</key>
 	<array>
-            <string>com.rand-family.xcode.orcam</string>
+		<string>com.rand-family.xcode.orcam</string>
 	</array>
 	<key>DefaultCompletionName</key>
 	<string>File</string>
@@ -15,6 +15,6 @@
 	<key>MainTemplateFile</key>
 	<string>___FILEBASENAME___.s</string>
 	<key>Summary</key>
-        <string>An ORCA/M assembly source file</string>
+	<string>An ORCA/M assembly source file</string>
 </dict>
 </plist>

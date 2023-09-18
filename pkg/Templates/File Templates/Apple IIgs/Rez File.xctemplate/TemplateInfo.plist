@@ -4,8 +4,8 @@
 <dict>
 	<key>AllowedTypes</key>
 	<array>
-            <string>com.rand-family.xcode.orcarez</string>
-            <string>com.apple.rez-source</string>
+		<string>com.rand-family.xcode.orcarez</string>
+		<string>com.apple.rez-source</string>
 	</array>
 	<key>DefaultCompletionName</key>
 	<string>File</string>
