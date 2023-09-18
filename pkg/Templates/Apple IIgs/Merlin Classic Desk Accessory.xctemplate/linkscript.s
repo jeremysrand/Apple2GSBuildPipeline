@@ -14,5 +14,5 @@
     ds  0
     knd #$1100
     ali None
-    LNA ___PROJECTNAME___.S16
+    LNA ___PROJECTNAME___.CDA
     sna main       
