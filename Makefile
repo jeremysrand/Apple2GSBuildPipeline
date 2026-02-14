@@ -19,6 +19,7 @@ PGM=___PACKAGENAME___
 # 	nba - A HyperStudio new button action
 # 	nda - A new desk accessory
 # 	xcmd - A HyperCard XCMD or XCFN
+# 	init - A permament or temporary initialization file
 #
 # TARGETTYPE=shell
 # TARGETTYPE=desktop
@@ -27,6 +28,7 @@ PGM=___PACKAGENAME___
 # TARGETTYPE=nba
 # TARGETTYPE=nda
 # TARGETTYPE=xcmd
+# TARGETTYPE=init
 
 # Uncomment one of the following lines to force a particular GS emulator.
 # By default, specific paths are tested for these emulators in the below
@@ -163,6 +165,12 @@ COPYBOOTDIRS=
 # application (note: only the C desktop template supports message
 # center today)
 # MESSAGE_CENTER=0
+
+# For an init file, there are two kinds.  There are permanent and
+# temporary inits.  The default is a permanent init but use this
+# parament to setting it to Permanent or Temporary to switch between
+# the two kinds
+# INIT_TYPE=Permanent
 
 # Add any rules you want to execute before any compiles or assembly
 # commands are called here, if any.  You can generate .c, .s or .h

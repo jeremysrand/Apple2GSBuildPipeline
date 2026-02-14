@@ -48,6 +48,13 @@ else ifeq ($(TARGETTYPE),nda)
 else ifeq ($(TARGETTYPE),xcmd)
     FILETYPE=exe
     BUILDTARGET=$(TARGETDIR)/$(PGM)
+else ifeq ($(TARGETTYPE),init)
+    ifeq ($(INIT_TYPE),Temporary)
+        FILETYPE=tif
+    else
+        FILETYPE=pif
+    endif
+    BOOTCOPYPATH=System/System.Setup
 endif
 
 
