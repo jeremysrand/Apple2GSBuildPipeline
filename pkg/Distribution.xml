@@ -2,6 +2,7 @@
 <installer-gui-script minSpecVersion="1">
     <title>Apple IIgs XCode Template</title>
     <pkg-ref id="com.halcyontouch.Apple2gsTemplate.pkg"/>
+    <options hostArchitectures="arm64,x86_64"/>
     <options customize="never" require-scripts="false"/>
     <choices-outline>
         <line choice="default">
