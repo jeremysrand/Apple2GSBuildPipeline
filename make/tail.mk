@@ -156,7 +156,7 @@ $(TARGETDIR)/$(PGM): $(BUILD_OBJS) $(ASM_SRCS)
 	$(RM) $(TARGETDIR)/$(PGM)
 	$(MERLIN_ASM) linkscript.s $(PGM) $(TARGETDIR)/$(PGM)
 ifneq ($(REZ_OBJS),)
-	$(CP) $(REZ_OBJS)/..namedfork/rsrc $(TARGETDIR)/$(PGM)/..namedfork/rsrc
+	cat $(REZ_OBJS)/..namedfork/rsrc > $(TARGETDIR)/$(PGM)/..namedfork/rsrc
 endif
 	$(CHTYP) -t $(FILETYPE) $(AUXTYPE) $(TARGETDIR)/$(PGM)
 
