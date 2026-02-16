@@ -26,6 +26,7 @@ shell:orca:ORCAC Shell Command:0:0:0
 shell:orca:ORCAM Shell Command:0:0:0
 init:orca:ORCAC Init:0:0:1
 init:orca:ORCAM Init:0:0:1
+init:merlin:Merlin Init:0:0:1
 EOF
 
 while read PROJECT

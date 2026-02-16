@@ -9,10 +9,6 @@
 	mcopy main.macros
 	keep main
 
-dummy	private
-	jmp InitStart
-	end
-
 InitStart private
 	using InitData
 
@@ -24,11 +20,7 @@ InitStart private
 	lda	#0
 	sta	>unloadFlagPtr+2
 	tya
-	end
 
-Main start
-	using InitData
-	
 	ldx #0
 	short m
 l1 anop
