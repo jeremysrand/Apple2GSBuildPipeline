@@ -8,6 +8,7 @@ s6d2 =
 
 s7d1 = 
 
+g_cfg_rom_path = 
 g_joystick_type = 0
 g_limit_speed = 0
 

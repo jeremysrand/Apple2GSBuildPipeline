@@ -73,26 +73,35 @@ MESSAGE_CENTER=0
 
 GSPLUS=/Applications/GSplus.app/Contents/MacOS/gsplus
 GSPLUSARGS=
-GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
-GSPORTARGS=
+
 MAME=/Applications/Ample.app/Contents/MacOS/mame64
 MAMELIB=$(HOME)/Library/Application Support/Ample
 MAMEARGS=apple2gs -skip_gameinfo -speed 2 -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 
+GS2=/Applications/GSSquared.app/Contents/MacOS/GSSquared
+GS2ARGS=
+
+KEGS=/Applications/KEGSMAC.app/Contents/MacOS/KEGSMAC
+KEGSARGS=
+
 export GSPLUS
 export GSPLUSARGS
-export GSPORT
-export GSPORTARGS
 export MAME
 export MAMELIB
 export MAMEARGS
+export GS2
+export GS2ARGS
+export KEGS
+export KEGSARGS
 
 ifneq (,$(wildcard $GSPLUS))
     EMULATOR=gsplus
 else ifneq (,$(wildcard $MAME))
     EMULATOR=mame
-else ifneq (,$(wildcard $GSPORT))
-    EMULATOR=gsport
+else ifneq (,$(wildcard $GS2))
+    EMULATOR=gs2
+else ifneq (,$(wildcard $KEGS))
+    EMULATOR=kegs
 else
     EMULATOR=gsplus
 endif
@@ -101,6 +110,9 @@ export EMULATOR
 
 BOOTIMAGE=system601.2mg
 export BOOTIMAGE
+
+ROMIMAGE=$(HOME)/ROM1
+export ROMIMAGE
 
 COPYDIRS=
 export COPYDIRS

@@ -37,7 +37,8 @@ PGM=___PACKAGENAME___
 #
 # EMULATOR=gsplus
 # EMULATOR=mame
-# EMULATOR=gsport
+# EMULATOR=gs2
+# EMULATOR=kegs
 
 # By default, the build provides a single boot environment to test with.
 # You can put other .2mg files into the make directory and override this
@@ -45,6 +46,12 @@ PGM=___PACKAGENAME___
 # emulator.  The disk image you specify must be found in the make directory:
 #
 # BOOTIMAGE=system601.2mg
+
+# By default, the build expects to find a GS ROM image in a file called ROM1
+# in your home directory.  This is not the best default so chances are you
+# would like to uncomment this line and override this.
+#
+# ROMIMAGE=$(HOME)/ROM1
 
 # Add any other directories where you are putting C or assembly source
 # files to this list:
@@ -129,14 +136,14 @@ COPYBOOTDIRS=
 # use different arguments, specify that here.
 # GSPLUSARGS=
 
-# By default, the build expects that you have GSport in the path:
-# 	/Applications/GSport/GSport.app/Contents/MacOS/GSport
+# By default, the build expects that you have GSSquared in the path:
+# 	/Applications/GSSquared.app/Contents/MacOS/GSSquared
 # If you have it in a different location, specify that here.
-# GSPORT=/Applications/GSport/GSport.app/Contents/MacOS/GSport
-
-# By default, the build uses no arguments with GSport.  If you would like to
+# GS2=/Applications/GSSquared.app/Contents/MacOS/GSSquared
+#
+# By default, the build uses no arguments with GSSquared.  If you would like to
 # use different arguments, specify that here.
-# GSPORTARGS=
+# GS2ARGS=
 
 # By default, the build expects that you have Ample/mame in the path:
 # 	/Applications/Ample.app/Contents/MacOS/mame64
@@ -152,6 +159,15 @@ COPYBOOTDIRS=
 # 	apple2gs -skip_gameinfo -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
 # If you would like to use different arguments, specify that here.
 # MAMEARGS=apple2gs -skip_gameinfo -speed 2 -mouse -window -resolution 1408x1056 -ramsize 4M -sl7 cffa202
+
+# By default, the build expects that you have KEGS in the path:
+# 	/Applications/KEGSMAC.app/Contents/MacOS/KEGSMAC
+# If you have it in a different location, specify that here.
+# KEGS=/Applications/KEGSMAC.app/Contents/MacOS/KEGSMAC
+#
+# By default, the build uses no arguments with KEGS.  If you would like to
+# use different arguments, specify that here.
+# KEGSARGS=
 
 # For a desktop application, it can operate in 640x200 or 320x200
 # resolution.  This setting is used to define which horizontal

@@ -17,8 +17,8 @@ createConfigTxt()
 {
     mkdir "$TMPDIR"
     sed "s:^s7d1 *=.*$:s7d1 = $BOOTIMAGE:
-s:^s5d1 *=.*:s5d1 = $DISKIMAGE:" < make/config.txt > "$TMPDIR/config.txt"
-    
+s:^s5d1 *=.*:s5d1 = $DISKIMAGE:
+s:^g_cfg_rom_path *=.*:g_cfg_rom_path = $ROMIMAGE:" < make/config.txt > "$TMPDIR/config.txt"
 }
 
 if [ $# -ne 2 ]
@@ -42,7 +42,7 @@ fi
 case "$EMULATOR" in
     gsplus)
         EMULATORPATH="$GSPLUS"
-        EMULATORARGS="$GSPLUSARGS"
+        EMULATORARGS="$GSPLUSARGS -cfg $TMPDIR/config.txt"
         EMULATORDIR="$TMPDIR"
         createConfigTxt
         ;;
@@ -56,6 +56,17 @@ case "$EMULATOR" in
         EMULATORPATH="$MAME"
         EMULATORARGS="$MAMEARGS -hard1 "$BOOTIMAGE" -flop3 "$DISKIMAGE""
         EMULATORDIR="$MAMELIB"
+        ;;
+    gs2)
+        EMULATORPATH="$GS2"
+        EMULATORARGS="$GS2ARGS -p 5 -ds7d1=$BOOTIMAGE -ds5d1=$DISKIMAGE"
+        EMULATORDIR=`pwd`
+        ;;
+    kegs)
+        EMULATORPATH="$KEGS"
+        EMULATORARGS="$KEGSARGS -cfg $TMPDIR/config.txt"
+        EMULATORDIR="$TMPDIR"
+        createConfigTxt
         ;;
     *)
         echo Invalid emulator specified, \"$EMULATOR\"
