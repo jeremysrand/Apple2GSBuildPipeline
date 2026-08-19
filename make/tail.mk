@@ -118,6 +118,8 @@ clean: genclean
 	$(RM) $(ALL_ROOTS)
 	$(RM) $(ALL_DEPS)
 	$(RM) $(ASM_MACROS)
+	$(RM) $(TEACH_FILES)
+	$(RM) -r "$(GENDIR)/Teach"
 	$(RM) "$(DISKIMAGE)"
 	$(RM) "$(DESTBOOTIMAGE)"
 	$(RM) "$(ARCHIVE)"

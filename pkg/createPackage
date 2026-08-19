@@ -72,7 +72,7 @@ done < $PROJECTS
 
 rm -f $PROJECTS
 
-pkgbuild --root $TMPDIR --version 3.0.1 --identifier com.halcyontouch.Apple2gsTemplate.pkg --install-location /tmp/com.halcyontouch.Apple2gsTemplate.pkg/ --scripts pkg/scripts/ Apple2GSXcodeTemplate.pkg
+pkgbuild --root $TMPDIR --version 3.2 --identifier com.halcyontouch.Apple2gsTemplate.pkg --install-location /tmp/com.halcyontouch.Apple2gsTemplate.pkg/ --scripts pkg/scripts/ Apple2GSXcodeTemplate.pkg
 productbuild --distribution pkg/Distribution.xml --resource ./pkg temp.pkg
 rm Apple2GSXcodeTemplate.pkg
 productsign --sign "Developer ID Installer: Halcyon Touch Software" temp.pkg Apple2GSXcodeTemplate.pkg
