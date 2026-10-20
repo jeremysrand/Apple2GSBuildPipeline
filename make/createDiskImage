@@ -26,6 +26,7 @@ TMPARCHIVE=/tmp/s2gs_archive_$$.shk
 TEMPLATEDISKIMAGE="make/empty.2mg"
 TEMPLATEBOOTIMAGE="make/$BOOTIMAGE"
 ARCHIVE=`dirname "$DISKIMAGE"`/"${PROGRAM}.shk"
+WAIT_MOUNT_MAX_RETRIES=10
 
 # It looks like on Linux, the cp command needs a special argument to preserve the resource fork.  This isn't ideal
 # but for now, if uname is Darwin, then this is MacOS and we don't need any cp args.  If not Darwin, then assume
@@ -34,11 +35,18 @@ ARCHIVE=`dirname "$DISKIMAGE"`/"${PROGRAM}.shk"
 # Ultimately, it could be that other platforms (BSD, does Solaris still exist?) or even other Linux versions or
 # distributions need different arguments for this rather special thing.  If true, this may need to be a build time
 # option which can be set.
+#
+# STATDEV prints the device ID of the filesystem a path lives on, and can be used to detect
+# when profuse has actually mounted a volume at MOUNTDIR.
+# BSD stat (Darwin) and GNU stat (Linux) use different flags for this, so pick the right
+# invocation per platform.
 if [ "`uname`" = Darwin ]
 then
     CPARGS=""
+    STATDEV="stat -f %d"
 else
     CPARGS="--preserve=xattr"
+    STATDEV="stat -c %d"
 fi
 
 
@@ -53,6 +61,29 @@ printErrorAndExit()
     rm -f "$DESTBOOTIMAGE" 2> /dev/null
     rm -rf "$TMPDIR" 2> /dev/null
     exit 1
+}
+
+
+waitForMount()
+{
+    # profuse backgrounds the actual mount, so it can return success before MOUNTDIR is
+    # usable. Poll until MOUNTDIR's device ID differs from its parent TMPDIR's device ID,
+    # which only happens once a filesystem is mounted there.
+    PARENTDEV=`$STATDEV "$TMPDIR"`
+    RETRIES=0
+    while [ $RETRIES -lt $WAIT_MOUNT_MAX_RETRIES ]
+    do
+        MOUNTDEV=`$STATDEV "$1"`
+        if [ "$MOUNTDEV" != "$PARENTDEV" ]
+        then
+            return
+        fi
+
+        RETRIES=`expr $RETRIES + 1`
+        sleep 1
+    done
+
+    printErrorAndExit "Timed out waiting for the disk image to mount."
 }
 
 
@@ -110,9 +141,27 @@ cpProDOS()
     fi
 
     cp $CPARGS "$1" "$2"
-    if [ $? -ne 0 ]
+
+    # cp places the file at "$2/basename" when $2 is a directory, and at "$2" directly
+    # otherwise. Compute DEST to match so the size check below looks at the right path.
+    if [ -d "$2" ]
     then
-        printErrorAndExit "Unable to create directory $1"
+        DEST="$2/`basename "$1"`"
+    else
+        DEST="$2"
+    fi
+
+    # ProDOS volumes (via profuse) cannot store the com.apple.provenance attribute that
+    # macOS adds to files, so cp reports a nonzero exit even though the data and resource
+    # forks copied correctly.  Verify success by comparing fork sizes instead of relying
+    # on cp's exit status.  The resource fork is only reachable by path on macOS.
+    if [ "`wc -c < "$1"`" != "`wc -c < "$DEST" 2> /dev/null`" ]
+    then
+        printErrorAndExit "Unable to copy file $1"
+    fi
+    if [ "`uname`" = Darwin ] && [ "`wc -c 2> /dev/null < "$1/..namedfork/rsrc"`" != "`wc -c 2> /dev/null < "$DEST/..namedfork/rsrc"`" ]
+    then
+        printErrorAndExit "Unable to copy the resource fork of $1"
     fi
 }
 
@@ -174,13 +223,14 @@ if [ $? != 0 ]
 then
     printErrorAndExit "Unable to copy template boot image."
 fi
-if [ ! -z "$COPYBOOTDIRS" ] || [ ! -z "BOOTCOPYPATH" ]
+if [ ! -z "$COPYBOOTDIRS" ] || [ ! -z "$BOOTCOPYPATH" ]
 then
     profuse -orw "$TMPBOOTIMAGE" "$MOUNTDIR"
     if [ $? != 0 ]
     then
         printErrorAndExit "Unable to mount the boot image."
     fi
+    waitForMount "$MOUNTDIR"
 
     if [ ! -z "$BOOTCOPYPATH" ]
     then
@@ -207,6 +257,7 @@ if [ $? != 0 ]
 then
     printErrorAndExit "Unable to mount the disk image."
 fi
+waitForMount "$MOUNTDIR"
 
 cpProDOS "$FILE" "$MOUNTDIR"
 if [ $? != 0 ]
